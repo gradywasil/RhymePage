@@ -1,47 +1,207 @@
 # RhymePage
 
-## Overview
-RhymePage is a dynamic web application designed to streamline and enrich the lyric-writing process for artists. With an intuitive interface, RhymePage leverages the power of the [Datamuse API](https://www.datamuse.com/api/) to provide rhyme suggestions and the [Dictionary API](https://api.dictionaryapi.dev/api/v2/entries/en_US/) to offer definitions. Beyond writing, RhymePage offers a robust notebook feature that enables users to save, organize, share, and edit their lyrical masterpieces. RhymePage is engineered using modern technologies such as React, TypeScript, Tailwind CSS, and Firebase.
+### Keep the next word within reach.
 
-## Key Technologies
-- Vite: A lightning-fast frontend build tool.
-- Firebase: A comprehensive app development platform used for user authentication and database management.
-- React: A JavaScript library for building interactive user interfaces.
-- TypeScript: A statically typed superset of JavaScript that ensures code reliability.
-- Tailwind CSS: A utility-first CSS framework for creating custom designs.
-- React Router: A collection of navigational components to create single-page applications with React.
-- DaisyUI: A plugin for Tailwind CSS that provides additional UI components.
-- Axios: A JavaScript library for making HTTP requests.
-- React Icons: A library that offers customizable and easily scalable React icons.
-- Heroicons: A set of beautifully crafted SVG icons.
-- TxtAnime.js: A JavaScript library to create appealing text animations.
+A browser workspace for writing lyrics, exploring word relationships, and keeping song ideas together. RhymePage puts suggestions beside the line you're working on, with definitions, theme filters, and a saved notebook a few clicks away.
 
-## Feature Highlights
+**[Open RhymePage](https://rhymepage.com/) · [Writing controls](#writing-controls) · [Word categories](#eight-ways-to-find-the-next-word) · [Run locally](#run-locally)**
 
-### Landing Page
-- The landing page showcases eye-catching text animations powered by TxtAnime.js, illustrating the application's features and functionalities.
+![RhymePage's writing workspace with a sample verse and rhyme suggestions for light](docs/images/rhymepage-rhymes-desktop.jpg)
 
-### Dashboard
-- Here, users can enter lyrics and instantly receive rhyme suggestions for the last word in real-time.
-- The application actively listens for space or enter key presses to trigger API requests for rhyme suggestions.
-- Suggested words are presented as interactive buttons. A left-click appends the word to the lyrics and requests new suggestions, whereas a right-click triggers an API request for the word's definition.
-- Lyrics can be saved to the user's notebook (an account is required).
+*The writing workspace, shown with an original sample verse. The category counts and word chips are actual site results, which can vary between searches.*
 
-### Notes
-- Users can view and manage saved lyrics.
-- Lyrics can be organized into notebooks, and shared with collaborators.
-- Provides functionalities to create new notes, edit existing notes, and delete notes.
+## From a line to a new direction
 
-### Profile
-- Users can view and edit their profile information, including username, email, and password.
-- Profile statistics, such as follower count, following count, note count, and usage stats are displayed.
-- Users can delete their account.
+| Write | Explore | Keep building |
+| --- | --- | --- |
+| Finish a word with **Space** or **Enter**. | Switch between rhymes, synonyms, adjectives, and other relationships. | Insert a suggestion where you're editing, then save the idea to your notebook. |
+| Lookup follows the word immediately before your cursor. | Add a theme to steer the results toward the subject of your song. | Pin and tag saved notes so you can return to a draft. |
 
-### Login/Register
-- New users can create an account, while returning users can log in.
-- Password recovery is supported.
-- Google Authentication is integrated for an expedited sign-in process.
+You can try the writing workspace without signing in. Saving notes, account preferences, and notebook features require an account. Lyric timing and playback are being developed in the **Sync** and **Play** tabs; see their current scope below.
 
-### Settings
-- Users can change the way the rhyming api returns results by customizing the maximum number of results, specifying categories of words to include, and adding thematic filters.
-- Users can also change their profile information, such as email, username, display image, and password here.
+## Writing controls
+
+| Control | What it does | Useful when |
+| --- | --- | --- |
+| **Space / Enter** in Lyrics | Looks up the completed word immediately before the caret. | Revising an earlier line without moving to the end of the song. |
+| **Click / tap a word** | Inserts it at the caret, or replaces selected text, then returns focus to the editor. | Trying a suggestion without copying and pasting. |
+| **Right-click / long-press a word** | Opens its dictionary definition, with parts of speech and examples when available. | Checking that a promising sound also has the right meaning. |
+| **Category tabs** | Changes the relationship being displayed. Counts show how many results came back. | Moving from sound to meaning or finding a descriptive word. |
+| **Themes** | Steers suggestions using topic words such as `ocean, midnight`. | Keeping a verse's imagery connected. |
+| **Save** | Creates a new notebook entry or updates the current saved note. Subsequent edits use a two-second autosave debounce. | Keeping a draft after the initial save. |
+| **Reset** | Clears the current editor and its note association. | Starting another idea. It does not delete a previously saved note. |
+| **Mobile suggestion handle** | Cycles the suggestion sheet through peek, half-height, and full-height views. | Balancing writing space with a larger word list on a phone. |
+
+## Eight ways to find the next word
+
+![The same sample verse with RhymePage switched to Synonyms](docs/images/rhymepage-synonyms-desktop.jpg)
+
+*Changing the category keeps the verse in place and changes the kind of words you explore.*
+
+| Category | Relationship | Writing use |
+| --- | --- | --- |
+| **Rhymes** | Perfect rhymes | Find an ending that fits the line's sound. |
+| **Sound-Alikes** | Near rhymes | Loosen the rhyme without abandoning the sound. |
+| **Synonyms** | Similar meanings | Rephrase an idea or change its register. |
+| **Antonyms** | Opposite meanings | Introduce contrast. |
+| **Adjectives** | Adjectives commonly used with the queried noun | Add detail to an image. |
+| **Nouns** | Nouns commonly described by the queried adjective | Find something a description could refer to. |
+| **Related Words** | Words often appearing near the query | Branch into nearby imagery and associations. |
+| **Frequent Followers** | Words often following the query | Explore what could come next in a phrase. |
+
+Results come from [Datamuse](https://www.datamuse.com/api/). Some relationships naturally return fewer words or none at all. Empty category tabs are disabled, and a stricter theme filter can narrow the list further.
+
+### Tune the suggestions
+
+The dashboard settings let signed-in writers choose which categories to fetch and how strongly themes influence them.
+
+| Setting | Choices | Effect |
+| --- | --- | --- |
+| **Categories** | Enable or disable each of the eight relationships | Keeps the panel focused on the kinds of help you use. |
+| **Theme mode** | **Broad** or **Specific** | Broad uses Datamuse topic hints; Specific uses its meaning constraint for a tighter semantic match. |
+| **Results per category** | **5–50**, in steps of five | Controls the requested size of each result list. |
+
+Choose **Save preferences** to apply your changes. Defaults are all eight categories, Broad mode, and 25 results per category. A request for 25 results does not guarantee that the API has 25 matches.
+
+## A notebook for unfinished songs
+
+Saved ideas live in **My notes**, with a separate **Shared with me** view for notes another account has shared with you.
+
+| Action | Notebook behavior |
+| --- | --- |
+| **New note** | Creates a saved blank note and opens its editor. |
+| **Pin** | Keeps a note above unpinned entries. |
+| **Tags & sharing** | Adds tags and manages access from one dialog. |
+| **Filter by tag** | Narrows the visible notebook to a subject or working group. |
+| **Share by email** | Looks up an existing RhymePage account and adds it to the note's collaborator list. |
+| **Remove collaborator** | Removes that account from the note's sharing list. |
+| **Delete** | Deletes a note after confirmation. |
+
+Tags are trimmed, normalized to lowercase, and deduplicated. The data model separates ownership from the collaborator list. Shared editing is an area to validate carefully as the notebook workflow develops; this is not a claim of conflict-free, simultaneous collaboration.
+
+## In development: Sync and Play
+
+The repository includes a growing lyric-timing workflow. Integration and end-to-end verification are still in progress, so treat this section as a guide to the controls present in the code rather than a promise that every path is production-ready.
+
+**Save a note → mark its timing → review playback → export timing data**
+
+| Stage | Controls present | Purpose |
+| --- | --- | --- |
+| **Fast sync** | Start/Pause, Mark, Finish, Replay, Undo; Space to mark and R to replay | Step through lyric lines while assigning timing. |
+| **Audio** | Attach, replace, or remove an audio file | Use a recording as the timing reference. Removing it keeps the lyric timing. |
+| **Precision editor** | Audio-backed waveform editing | Adjust line timing visually after a first pass. |
+| **Word timing** | Words control on a timed line | Add more detailed timing within a line. |
+| **Review** | Warnings and unmatched-line review | Reconcile timing when the written lyrics change. |
+| **Play** | Simple, Karaoke, Teleprompter; play/pause/reset | Preview the same timing in different reading layouts. |
+| **Presentation** | Hold, Clear, or Preview between lines; Mirror in Teleprompter | Choose which line stays highlighted during gaps; Mirror flips the lyric display. |
+| **Export** | LRC and JSON | Download line-start lyrics or richer timing data, including word timing when present. |
+
+Sync requires a signed-in account and a saved note. The precision editor needs attached audio. Playback can also use the saved timing without an audio attachment. Timing is manually authored; automatic audio-to-lyric alignment is not established as a finished feature here.
+
+## How the app is built
+
+RhymePage is a client-rendered React application. The browser handles editing and presentation, external word APIs supply suggestions and definitions, and Firebase supports account-backed data.
+
+| Layer | Technology | Responsibility |
+| --- | --- | --- |
+| **Interface** | React 19 + TypeScript | Editor, word chips, notebook, settings, and timing views. |
+| **Routing** | React Router 7 | Writing, notes, account, settings, and profile routes. Main pages are lazy-loaded. |
+| **Styling** | Tailwind CSS 4 + daisyUI 5 | Responsive layouts, theme-aware controls, and the mobile suggestion sheet. |
+| **Build** | Vite 7 | Development server and production bundle; CSS code splitting is enabled. |
+| **Identity** | Firebase Authentication | Email/password and Google sign-in, plus account persistence choices. |
+| **Saved data** | Cloud Firestore | Notes, preferences, profile records, sharing metadata, and lyric timing. |
+| **Audio storage** | Firebase Storage | Attached recordings for the developing sync workflow. |
+| **Word services** | Datamuse + Free Dictionary API | Relationship searches and English definitions using browser `fetch`. |
+| **Waveform editing** | WaveSurfer.js 7 | Audio visualization in the precision editor. |
+| **Checks** | TypeScript, ESLint, Vitest | Type checking, linting, and focused tests for lyric/timing utilities. |
+
+### A lookup's path through the app
+
+1. The editor identifies the completed word before the caret.
+2. `useDashboardLogic` waits 250 ms, then requests enabled categories in parallel.
+3. `rhymeApi` translates each category and theme mode into Datamuse parameters.
+4. Results populate the suggestion panel. Changing the query cancels stale requests.
+5. Picking a word updates the same editor state used by manual typing and note saving.
+
+Definition lookup is separate from suggestion lookup. A missing dictionary entry and a service failure have distinct UI states.
+
+<details>
+<summary><strong>Source map and data layout</strong></summary>
+
+| Area | Start here |
+| --- | --- |
+| App routes | [`src/App.tsx`](src/App.tsx) |
+| Writing state and autosave | [`src/hooks/useDashboardLogic.tsx`](src/hooks/useDashboardLogic.tsx) |
+| Category mapping | [`src/utils/rhymeApi.ts`](src/utils/rhymeApi.ts) |
+| Suggestions and definition gestures | [`src/components/SuggestionPanel.tsx`](src/components/SuggestionPanel.tsx) |
+| Notebook and sharing | [`src/hooks/useNotesLogic.tsx`](src/hooks/useNotesLogic.tsx), [`src/utils/notesApi.ts`](src/utils/notesApi.ts) |
+| Sync and playback | [`src/components/SyncPanel.tsx`](src/components/SyncPanel.tsx), [`src/components/PlayPanel.tsx`](src/components/PlayPanel.tsx) |
+| Timing export | [`src/utils/syncExport.ts`](src/utils/syncExport.ts) |
+| Firebase initialization | [`src/firebase.ts`](src/firebase.ts) |
+| Backend access rules | [`firestore.rules`](firestore.rules), [`storage.rules`](storage.rules) |
+
+Notes use top-level `notes/{noteId}` documents with ownership and sharing fields. Timing lives beneath a note in its `sync` subcollection. User preferences live in `users/{uid}`; public-facing profiles and email lookup use separate collections.
+
+</details>
+
+## Run locally
+
+You will need Git, npm, and a Node.js version supported by the locked Vite/tooling dependencies. Use your own Firebase project or the local emulator suite for development.
+
+```bash
+git clone https://github.com/Arrangedgodly/RhymePage.git
+cd RhymePage
+npm ci
+```
+
+### Configure Firebase before using account-backed features
+
+The checked-in Firebase web configuration and project alias point at the existing RhymePage project. They are not a ready-made development backend for a new clone.
+
+1. Update `src/firebase.ts` with the web configuration for a Firebase project you control.
+2. Configure the authentication providers you plan to use: email/password and/or Google. Set the appropriate authorized development domains in that project.
+3. Provision Firestore and, if testing attached audio, Storage. Review this repository's rules and indexes before applying them to your own project.
+4. Update `.firebaserc` before using Firebase CLI commands. Check the selected project before any deployment.
+
+The current source reads the web configuration directly from `src/firebase.ts`; it does not implement a general `VITE_FIREBASE_*` environment-variable setup.
+
+For the existing local-emulator connection path, set this in `.env.local`:
+
+```dotenv
+VITE_USE_FIREBASE_EMULATOR=true
+```
+
+With the Firebase CLI and its emulator prerequisites installed, start Auth, Firestore, and Storage emulators for your selected development project, then start Vite in another terminal:
+
+```bash
+firebase emulators:start --only auth,firestore,storage --project YOUR_PROJECT_ID
+npm run dev
+```
+
+The app's emulator connection is development-only and expects Auth on 9099, Firestore on 8080, and Storage on 9199. The flag is an explicit opt-in; leaving it unset does not isolate writes from the configured backend. Word and dictionary searches still call external APIs.
+
+### Commands
+
+| Command | What it checks or runs |
+| --- | --- |
+| `npm run dev` | Vite development server. |
+| `npm run build` | TypeScript check, then the production build in `dist/`. |
+| `npm run preview` | Local preview of an existing production build. |
+| `npm run lint` | ESLint over `src`, with zero warnings allowed. |
+| `npm test` | Vitest test run. |
+
+Firebase Hosting is configured to serve `dist/` with a single-page-app rewrite. A successful frontend build alone does not configure authentication, deploy backend rules, or validate account and audio workflows.
+
+## Current boundaries
+
+- Suggestions and definitions depend on external services and their current availability, limits, and terms.
+- Unsaved, signed-out writing is editor state. Save important work to an account-backed note or keep a separate copy before leaving the page.
+- Existing-note autosave is debounced and depends on a successful backend write. Offline recovery and collaborative conflict resolution should not be assumed.
+- Sync and Play are active development areas. Test the complete audio, timing, permissions, and playback flow before relying on them for a finished performance.
+- The included tests focus on lyric parsing, sync status/diff behavior, and export formatting. They are not a substitute for browser and backend integration tests.
+
+## Credits
+
+Built by [Graydon Wasil / Arranged Godly](https://github.com/Arrangedgodly).
+
+Word relationships are powered by [Datamuse](https://www.datamuse.com/api/). Definitions come from the [Free Dictionary API](https://dictionaryapi.dev/).
