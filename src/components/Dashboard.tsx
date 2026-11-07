@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { LuChevronLeft, LuCircleAlert, LuRotateCcw } from "react-icons/lu";
 import useDashboardLogic from "../hooks/useDashboardLogic";
 import SuggestionPanel, { type SheetState } from "./SuggestionPanel";
@@ -30,6 +30,10 @@ type SaveMark = { label: string; filled: boolean; tone: "plain" | "danger" | "ac
 
 const Dashboard = ({ currentUser }: DashboardProps) => {
   const { existingNoteId } = useParams<{ existingNoteId?: string }>();
+  // The notebook passes the track's position when a note is opened from it;
+  // a new or guest draft has no place on the tracklist yet.
+  const track = (useLocation().state as { track?: number } | null)?.track;
+  const trackLabel = track ? String(track).padStart(2, "0") : "—";
   const [sheetState, setSheetState] = useState<SheetState>("half");
   // Local UI state, not a route param: switching modes shouldn't remount the
   // page or interrupt audio playback / scroll position.
@@ -94,9 +98,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
             <Link to="/notes" className="rp-btn rp-btn--quiet rp-btn--sm -ml-1 gap-1 md:hidden">
               <LuChevronLeft aria-hidden /> Notebook
             </Link>
-          ) : (
-            <span className="rp-label hidden px-2 sm:inline">Demo</span>
-          )}
+          ) : null}
           <p className={`ml-auto flex items-center gap-2 whitespace-nowrap text-xs font-bold uppercase tracking-[0.08em] ${markTone}`} title={fullMessage}>
             <span aria-hidden className={`h-[11px] w-[11px] flex-none border-[1.5px] border-current ${mark.filled ? "bg-current" : ""}`} />
             <span className="sr-only" role={draftState.storageError ? "alert" : "status"}>{fullMessage}</span>
@@ -157,7 +159,11 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
         )}
 
         {/* ---- Track heading: title and credit line ---- */}
-        <header className="flex-none px-4 md:px-6">
+        <header className="flex flex-none items-start gap-3 px-4 md:gap-4 md:px-6">
+          <span aria-hidden className="rp-numeral w-10 flex-none pt-0.5 text-right text-[34px] md:w-12 md:pt-1 md:text-[42px]">
+            {trackLabel}
+          </span>
+          <div className="min-w-0 flex-1">
           <input
             type="text"
             aria-label="Title"
@@ -177,6 +183,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
               value={themes}
               onChange={(e) => setThemes(e.target.value)}
             />
+          </div>
           </div>
         </header>
 
@@ -201,7 +208,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
             ref={lyricsRef}
             aria-label="Lyrics"
             placeholder="Start writing. Finish a word and the suggestions follow."
-            className="rp-bare min-h-0 w-full max-w-[44rem] flex-1 resize-none px-4 py-3 text-lg leading-[1.8] md:px-6 md:py-5 md:text-[19px]"
+            className="rp-bare min-h-0 w-full max-w-[48rem] flex-1 resize-none py-3 pr-4 pl-[68px] text-lg leading-[1.8] md:py-5 md:pr-6 md:pl-[88px] md:text-[19px]"
             value={lyrics}
             onChange={(e) => handleLyricsChange(
               e.currentTarget.value,

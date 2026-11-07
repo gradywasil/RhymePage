@@ -269,9 +269,13 @@ const Landing = ({ loggedIn }: LandingProps) => {
 
       {/* ---- The pitch, set like a track heading ---- */}
       <section className="mx-auto w-full max-w-6xl px-4 pt-8 pb-10 md:px-10 md:pt-16 md:pb-14">
+        <div className="flex items-start gap-3 md:gap-6">
+        <span aria-hidden className="rp-numeral pt-1 text-[42px] md:text-[76px]">01</span>
+        <div className="min-w-0">
         <h1 className="rp-title max-w-[15ch] text-[42px] md:text-[76px]">
           Finish a word. The next one is waiting.
         </h1>
+        <p className="mt-3 text-sm text-ink-2 md:text-base">Words: you · Suggestions: Datamuse</p>
         <p className="rp-muted mt-5 max-w-[42ch] text-lg leading-relaxed md:text-xl">
           RhymePage is a lyric notebook. Every word you finish brings back rhymes, sound-alikes and related words, ready to tap into the line.
         </p>
@@ -291,13 +295,14 @@ const Landing = ({ loggedIn }: LandingProps) => {
             </>
           )}
         </div>
+        </div>
+        </div>
       </section>
 
       {/* ---- Live demo: the typed line and the panel that answers it ---- */}
       <section aria-label="How suggestions work" className="mx-auto w-full max-w-6xl px-4 md:px-10">
         <div className="border-t-[1.5px] border-ink pt-5 pb-6 md:pt-7 md:pb-8">
-          <p className="rp-label">Your line</p>
-          <p className="typing mt-2 min-h-[1.15em] text-[34px] font-extrabold leading-[1.15] tracking-[-0.015em] md:text-[64px]" />
+          <p className="typing min-h-[1.15em] text-[34px] font-extrabold leading-[1.15] tracking-[-0.015em] md:text-[64px]" />
         </div>
 
         <div className="panel">

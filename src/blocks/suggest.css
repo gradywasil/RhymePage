@@ -56,9 +56,24 @@
     overflow-y: auto;
   }
   .suggest[data-state] .suggest-words > * { width: 100%; }
-  /* The dock is narrow and has no swipe affordance, so every category stays in view. */
-  .suggest .rp-tabs { flex-wrap: wrap; gap: 0 18px; overflow: visible; padding-top: 2px; }
-  .suggest .rp-tab { min-height: 36px; }
+  /* Tablet-width dock: one sideways row, faded at the edge so more reads as more. */
+  .suggest .rp-tabs { mask-image: linear-gradient(to right, #000 82%, transparent); }
+}
+
+/*
+ * Desktop dock: the categories set as a two-column index, like sleeve credits.
+ * Every tab keeps a fixed cell, so only the words change between lookups.
+ */
+@media (min-width: 1024px) {
+  .suggest .rp-tabs {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    gap: 0 24px;
+    overflow: visible;
+    mask-image: none;
+  }
+  .suggest .rp-tab { min-height: 34px; font-size: 12px; }
 }
 
 /* The headword lifts into place as each new word is finished. */

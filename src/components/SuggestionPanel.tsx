@@ -71,7 +71,7 @@ const SuggestionPanel = ({
   return (
     <aside
       className="suggest panel z-20 flex w-full flex-none flex-col
-                 md:h-full md:w-80 md:flex-none lg:w-96"
+                 md:h-full md:w-80 md:flex-none lg:w-[26rem]"
       data-state={sheetState}
       aria-label="Word suggestions"
     >
@@ -84,7 +84,10 @@ const SuggestionPanel = ({
         ) : (
           <p className="rp-label">Suggestions</p>
         )}
-        <p className="rp-muted ml-auto hidden truncate text-xs lg:block lg:pr-4">Tap to insert · hold for meaning</p>
+        <p className="rp-muted ml-auto hidden truncate text-xs lg:block lg:pr-4">
+          <span className="[@media(pointer:fine)]:hidden">Tap to insert · hold for meaning</span>
+          <span className="hidden [@media(pointer:fine)]:inline">Click to insert · right-click for meaning</span>
+        </p>
         <button
           type="button"
           onClick={onCycleSheet}

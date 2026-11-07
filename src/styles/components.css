@@ -406,9 +406,10 @@ button.rp-tag { cursor: pointer; }
 .rp-menu {
   min-width: 13rem;
   padding: 6px 0;
+  /* Contract: no shadows. The ink edge keeps the menu distinct on dark sleeves. */
+  border: 1.5px solid var(--ink);
   background: var(--panel);
   color: var(--on-panel);
-  box-shadow: 0 10px 28px rgb(0 0 0 / 0.28);
 }
 .rp-menu-item {
   display: flex;
