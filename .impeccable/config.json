@@ -74,6 +74,51 @@
         ],
         "createdAt": "2026-11-07T16:09:28.297Z",
         "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-07T17:00:18.353Z",
+        "reason": "agent decision: gitignored decision-round sketch exploring alternate worlds before DESIGN.md existed; not shipping UI"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-07T17:00:18.830Z",
+        "reason": "agent decision: gitignored decision-round sketch exploring alternate worlds before DESIGN.md existed; not shipping UI"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-jcard.html"
+        ],
+        "createdAt": "2026-11-07T17:00:19.264Z",
+        "reason": "agent decision: gitignored decision-round sketch exploring alternate worlds before DESIGN.md existed; not shipping UI"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-07T17:00:19.739Z",
+        "reason": "agent decision: gitignored decision-round sketch exploring alternate worlds before DESIGN.md existed; not shipping UI"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/r1-assigned.html"
+        ],
+        "createdAt": "2026-11-07T17:00:20.328Z",
+        "reason": "agent decision: gitignored decision-round sketch exploring alternate worlds before DESIGN.md existed; not shipping UI"
       }
     ]
   }
