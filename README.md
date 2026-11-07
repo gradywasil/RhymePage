@@ -29,7 +29,7 @@ Vite prints the local URL. `npm run build` creates a production build in `dist`;
 
 ## Design system
 
-The interface is built on in-house tokens and components, not a UI kit. `src/styles/tokens.css` defines six themes (Harbor, Lilac, Mint, Newsprint, Night, Forest) as semantic colour roles; `src/styles/components.css` holds the `rp-*` component classes; `src/theme/` holds the theme registry and provider. Settings > Appearance switches themes, and Auto follows the device. The design direction lives in `PRODUCT.md` and `.impeccable/surfaces/src-app-tsx.md`.
+The interface is built on in-house tokens and components, not a UI kit. `src/styles/tokens.css` defines six themes (Coral, Lemon, Sky, Mint, Grape, Night) plus fixed suggestion-category colours as semantic roles; `src/styles/components.css` holds the `rp-*` component classes; `src/theme/` holds the theme registry and provider. Settings > Appearance switches themes, and Auto follows the device. The design direction lives in `PRODUCT.md` and `.impeccable/surfaces/src-app-tsx.md`.
 
 ## Services and work in progress
 

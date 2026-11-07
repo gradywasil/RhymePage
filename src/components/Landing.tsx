@@ -295,7 +295,7 @@ const Landing = ({ loggedIn }: LandingProps) => {
                 <button type="button" className="rp-btn bg-on-accent text-accent" onClick={() => navigate("/notes/new")}>
                   Try the editor
                 </button>
-                <button type="button" className="rp-btn border-on-accent/60 text-on-accent hover:bg-white/10" onClick={() => navigate("/register")}>
+                <button type="button" className="rp-btn border-on-accent/60 text-on-accent hover:bg-on-accent/15" onClick={() => navigate("/register")}>
                   Create an account
                 </button>
               </>

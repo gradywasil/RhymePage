@@ -91,7 +91,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
         <section className="mx-3 mt-2 flex-none rounded-[24px] bg-accent px-4 pt-1 pb-4 text-on-accent md:mx-6 md:mt-5 md:px-6 md:pb-5">
           <div className="flex h-11 items-center gap-1">
             {currentUser ? (
-              <Link to="/notes" className="-ml-2 inline-flex min-h-11 items-center gap-1 rounded-full px-2 text-sm font-semibold hover:bg-white/15 md:hidden">
+              <Link to="/notes" className="-ml-2 inline-flex min-h-11 items-center gap-1 rounded-full px-2 text-sm font-semibold hover:bg-on-accent/15 md:hidden">
                 <LuChevronLeft aria-hidden className="h-[18px] w-[18px]" /> Notebook
               </Link>
             ) : null}
@@ -119,7 +119,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
               disabled={draftState.saving}
               aria-label="Start a new draft"
               title="Start a new draft"
-              className="rp-icon-btn -mr-2 hover:!bg-white/15"
+              className="rp-icon-btn -mr-2 hover:!bg-on-accent/15"
             >
               <LuRotateCcw aria-hidden />
             </button>

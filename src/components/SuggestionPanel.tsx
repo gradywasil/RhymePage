@@ -111,7 +111,7 @@ const SuggestionPanel = ({
               aria-selected={key === shown}
               disabled={count === 0}
               onClick={() => onCategoryChange(key)}
-              className="rp-tab cat-tab !min-h-9 !px-3.5 !text-[13px]"
+              className="rp-tab cat-tab !px-3.5 !text-[13px]"
               style={{ "--cat": `var(--cat-${key})` } as CSSProperties}
             >
               {RELATIONS[key].label}

@@ -175,7 +175,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
       {/* ---- Status, view, audio and export controls ---- */}
       <div className="flex flex-none flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <p className={`flex items-center gap-2 text-xs font-bold tracking-[0.08em] uppercase ${complete ? "text-ok" : "text-ink-2"}`}>
+          <p className={`flex items-center gap-2 text-[13px] font-semibold ${complete ? "text-ok" : "text-ink-2"}`}>
             <span aria-hidden className={`h-[11px] w-[11px] flex-none rounded-full border-[1.5px] border-current ${complete ? "bg-current" : ""}`} />
             {complete ? "Complete" : "Draft"}
           </p>

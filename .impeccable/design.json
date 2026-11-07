@@ -4,63 +4,86 @@
   "title": "Design System: RhymePage",
   "extensions": {
     "colorMeta": {
-      "sleeve": { "role": "neutral", "displayName": "Harbor Sleeve", "canonical": "#d3e4ee", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "sleeve-2": { "role": "neutral", "displayName": "Deeper Sleeve", "canonical": "#c3d8e5", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "ink": { "role": "neutral", "displayName": "Sleeve Ink", "canonical": "#10243a", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "ink-2": { "role": "neutral", "displayName": "Faded Ink", "canonical": "#3c5268", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "rule": { "role": "neutral", "displayName": "Sleeve Rule", "canonical": "#9db7c9", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "accent": { "role": "primary", "displayName": "Printed Vermilion", "canonical": "#a8321c", "tonalRamp": ["oklch(15% 0.066 33)", "oklch(26% 0.091 33)", "oklch(37% 0.117 33)", "oklch(48% 0.142 33)", "oklch(59% 0.149 33)", "oklch(70% 0.123 33)", "oklch(82% 0.096 33)", "oklch(95% 0.066 33)"] },
-      "on-accent": { "role": "neutral", "displayName": "Accent Reversal", "canonical": "#ffffff" },
-      "panel": { "role": "neutral", "displayName": "Ink Slab", "canonical": "#10243a", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "panel-2": { "role": "neutral", "displayName": "Slab Step", "canonical": "#1a3049", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "on-panel": { "role": "neutral", "displayName": "Reversed Sleeve", "canonical": "#e3eef4", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "on-panel-2": { "role": "neutral", "displayName": "Reversed Faded", "canonical": "#a9c0d0", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "panel-rule": { "role": "neutral", "displayName": "Slab Rule", "canonical": "#2a4058", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
-      "panel-accent": { "role": "primary", "displayName": "Panel Coral", "canonical": "#f08a6e", "tonalRamp": ["oklch(15% 0.055 36)", "oklch(26% 0.076 36)", "oklch(37% 0.097 36)", "oklch(48% 0.118 36)", "oklch(59% 0.124 36)", "oklch(70% 0.103 36)", "oklch(82% 0.080 36)", "oklch(95% 0.055 36)"] },
-      "danger": { "role": "status", "displayName": "Proof Red", "canonical": "#a8281a", "tonalRamp": ["oklch(15% 0.070 30)", "oklch(26% 0.096 30)", "oklch(37% 0.123 30)", "oklch(48% 0.150 30)", "oklch(59% 0.157 30)", "oklch(70% 0.130 30)", "oklch(82% 0.101 30)", "oklch(95% 0.070 30)"] },
-      "ok": { "role": "status", "displayName": "Press Green", "canonical": "#1d6b45", "tonalRamp": ["oklch(15% 0.041 158)", "oklch(26% 0.056 158)", "oklch(37% 0.072 158)", "oklch(48% 0.087 158)", "oklch(59% 0.092 158)", "oklch(70% 0.076 158)", "oklch(82% 0.059 158)", "oklch(95% 0.041 158)"] }
+      "sleeve": { "role": "neutral", "displayName": "Peach Ground", "canonical": "#fff4ee", "tonalRamp": ["#2b1b17", "#3a2823", "#45302a", "#6b4c44", "#cdb5ad", "#f0d8ce", "#ffe9e0", "#fff4ee"] },
+      "sleeve-2": { "role": "neutral", "displayName": "Deeper Peach", "canonical": "#ffe9e0", "tonalRamp": ["#2b1b17", "#3a2823", "#45302a", "#6b4c44", "#cdb5ad", "#f0d8ce", "#ffe9e0", "#fff4ee"] },
+      "surface": { "role": "neutral", "displayName": "Paper White", "canonical": "#ffffff" },
+      "ink": { "role": "neutral", "displayName": "Warm Ink", "canonical": "#2b1b17", "tonalRamp": ["#2b1b17", "#3a2823", "#45302a", "#6b4c44", "#cdb5ad", "#f0d8ce", "#ffe9e0", "#fff4ee"] },
+      "ink-2": { "role": "neutral", "displayName": "Faded Ink", "canonical": "#6b4c44", "tonalRamp": ["#2b1b17", "#3a2823", "#45302a", "#6b4c44", "#cdb5ad", "#f0d8ce", "#ffe9e0", "#fff4ee"] },
+      "rule": { "role": "neutral", "displayName": "Blush Rule", "canonical": "#f0d8ce", "tonalRamp": ["#2b1b17", "#3a2823", "#45302a", "#6b4c44", "#cdb5ad", "#f0d8ce", "#ffe9e0", "#fff4ee"] },
+      "accent": { "role": "primary", "displayName": "Coral Pop", "canonical": "#c93d2a", "tonalRamp": ["oklch(15% 0.06 33)", "oklch(26% 0.09 33)", "oklch(37% 0.12 33)", "oklch(48% 0.15 33)", "oklch(57% 0.17 33)", "oklch(70% 0.13 33)", "oklch(84% 0.08 33)", "oklch(95% 0.03 33)"] },
+      "on-accent": { "role": "neutral", "displayName": "On Accent", "canonical": "#ffffff" },
+      "accent-soft": { "role": "primary", "displayName": "Coral Blush", "canonical": "#ffe1d9" },
+      "accent-text": { "role": "primary", "displayName": "Coral Text", "canonical": "#c03a28" },
+      "panel": { "role": "neutral", "displayName": "Dark Nav", "canonical": "#2b1b17", "tonalRamp": ["#2b1b17", "#3a2823", "#45302a", "#6b4c44", "#cdb5ad", "#f0d8ce", "#ffe9e0", "#fff4ee"] },
+      "panel-2": { "role": "neutral", "displayName": "Nav Step", "canonical": "#3a2823" },
+      "on-panel": { "role": "neutral", "displayName": "Nav Text", "canonical": "#fff4ee" },
+      "on-panel-2": { "role": "neutral", "displayName": "Nav Muted", "canonical": "#cdb5ad" },
+      "panel-rule": { "role": "neutral", "displayName": "Nav Rule", "canonical": "#45302a" },
+      "panel-accent": { "role": "primary", "displayName": "Nav Coral", "canonical": "#ff8a75" },
+      "danger": { "role": "status", "displayName": "Alert Red", "canonical": "#b3261e" },
+      "ok": { "role": "status", "displayName": "Saved Green", "canonical": "#1e7a4a" },
+      "cat-rhyme": { "role": "secondary", "displayName": "Rhyme Coral", "canonical": "#c93d2a", "tonalRamp": ["oklch(15% 0.06 33)", "oklch(26% 0.09 33)", "oklch(37% 0.12 33)", "oklch(48% 0.15 33)", "oklch(57% 0.17 33)", "oklch(70% 0.13 33)", "oklch(84% 0.08 33)", "oklch(95% 0.03 33)"] },
+      "cat-soundAlike": { "role": "secondary", "displayName": "Sound-alike Amber", "canonical": "#a35a00", "tonalRamp": ["oklch(15% 0.04 62)", "oklch(26% 0.07 62)", "oklch(37% 0.09 62)", "oklch(48% 0.11 62)", "oklch(56% 0.13 62)", "oklch(70% 0.12 62)", "oklch(84% 0.08 62)", "oklch(95% 0.03 62)"] },
+      "cat-synonym": { "role": "secondary", "displayName": "Synonym Teal", "canonical": "#0e7c74", "tonalRamp": ["oklch(15% 0.03 183)", "oklch(26% 0.05 183)", "oklch(37% 0.07 183)", "oklch(48% 0.09 183)", "oklch(53% 0.10 183)", "oklch(70% 0.09 183)", "oklch(84% 0.06 183)", "oklch(95% 0.02 183)"] },
+      "cat-antonym": { "role": "secondary", "displayName": "Antonym Violet", "canonical": "#6a4bd0", "tonalRamp": ["oklch(15% 0.06 285)", "oklch(26% 0.10 285)", "oklch(37% 0.14 285)", "oklch(48% 0.18 285)", "oklch(52% 0.20 285)", "oklch(70% 0.13 285)", "oklch(84% 0.07 285)", "oklch(95% 0.03 285)"] },
+      "cat-adjective": { "role": "secondary", "displayName": "Adjective Pink", "canonical": "#b8336f", "tonalRamp": ["oklch(15% 0.05 355)", "oklch(26% 0.09 355)", "oklch(37% 0.12 355)", "oklch(48% 0.15 355)", "oklch(54% 0.17 355)", "oklch(70% 0.13 355)", "oklch(84% 0.07 355)", "oklch(95% 0.03 355)"] },
+      "cat-noun": { "role": "secondary", "displayName": "Noun Blue", "canonical": "#2a64c2", "tonalRamp": ["oklch(15% 0.05 260)", "oklch(26% 0.08 260)", "oklch(37% 0.11 260)", "oklch(48% 0.14 260)", "oklch(52% 0.16 260)", "oklch(70% 0.11 260)", "oklch(84% 0.06 260)", "oklch(95% 0.02 260)"] },
+      "cat-relatedWord": { "role": "secondary", "displayName": "Related Green", "canonical": "#2c7a3a", "tonalRamp": ["oklch(15% 0.04 145)", "oklch(26% 0.06 145)", "oklch(37% 0.09 145)", "oklch(48% 0.11 145)", "oklch(52% 0.12 145)", "oklch(70% 0.11 145)", "oklch(84% 0.07 145)", "oklch(95% 0.03 145)"] },
+      "cat-frequentFollower": { "role": "secondary", "displayName": "Follower Ochre", "canonical": "#8c5300", "tonalRamp": ["oklch(15% 0.04 65)", "oklch(26% 0.06 65)", "oklch(37% 0.08 65)", "oklch(48% 0.10 65)", "oklch(51% 0.11 65)", "oklch(70% 0.11 65)", "oklch(84% 0.07 65)", "oklch(95% 0.03 65)"] }
     },
     "themes": {
-      "note": "Six printings of the same roles, from src/styles/tokens.css. Frontmatter colors are Harbor (the default and the light 'auto' choice); 'auto' resolves to Night when the device is dark.",
-      "harbor": { "dark": false, "sleeve": "#d3e4ee", "sleeve-2": "#c3d8e5", "ink": "#10243a", "ink-2": "#3c5268", "rule": "#9db7c9", "accent": "#a8321c", "on-accent": "#ffffff", "panel": "#10243a", "panel-2": "#1a3049", "on-panel": "#e3eef4", "on-panel-2": "#a9c0d0", "panel-rule": "#2a4058", "panel-accent": "#f08a6e", "danger": "#a8281a", "ok": "#1d6b45" },
-      "lilac": { "dark": false, "sleeve": "#e6dff3", "sleeve-2": "#d9cfec", "ink": "#1e1631", "ink-2": "#4c4262", "rule": "#b9acd3", "accent": "#9b2c5a", "on-accent": "#ffffff", "panel": "#1e1631", "panel-2": "#2a2140", "on-panel": "#ede7f7", "on-panel-2": "#beb2d6", "panel-rule": "#362b4e", "panel-accent": "#f59ab9", "danger": "#a3242c", "ok": "#1d6b45" },
-      "mint": { "dark": false, "sleeve": "#d3ece2", "sleeve-2": "#c1e2d5", "ink": "#0e2a21", "ink-2": "#355247", "rule": "#98c3b2", "accent": "#a63a16", "on-accent": "#ffffff", "panel": "#0e2a21", "panel-2": "#17372c", "on-panel": "#e2f2eb", "on-panel-2": "#a3c9ba", "panel-rule": "#24453a", "panel-accent": "#f6a178", "danger": "#a3241c", "ok": "#17643f" },
-      "newsprint": { "dark": false, "sleeve": "#eaeae6", "sleeve-2": "#dededa", "ink": "#161616", "ink-2": "#4a4a47", "rule": "#bdbdb7", "accent": "#b0261c", "on-accent": "#ffffff", "panel": "#161616", "panel-2": "#222221", "on-panel": "#ededea", "on-panel-2": "#b3b3ae", "panel-rule": "#2e2e2c", "panel-accent": "#ff8a70", "danger": "#a8231a", "ok": "#1d6b45" },
-      "night": { "dark": true, "sleeve": "#1c1a17", "sleeve-2": "#26231f", "ink": "#ede6da", "ink-2": "#b5ac9e", "rule": "#3d3832", "accent": "#f0875f", "on-accent": "#1c1a17", "panel": "#0f0e0c", "panel-2": "#1a1815", "on-panel": "#ede6da", "on-panel-2": "#ada496", "panel-rule": "#2a2723", "panel-accent": "#f0875f", "danger": "#ff8f7d", "ok": "#7fd1a3" },
-      "forest": { "dark": true, "sleeve": "#17251e", "sleeve-2": "#1f3128", "ink": "#e6efe8", "ink-2": "#a8bdb0", "rule": "#33493d", "accent": "#e9b44c", "on-accent": "#17251e", "panel": "#0d1712", "panel-2": "#15221b", "on-panel": "#e6efe8", "on-panel-2": "#9db3a6", "panel-rule": "#24362c", "panel-accent": "#e9b44c", "danger": "#ff9a86", "ok": "#8fd4a8" }
+      "note": "Six themes of the same roles, from src/styles/tokens.css; picker metadata in src/theme/themes.ts. Frontmatter colors are Coral (default). 'auto' resolves to Coral by day and Night when the device is dark. Saved names from older builds map via LEGACY_THEMES (harbor->sky, lilac->grape, newsprint->lemon, forest->mint, plus the daisyUI names). --cat-* colours are shared by every theme and never redefined.",
+      "coral": { "dark": false, "sleeve": "#fff4ee", "sleeve-2": "#ffe9e0", "surface": "#ffffff", "ink": "#2b1b17", "ink-2": "#6b4c44", "rule": "#f0d8ce", "accent": "#c93d2a", "on-accent": "#ffffff", "accent-soft": "#ffe1d9", "accent-text": "#c03a28", "panel": "#2b1b17", "panel-2": "#3a2823", "on-panel": "#fff4ee", "on-panel-2": "#cdb5ad", "panel-rule": "#45302a", "panel-accent": "#ff8a75", "danger": "#b3261e", "ok": "#1e7a4a", "shadow": "120 50 30" },
+      "lemon": { "dark": false, "sleeve": "#fffae8", "sleeve-2": "#fff1c4", "surface": "#ffffff", "ink": "#2a2410", "ink-2": "#66592b", "rule": "#f0e3b5", "accent": "#f2c12e", "on-accent": "#2a2410", "accent-soft": "#fff0bf", "accent-text": "#806000", "panel": "#2a2410", "panel-2": "#3a3218", "on-panel": "#fffae8", "on-panel-2": "#d1c59a", "panel-rule": "#463c1f", "panel-accent": "#f2c12e", "danger": "#b3261e", "ok": "#1e7a4a", "shadow": "110 90 20" },
+      "sky": { "dark": false, "sleeve": "#eef5ff", "sleeve-2": "#ddebff", "surface": "#ffffff", "ink": "#12233d", "ink-2": "#4a5d78", "rule": "#d3e2f5", "accent": "#1f67c9", "on-accent": "#ffffff", "accent-soft": "#dceaff", "accent-text": "#1f62bf", "panel": "#12233d", "panel-2": "#1d3150", "on-panel": "#eef5ff", "on-panel-2": "#a9beda", "panel-rule": "#2a3f5e", "panel-accent": "#7fb2ff", "danger": "#b3261e", "ok": "#1e7a4a", "shadow": "30 60 110" },
+      "mint": { "dark": false, "sleeve": "#ecf8f3", "sleeve-2": "#d8f1e6", "surface": "#ffffff", "ink": "#10291f", "ink-2": "#45604f", "rule": "#cde8db", "accent": "#0f7a6a", "on-accent": "#ffffff", "accent-soft": "#d2f0e6", "accent-text": "#0d6e60", "panel": "#10291f", "panel-2": "#1a3a2d", "on-panel": "#ecf8f3", "on-panel-2": "#a5c9b8", "panel-rule": "#24473a", "panel-accent": "#6fd6b5", "danger": "#b3261e", "ok": "#17643f", "shadow": "20 80 60" },
+      "grape": { "dark": true, "sleeve": "#1d1830", "sleeve-2": "#2a2344", "surface": "#262040", "ink": "#f1ecff", "ink-2": "#bdb2de", "rule": "#3a3158", "accent": "#a78bff", "on-accent": "#1d1830", "accent-soft": "#3a2f66", "accent-text": "#c3aeff", "panel": "#120f1f", "panel-2": "#1e1933", "on-panel": "#f1ecff", "on-panel-2": "#ada2cf", "panel-rule": "#2b2445", "panel-accent": "#c3aeff", "danger": "#ff9a8f", "ok": "#7fd6a4", "shadow": "0 0 0" },
+      "night": { "dark": true, "sleeve": "#1e1917", "sleeve-2": "#2b2421", "surface": "#28211e", "ink": "#f7eeea", "ink-2": "#c4b4ad", "rule": "#3d332f", "accent": "#ff7a62", "on-accent": "#1e1917", "accent-soft": "#4a2a23", "accent-text": "#ff9480", "panel": "#120f0e", "panel-2": "#1e1917", "on-panel": "#f7eeea", "on-panel-2": "#b8a8a1", "panel-rule": "#2b2421", "panel-accent": "#ff9480", "danger": "#ff9a8f", "ok": "#7fd6a4", "shadow": "0 0 0" }
+    },
+    "fonts": {
+      "families": ["Raleway Variable"],
+      "source": "@fontsource-variable/raleway/wght.css (imported in src/index.css)",
+      "stack": "\"Raleway Variable\", \"Raleway\", system-ui, sans-serif",
+      "cssVariable": "--font-sans (Tailwind @theme in src/styles/tokens.css)",
+      "weightsUsed": [450, 500, 550, 600, 650, 700, 800]
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Landing hero title beside its numeral; 42px on phone, 76px desktop, max 15ch." },
-      "headline": { "displayName": "Headline", "purpose": "Page titles; 34px on phone, 44px desktop." },
-      "title": { "displayName": "Title", "purpose": "Song title in the editor as a bare input; 28px on phone, 34px desktop." },
-      "numeral": { "displayName": "Track Numeral", "purpose": "Two-digit accent track number in creation order; 26px in the notebook, 34/42px in the editor." },
-      "headword": { "displayName": "Headword", "purpose": "The finished word heading the suggestion panel; also the wordmark." },
-      "lyric": { "displayName": "Lyric", "purpose": "The writing surface; 18px phone, 19px desktop, 1.8 leading, max 48rem." },
-      "row-title": { "displayName": "Row Title", "purpose": "Notebook track titles and suggested words (weight-ranked)." },
+      "display": { "displayName": "Display", "purpose": "Landing hero title; 40px phone, 72px desktop, max 15ch. The typed demo line is 32px / 56px." },
+      "headline": { "displayName": "Headline", "purpose": "Page titles; 34px phone, 44px desktop. Settings section titles 24px." },
+      "title": { "displayName": "Song Title", "purpose": "Bare-input song title in the accent header card; 30px phone, 38px desktop." },
+      "headword": { "displayName": "Headword", "purpose": "The finished word heading the suggestion sheet; the wordmark at 22px." },
+      "lyric": { "displayName": "Lyric", "purpose": "The writing surface; 18px phone, 19px desktop, 1.85 leading, max 48rem." },
+      "row-title": { "displayName": "Row Title", "purpose": "Note titles on notebook cards." },
       "body": { "displayName": "Body", "purpose": "Running text and fields (16px prevents iOS zoom)." },
-      "body-sm": { "displayName": "Body Small", "purpose": "Menu items, nav items, secondary copy." },
-      "credit": { "displayName": "Credit", "purpose": "The credit line under a title: author and themes." },
-      "control": { "displayName": "Control", "purpose": "Uppercase tracked buttons and tabs; 12px in small buttons and the desktop category index." },
-      "label": { "displayName": "Label", "purpose": "Uppercase tracked field labels and in-dialog section names. Never a decorative line above a heading." }
+      "chip": { "displayName": "Word Chip", "purpose": "Suggested words; weight 650 / 600 / 500 by match strength." },
+      "control": { "displayName": "Control", "purpose": "Pill buttons, sentence case; 14px in the small size." },
+      "tab": { "displayName": "Tab", "purpose": "Pill tabs; 13px for category pills." },
+      "label": { "displayName": "Label", "purpose": "Sentence-case field labels and tags in ink-2." }
     },
     "shadows": [
-      { "name": "rule-tab-selected", "value": "inset 0 -3px 0 var(--accent)", "purpose": "Selected tab underline (panel-accent inside the slab). A printed rule, not elevation." },
-      { "name": "rule-field-focus", "value": "inset 0 -1.5px 0 var(--accent)", "purpose": "Thickens a focused field's bottom rule to 3px." },
-      { "name": "mark-checked", "value": "inset 0 0 0 3px var(--sleeve)", "purpose": "Leaves a sleeve gap inside a checked box or radio." }
+      { "name": "card-rest", "value": "0 8px 24px rgb(var(--shadow) / 0.08), 0 1px 2px rgb(var(--shadow) / 0.06)", "purpose": "Cards and the docked suggestion card floating on the tinted ground." },
+      { "name": "card-hover", "value": "0 10px 28px rgb(var(--shadow) / 0.14)", "purpose": "Notebook cards under a pointer." },
+      { "name": "sheet", "value": "0 -8px 28px rgb(var(--shadow) / 0.12)", "purpose": "The phone suggestion sheet lifting upward." },
+      { "name": "notice", "value": "0 1px 2px rgb(var(--shadow) / 0.06)", "purpose": "Inline notices." },
+      { "name": "menu", "value": "0 12px 32px rgb(var(--shadow) / 0.18), 0 0 0 1px var(--rule)", "purpose": "Overflow menus." },
+      { "name": "dialog", "value": "0 24px 60px rgb(0 0 0 / 0.25)", "purpose": "Dialogs, over a 40% black backdrop." },
+      { "name": "focus-halo", "value": "0 0 0 4px var(--accent-soft)", "purpose": "Focused fields." },
+      { "name": "range-thumb", "value": "0 1px 4px rgb(var(--shadow) / 0.25)", "purpose": "Range slider thumb." }
     ],
     "motion": [
-      { "name": "state", "value": "120ms ease-out", "purpose": "Colour, border and underline changes on buttons, tabs, fields and checks." },
-      { "name": "switch", "value": "160ms cubic-bezier(0.2, 0.8, 0.2, 1)", "purpose": "Switch knob travel." },
+      { "name": "state", "value": "140ms ease-out", "purpose": "Colour, border and press changes on buttons, tabs, fields and checks." },
+      { "name": "press", "value": "scale(0.97); chips scale(0.96) at 120ms", "purpose": "Tactile press on buttons and word chips." },
+      { "name": "switch", "value": "180ms cubic-bezier(0.2, 0.8, 0.2, 1)", "purpose": "Switch knob travel." },
       { "name": "sheet", "value": "260ms cubic-bezier(0.32, 0.72, 0, 1)", "purpose": "Suggestion sheet height between peek, half and full (phone only)." },
       { "name": "headword-in", "value": "260ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Headword lifts 0.3em and fades from 45% opacity when a new word is finished." },
-      { "name": "loading-run", "value": "1.1s cubic-bezier(0.65, 0, 0.35, 1) infinite", "purpose": "Ink segment running along the loading rule." },
+      { "name": "loading-run", "value": "1.1s cubic-bezier(0.65, 0, 0.35, 1) infinite", "purpose": "Accent pill running along the loading track." },
       { "name": "reduced-motion", "value": "none", "purpose": "All of the above switch off under prefers-reduced-motion." }
     ],
     "breakpoints": [
-      { "name": "narrow", "value": "359px", "purpose": "At or below: word grid drops to two columns." },
-      { "name": "sm", "value": "640px", "purpose": "Below: dialogs become bottom sheets." },
-      { "name": "md", "value": "768px", "purpose": "Ink rail replaces the tab bar; suggestion sheet docks right (320px)." },
-      { "name": "lg", "value": "1024px", "purpose": "Rail 240px, dock 416px, categories as a two-column index." }
+      { "name": "sm", "value": "640px", "purpose": "Below: dialogs become bottom sheets. From: notebook cards in two columns." },
+      { "name": "md", "value": "768px", "purpose": "Dark rail (224px) replaces the tab bar; suggestion sheet becomes a docked 320px card; page gutter 40px." },
+      { "name": "lg", "value": "1024px", "purpose": "Rail 240px, dock 416px." },
+      { "name": "xl", "value": "1280px", "purpose": "Notebook cards in three columns." }
     ]
   },
   "components": [
@@ -68,115 +91,116 @@
       "name": "Ink Button",
       "kind": "button",
       "refersTo": "button-ink",
-      "description": "Default primary action: ink fill, sleeve text, uppercase, square.",
-      "html": "<button class=\"ds-btn ds-btn-ink\">Sign in to save</button>",
-      "css": ".ds-btn { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; border: 1.5px solid transparent; border-radius: 0; font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); font-size: 13px; font-weight: 700; letter-spacing: 0.07em; line-height: 1; text-transform: uppercase; white-space: nowrap; cursor: pointer; transition: background-color 120ms ease-out, color 120ms ease-out, border-color 120ms ease-out; } .ds-btn:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; } .ds-btn-ink { background: var(--ink, #10243a); color: var(--sleeve, #d3e4ee); } .ds-btn-ink:hover { background: var(--ink-2, #3c5268); }"
-    },
-    {
-      "name": "Accent Button",
-      "kind": "button",
-      "refersTo": "button-accent",
-      "description": "The single most important call on a screen; reverses to ink on hover.",
-      "html": "<button class=\"ds-btn-accent\">Start writing</button>",
-      "css": ".ds-btn-accent { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 0 18px; border: 1.5px solid transparent; border-radius: 0; background: var(--accent, #a8321c); color: var(--on-accent, #ffffff); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); font-size: 13px; font-weight: 700; letter-spacing: 0.07em; line-height: 1; text-transform: uppercase; cursor: pointer; transition: background-color 120ms ease-out, color 120ms ease-out; } .ds-btn-accent:hover { background: var(--ink, #10243a); color: var(--sleeve, #d3e4ee); } .ds-btn-accent:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; }"
+      "description": "Default primary action: ink pill, ground-coloured text.",
+      "html": "<button class=\"ds-btn ds-btn-ink\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg>New note</button>",
+      "css": ".ds-btn { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 8px; padding: 0 20px; border: 1.5px solid transparent; border-radius: 999px; font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); font-size: 15px; font-weight: 700; line-height: 1; white-space: nowrap; cursor: pointer; transition: background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out, transform 140ms ease-out; } .ds-btn svg { width: 18px; height: 18px; } .ds-btn:active { transform: scale(0.97); } .ds-btn:focus-visible { outline: 2px solid var(--accent-text, #c03a28); outline-offset: 2px; } .ds-btn-ink { background: var(--ink, #2b1b17); color: var(--sleeve, #fff4ee); } .ds-btn-ink:hover { background: var(--ink-2, #6b4c44); }"
     },
     {
       "name": "Line Button",
       "kind": "button",
       "refersTo": "button-line",
-      "description": "Secondary action: 1.5px ink outline, sleeve-2 wash on hover.",
-      "html": "<button class=\"ds-btn-line\">Use notebook version</button>",
-      "css": ".ds-btn-line { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 0 18px; border: 1.5px solid var(--ink, #10243a); border-radius: 0; background: transparent; color: var(--ink, #10243a); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); font-size: 13px; font-weight: 700; letter-spacing: 0.07em; line-height: 1; text-transform: uppercase; cursor: pointer; transition: background-color 120ms ease-out; } .ds-btn-line:hover { background: var(--sleeve-2, #c3d8e5); } .ds-btn-line:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; }"
+      "description": "Secondary action: white pill with a 1.5px rule border.",
+      "html": "<button class=\"ds-btn-line\">Try the editor</button>",
+      "css": ".ds-btn-line { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 0 20px; border: 1.5px solid var(--rule, #f0d8ce); border-radius: 999px; background: var(--surface, #ffffff); color: var(--ink, #2b1b17); font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); font-size: 15px; font-weight: 700; line-height: 1; cursor: pointer; transition: border-color 140ms ease-out, transform 140ms ease-out; } .ds-btn-line:hover { border-color: var(--ink-2, #6b4c44); } .ds-btn-line:active { transform: scale(0.97); } .ds-btn-line:focus-visible { outline: 2px solid var(--accent-text, #c03a28); outline-offset: 2px; }"
     },
     {
       "name": "Field",
       "kind": "input",
       "refersTo": "input",
-      "description": "Sleeve-2 fill with a 1.5px ink bottom rule; focus turns the rule accent and thickens it.",
+      "description": "White field, 14px radius, rule border; focus turns accent-text with a soft accent halo.",
       "html": "<label class=\"ds-field\"><span class=\"ds-label\">Email</span><input class=\"ds-input\" type=\"email\" placeholder=\"you@example.com\"></label>",
-      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); } .ds-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; line-height: 1.3; text-transform: uppercase; color: var(--ink-2, #3c5268); } .ds-input { width: 100%; min-height: 44px; padding: 10px 12px; border: 0; border-bottom: 1.5px solid var(--ink, #10243a); border-radius: 0; background: var(--sleeve-2, #c3d8e5); color: var(--ink, #10243a); caret-color: var(--accent, #a8321c); font: inherit; font-size: 16px; line-height: 1.4; outline: none; transition: border-color 120ms ease-out, box-shadow 120ms ease-out; } .ds-input::placeholder { color: var(--ink-2, #3c5268); opacity: 1; } .ds-input:focus { border-bottom-color: var(--accent, #a8321c); box-shadow: inset 0 -1.5px 0 var(--accent, #a8321c); }"
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); } .ds-label { font-size: 13px; font-weight: 650; line-height: 1.35; color: var(--ink-2, #6b4c44); } .ds-input { width: 100%; min-height: 48px; padding: 11px 16px; border: 1.5px solid var(--rule, #f0d8ce); border-radius: 14px; background: var(--surface, #ffffff); color: var(--ink, #2b1b17); caret-color: var(--accent-text, #c03a28); font: inherit; font-size: 16px; line-height: 1.4; outline: none; transition: border-color 140ms ease-out, box-shadow 140ms ease-out; } .ds-input::placeholder { color: var(--ink-2, #6b4c44); opacity: 1; } .ds-input:focus { border-color: var(--accent-text, #c03a28); box-shadow: 0 0 0 4px var(--accent-soft, #ffe1d9); }"
     },
     {
-      "name": "Song View Tabs",
+      "name": "Pill Tabs",
       "kind": "nav",
       "refersTo": "tab",
-      "description": "Uppercase tabs on a 1.5px ink rule; the selected tab carries a 3px accent underline.",
+      "description": "Write / Sync / Play and notebook tabs: sleeve-2 pills, the selected one filled ink.",
       "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Write</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Sync</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Play</button></div>",
-      "css": ".ds-tabs { display: flex; gap: 20px; border-bottom: 1.5px solid var(--ink, #10243a); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); } .ds-tab { display: inline-flex; min-height: 44px; align-items: center; padding: 0; border: 0; background: none; font-size: 13px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2, #3c5268); cursor: pointer; transition: color 120ms ease-out, box-shadow 120ms ease-out; } .ds-tab:hover { color: var(--ink, #10243a); } .ds-tab[aria-selected=\"true\"] { color: var(--ink, #10243a); box-shadow: inset 0 -3px 0 var(--accent, #a8321c); } .ds-tab:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; }"
+      "css": ".ds-tabs { display: flex; gap: 8px; font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); } .ds-tab { display: inline-flex; min-height: 40px; align-items: center; padding: 0 16px; border: 0; border-radius: 999px; background: var(--sleeve-2, #ffe9e0); font-size: 14px; font-weight: 700; color: var(--ink-2, #6b4c44); cursor: pointer; transition: background-color 140ms ease-out, color 140ms ease-out; } .ds-tab:hover { color: var(--ink, #2b1b17); } .ds-tab[aria-selected=\"true\"] { background: var(--ink, #2b1b17); color: var(--sleeve, #fff4ee); } .ds-tab:focus-visible { outline: 2px solid var(--accent-text, #c03a28); outline-offset: 2px; }"
     },
     {
       "name": "Tag",
       "kind": "chip",
       "refersTo": "tag",
-      "description": "Square outlined tag; pressed reverses to ink. Never a pill.",
-      "html": "<button class=\"ds-tag\" aria-pressed=\"true\">winter</button> <button class=\"ds-tag\" aria-pressed=\"false\">city</button>",
-      "css": ".ds-tag { display: inline-flex; height: 26px; align-items: center; padding: 0 8px; border: 1px solid currentColor; border-radius: 0; background: transparent; font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); font-size: 12px; font-weight: 600; color: var(--ink-2, #3c5268); cursor: pointer; } .ds-tag[aria-pressed=\"true\"] { background: var(--ink, #10243a); border-color: var(--ink, #10243a); color: var(--sleeve, #d3e4ee); } .ds-tag:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; }"
+      "description": "Tag filter pill; pressed reverses to ink.",
+      "html": "<button class=\"ds-tag\" aria-pressed=\"true\">All</button> <button class=\"ds-tag\" aria-pressed=\"false\">#winter</button>",
+      "css": ".ds-tag { display: inline-flex; height: 30px; align-items: center; padding: 0 12px; border: 0; border-radius: 999px; background: var(--sleeve-2, #ffe9e0); font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); font-size: 13px; font-weight: 650; color: var(--ink-2, #6b4c44); cursor: pointer; } .ds-tag:hover { color: var(--ink, #2b1b17); } .ds-tag[aria-pressed=\"true\"] { background: var(--ink, #2b1b17); color: var(--sleeve, #fff4ee); } .ds-tag:focus-visible { outline: 2px solid var(--accent-text, #c03a28); outline-offset: 2px; }"
     },
     {
-      "name": "Track Row",
+      "name": "Note Card",
       "kind": "card",
-      "refersTo": "track-row",
-      "description": "A notebook entry as a ruled tracklist row: accent numeral, bold title, first line, credits.",
-      "html": "<ul class=\"ds-tracks\"><li class=\"ds-track\"><span class=\"ds-num\">01</span><div><h3 class=\"ds-track-title\">Night Bus</h3><p class=\"ds-track-line\">Streetlights counting down the blocks</p><p class=\"ds-track-credit\"><b>#city</b> <b>#winter</b></p></div></li><li class=\"ds-track\"><span class=\"ds-num\">02</span><div><h3 class=\"ds-track-title\">Harbour Lights</h3><p class=\"ds-track-line\">Nothing written yet.</p></div></li></ul>",
-      "css": ".ds-tracks { list-style: none; margin: 0; padding: 0; font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); color: var(--ink, #10243a); } .ds-track { display: flex; align-items: flex-start; gap: 16px; min-height: 76px; padding: 12px 4px 12px 0; border-bottom: 1px solid var(--rule, #9db7c9); cursor: pointer; transition: background-color 120ms ease-out; } .ds-track:hover { background: color-mix(in srgb, var(--sleeve-2, #c3d8e5) 60%, transparent); } .ds-num { width: 36px; flex: none; padding-top: 2px; text-align: right; font-size: 26px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent, #a8321c); } .ds-track-title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.375; } .ds-track-line { margin: 2px 0 0; font-size: 14px; color: var(--ink-2, #3c5268); } .ds-track-credit { margin: 6px 0 0; font-size: 12px; color: var(--ink-2, #3c5268); }"
+      "refersTo": "card",
+      "description": "A notebook song: white 24px card with a category-coloured letter tile, bold title, muted first line, tag pills.",
+      "html": "<ul class=\"ds-notes\"><li class=\"ds-note\"><span class=\"ds-tile\" style=\"background: var(--cat-antonym, #6a4bd0)\">G</span><div class=\"ds-note-body\"><h3 class=\"ds-note-title\">Ghost beat</h3><p class=\"ds-note-line\">My life ain't the type to just progress</p><p class=\"ds-note-meta\"><span>#demo</span></p></div></li><li class=\"ds-note\"><span class=\"ds-tile\" style=\"background: var(--cat-synonym, #0e7c74)\">N</span><div class=\"ds-note-body\"><h3 class=\"ds-note-title\">Night bus</h3><p class=\"ds-note-line\">Nothing written yet.</p></div></li></ul>",
+      "css": ".ds-notes { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); color: var(--ink, #2b1b17); } .ds-note { display: flex; min-width: 0; min-height: 80px; align-items: flex-start; gap: 14px; padding: 14px; border-radius: 24px; background: var(--surface, #ffffff); box-shadow: 0 8px 24px rgb(var(--shadow, 120 50 30) / 0.08), 0 1px 2px rgb(var(--shadow, 120 50 30) / 0.06); cursor: pointer; transition: box-shadow 150ms ease-out; } .ds-note:hover { box-shadow: 0 10px 28px rgb(var(--shadow, 120 50 30) / 0.14); } .ds-tile { display: flex; width: 48px; height: 48px; flex: none; align-items: center; justify-content: center; border-radius: 16px; color: #ffffff; font-size: 20px; font-weight: 800; } .ds-note-body { min-width: 0; flex: 1; } .ds-note-title { margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 17px; font-weight: 700; line-height: 1.375; } .ds-note-line { margin: 2px 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; color: var(--ink-2, #6b4c44); } .ds-note-meta { margin: 6px 0 0; font-size: 12px; color: var(--ink-2, #6b4c44); } .ds-note-meta span { padding: 2px 8px; border-radius: 999px; background: var(--sleeve-2, #ffe9e0); font-weight: 600; }"
     },
     {
-      "name": "Suggestion Panel",
+      "name": "Song Header Card",
       "kind": "custom",
-      "refersTo": "suggestion-panel",
-      "description": "The reversed ink slab: headword, uppercase category tabs with counts, weight-ranked word rows in fixed columns.",
-      "html": "<aside class=\"ds-panel\"><p class=\"ds-headword\">tonight</p><div class=\"ds-ptabs\"><button class=\"ds-ptab\" aria-selected=\"true\">Rhymes <span>25</span></button><button class=\"ds-ptab\" aria-selected=\"false\">Sound-alikes <span>25</span></button></div><div class=\"ds-words\"><button class=\"ds-word ds-w0\">daylight</button><button class=\"ds-word ds-w0\">night</button><button class=\"ds-word ds-w0\">fortnight</button><button class=\"ds-word ds-w1\">midnight</button><button class=\"ds-word ds-w1\">sunlight</button><button class=\"ds-word ds-w1\">satellite</button><button class=\"ds-word ds-w2\">rite</button><button class=\"ds-word ds-w2\">sight</button><button class=\"ds-word ds-w2\">white</button></div></aside>",
-      "css": ".ds-panel { background: var(--panel, #10243a); color: var(--on-panel, #e3eef4); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); padding-bottom: 4px; } .ds-headword { margin: 0; padding: 10px 16px; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; animation: ds-head-in 260ms cubic-bezier(0.16, 1, 0.3, 1); } @keyframes ds-head-in { from { opacity: 0.45; transform: translateY(0.3em); } to { opacity: 1; transform: none; } } .ds-ptabs { display: flex; gap: 20px; padding: 0 16px; border-bottom: 1.5px solid var(--panel-rule, #2a4058); } .ds-ptab { display: inline-flex; gap: 6px; min-height: 44px; align-items: center; padding: 0; border: 0; background: none; font: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--on-panel-2, #a9c0d0); cursor: pointer; transition: color 120ms ease-out; } .ds-ptab span { font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; } .ds-ptab:hover { color: var(--on-panel, #e3eef4); } .ds-ptab[aria-selected=\"true\"] { color: var(--on-panel, #e3eef4); box-shadow: inset 0 -3px 0 var(--panel-accent, #f08a6e); } .ds-words { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding-top: 4px; } .ds-word { display: flex; min-height: 44px; align-items: center; padding: 0 12px; border: 0; background: none; font: inherit; font-size: 17px; line-height: 1.25; text-align: left; color: var(--on-panel, #e3eef4); cursor: pointer; transition: background-color 120ms ease-out; } .ds-word:hover { background: var(--panel-2, #1a3049); } .ds-word:focus-visible, .ds-ptab:focus-visible { outline: 2px solid var(--panel-accent, #f08a6e); outline-offset: 2px; } .ds-w0 { font-weight: 700; } .ds-w1 { font-weight: 500; } .ds-w2 { font-weight: 400; color: var(--on-panel-2, #a9c0d0); } @media (prefers-reduced-motion: reduce) { .ds-headword { animation: none; } }"
+      "refersTo": "song-header",
+      "description": "The editor's accent-filled header: back link, save state, inverse Save pill, 30px 800 title, credit line.",
+      "html": "<section class=\"ds-head\"><div class=\"ds-head-row\"><span class=\"ds-back\">&#8249; Notebook</span><span class=\"ds-saved\"><span class=\"ds-dot\"></span>Saved</span><button class=\"ds-save\">Save</button></div><p class=\"ds-head-title\">Harbour lights</p><p class=\"ds-head-credit\">by Grady &middot; Themes: night, distance</p></section>",
+      "css": ".ds-head { padding: 4px 16px 16px; border-radius: 24px; background: var(--accent, #c93d2a); color: var(--on-accent, #ffffff); font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); } .ds-head-row { display: flex; height: 44px; align-items: center; gap: 4px; } .ds-back { padding: 0 8px; margin-left: -8px; border-radius: 999px; font-size: 14px; font-weight: 600; } .ds-saved { display: flex; align-items: center; gap: 8px; margin-left: auto; font-size: 13px; font-weight: 600; } .ds-dot { width: 10px; height: 10px; border: 2px solid currentColor; border-radius: 50%; background: currentColor; } .ds-save { display: inline-flex; min-height: 36px; align-items: center; margin-left: 8px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--on-accent, #ffffff); color: var(--accent, #c93d2a); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; } .ds-save:focus-visible { outline: 2px solid var(--on-accent, #ffffff); outline-offset: 2px; } .ds-head-title { margin: 8px 0 0; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.08; } .ds-head-credit { margin: 4px 0 0; font-size: 14px; font-weight: 500; }"
+    },
+    {
+      "name": "Suggestion Sheet",
+      "kind": "custom",
+      "refersTo": "suggestion-sheet",
+      "description": "White sheet: lifting headword, category pills in fixed colours, word chips tinted by category and match strength.",
+      "html": "<aside class=\"ds-sheet\"><p class=\"ds-headword\">tonight</p><div class=\"ds-cats\" role=\"tablist\"><button class=\"ds-cat\" role=\"tab\" aria-selected=\"true\" style=\"--cat: var(--cat-rhyme, #c93d2a)\">Rhymes <span>25</span></button><button class=\"ds-cat\" role=\"tab\" aria-selected=\"false\" style=\"--cat: var(--cat-soundAlike, #a35a00)\">Sound-alikes <span>25</span></button><button class=\"ds-cat\" role=\"tab\" aria-selected=\"false\" style=\"--cat: var(--cat-synonym, #0e7c74)\">Synonyms <span>12</span></button></div><div class=\"ds-chips\" style=\"--cat: var(--cat-rhyme, #c93d2a)\"><button class=\"ds-chip\" data-strength=\"0\">daylight</button><button class=\"ds-chip\" data-strength=\"0\">midnight</button><button class=\"ds-chip\" data-strength=\"1\">satellite</button><button class=\"ds-chip\" data-strength=\"1\">sunlight</button><button class=\"ds-chip\" data-strength=\"2\">rite</button><button class=\"ds-chip\" data-strength=\"2\">white</button></div></aside>",
+      "css": ".ds-sheet { padding-bottom: 16px; border-radius: 26px 26px 0 0; background: var(--surface, #ffffff); color: var(--ink, #2b1b17); box-shadow: 0 -8px 28px rgb(var(--shadow, 120 50 30) / 0.12); font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); } .ds-headword { margin: 0; padding: 12px 20px 8px; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; animation: ds-head-in 260ms cubic-bezier(0.16, 1, 0.3, 1); } @keyframes ds-head-in { from { opacity: 0.45; transform: translateY(0.3em); } to { opacity: 1; transform: none; } } .ds-cats { display: flex; gap: 8px; padding: 0 16px 12px; overflow-x: auto; } .ds-cat { display: inline-flex; min-height: 36px; flex: none; align-items: center; gap: 6px; padding: 0 14px; border: 0; border-radius: 999px; background: color-mix(in srgb, var(--cat) 14%, var(--surface, #ffffff)); color: var(--ink, #2b1b17); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; transition: background-color 140ms ease-out; } .ds-cat span { font-weight: 600; opacity: 0.85; font-variant-numeric: tabular-nums; } .ds-cat:hover { background: color-mix(in srgb, var(--cat) 22%, var(--surface, #ffffff)); } .ds-cat[aria-selected=\"true\"] { background: var(--cat); color: #ffffff; } .ds-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 16px; } .ds-chip { display: inline-flex; min-height: 44px; align-items: center; padding: 0 14px; border: 0; border-radius: 14px; background: color-mix(in srgb, var(--cat) 20%, var(--surface, #ffffff)); color: var(--ink, #2b1b17); font: inherit; font-size: 16px; font-weight: 650; line-height: 1.25; cursor: pointer; transition: background-color 120ms ease-out, transform 120ms ease-out; } .ds-chip[data-strength=\"1\"] { background: color-mix(in srgb, var(--cat) 12%, var(--surface, #ffffff)); font-weight: 600; } .ds-chip[data-strength=\"2\"] { background: color-mix(in srgb, var(--cat) 6%, var(--surface, #ffffff)); font-weight: 500; } .ds-chip:hover { background: color-mix(in srgb, var(--cat) 30%, var(--surface, #ffffff)); } .ds-chip:active { transform: scale(0.96); } .ds-chip:focus-visible, .ds-cat:focus-visible { outline: 2px solid var(--accent-text, #c03a28); outline-offset: 2px; } @media (prefers-reduced-motion: reduce) { .ds-headword { animation: none; } .ds-chip { transition: none; } .ds-chip:active { transform: none; } }"
     },
     {
       "name": "Phone Tab Bar",
       "kind": "nav",
       "refersTo": "tab-bar",
-      "description": "Ink slab bottom navigation; active item on-panel with a panel-accent icon.",
-      "html": "<nav class=\"ds-tabbar\"><a class=\"ds-tabbar-item\" aria-current=\"page\" href=\"#\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg>Write</a><a class=\"ds-tabbar-item\" href=\"#\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z\"/></svg>Notebook</a></nav>",
-      "css": ".ds-tabbar { display: grid; grid-template-columns: repeat(2, 1fr); background: var(--panel, #10243a); border-top: 1px solid var(--panel-rule, #2a4058); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); } .ds-tabbar-item { display: flex; height: 58px; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--on-panel-2, #a9c0d0); text-decoration: none; } .ds-tabbar-item svg { width: 22px; height: 22px; } .ds-tabbar-item[aria-current=\"page\"] { color: var(--on-panel, #e3eef4); } .ds-tabbar-item[aria-current=\"page\"] svg { color: var(--panel-accent, #f08a6e); } .ds-tabbar-item:hover { color: var(--on-panel, #e3eef4); } .ds-tabbar-item:focus-visible { outline: 2px solid var(--panel-accent, #f08a6e); outline-offset: -2px; }"
+      "description": "Dark bottom nav; the active icon sits in a panel-2 pill in panel-accent.",
+      "html": "<nav class=\"ds-tabbar\"><a class=\"ds-tabbar-item\" href=\"#\"><span class=\"ds-tabbar-icon\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg></span>Write</a><a class=\"ds-tabbar-item\" aria-current=\"page\" href=\"#\"><span class=\"ds-tabbar-icon\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z\"/></svg></span>Notebook</a><a class=\"ds-tabbar-item\" href=\"#\"><span class=\"ds-tabbar-icon\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z\"/></svg></span>Settings</a></nav>",
+      "css": ".ds-tabbar { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--panel, #2b1b17); border-top: 1px solid var(--panel-rule, #45302a); font-family: var(--font-sans, 'Raleway Variable', system-ui, sans-serif); } .ds-tabbar-item { display: flex; height: 62px; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--on-panel-2, #cdb5ad); text-decoration: none; } .ds-tabbar-icon { display: flex; width: 56px; height: 32px; align-items: center; justify-content: center; border-radius: 999px; transition: background-color 140ms ease-out; } .ds-tabbar-icon svg { width: 22px; height: 22px; } .ds-tabbar-item[aria-current=\"page\"] { color: var(--on-panel, #fff4ee); } .ds-tabbar-item[aria-current=\"page\"] .ds-tabbar-icon { background: var(--panel-2, #3a2823); color: var(--panel-accent, #ff8a75); } .ds-tabbar-item:hover { color: var(--on-panel, #fff4ee); } .ds-tabbar-item:focus-visible { outline: 2px solid var(--panel-accent, #ff8a75); outline-offset: -2px; }"
     }
   ],
   "narrative": {
-    "northStar": "The Inner Sleeve",
-    "overview": "Every song is a track printed on an album's inner sleeve: a track number, a bold title, a small credit line, then the lyric. The ground is one flat sleeve colour, the type is sleeve ink, and a single printed accent marks whatever is active. The suggestion panel, the tab bar, the desktop rail and the menus are a solid slab of ink with sleeve-coloured type reversed out of it. Nothing floats; structure comes from printed rules and that one reversal.\n\nThe system is quiet so the writer's words carry the page. Lyrics sit in calm regular-weight text at a generous 1.8 leading; chrome speaks in small uppercase tracked labels; only titles and track numerals are set heavy. Density is phone-first: 44px touch rows everywhere, a 16px page gutter, and the same layout grows into a rail-editor-dock arrangement on desktop rather than being restyled.\n\nA theme is a different printing of the same sleeve. Six printings ship (Harbor, Lilac, Mint, Newsprint, Night, Forest); components only ever read the semantic roles, so every theme re-colours the same rules, slab and accent. The build rejects the grey-chrome notes app with a blue accent and pill chips.",
+    "northStar": "Colour Pop",
+    "overview": "Every song is a bright, friendly object. It opens on a header card filled with the theme's accent, carrying the song's title in heavy white (or dark, on light accents) type, and the words that answer it arrive as chips tinted in their category's colour. The rest of the page stays calm: a softly tinted ground, white writing and suggestion surfaces floating on soft warm shadows, and one dark nav that anchors the screen.\n\nColour does two separate jobs and never mixes them. The theme accent says \"this is your song\" (the header card, the landing hero, the accent button, focus and caret). The eight fixed category colours say \"this kind of word\" (suggestion pills, word chips, and the note tiles that borrow them), and they stay the same in every theme so a writer learns \"coral is rhymes\" once. Density is phone-first: 44px touch targets, pill controls, and the same layout grows into a rail, editor and docked suggestion card on desktop.\n\nThe world rejects the grey notes app and the stark print look it replaced: no square corners, no heavy rules, no all-caps labels, no muted samey themes, no plain word grids.",
     "keyCharacteristics": [
-      "Flat sleeve ground, sleeve ink, one printed accent per printing.",
-      "A reversed ink slab for the suggestion panel, tab bar, desktop rail and menus.",
-      "Archivo throughout: 800 for titles and numerals, uppercase tracked 700 for controls and labels, 400 for lyrics.",
-      "Rules instead of boxes; square corners; no cast shadows.",
-      "Accent track numerals (two digits, zero-padded, creation order) anchor every song.",
-      "44px minimum touch target on every interactive row."
+      "Tinted ground, white floating surfaces, one dark nav; six themes re-colour the same roles.",
+      "The accent fills each song's header card; it is a surface, not just a marker.",
+      "Eight fixed category colours code every suggestion and tile each note.",
+      "Raleway Variable throughout: 800 titles, 650-700 sentence-case labels and controls, 450 body and lyrics.",
+      "Pills and 14-32px radii everywhere; nothing square.",
+      "Soft, warm-tinted ambient shadows; depth is gentle lift, never hard edges."
     ],
     "rules": [
-      { "name": "The One Printed Accent Rule", "body": "A printing has exactly one accent (plus its slab reprint). It marks state and the track numeral; it is never a decorative fill, background tint or second brand colour.", "section": "colors" },
-      { "name": "The Every Printing Is AA Rule", "body": "ink, ink-2 and accent against sleeve, and on-panel, on-panel-2 and panel-accent against panel, are each at least 4.5:1 in every theme. A new printing ships only when all six pairs pass.", "section": "colors" },
-      { "name": "The Roles Not Values Rule", "body": "Components read semantic roles (`--sleeve`, `--ink`, `--panel`...) only. A hex inside a component is a bug; a theme is nothing but a block of role values.", "section": "colors" },
-      { "name": "The Weight Carries Rank Rule", "body": "Size steps are few; rank is weight. 800 is reserved for titles, numerals, the headword and the wordmark; lyrics are always 400.", "section": "typography" },
-      { "name": "The Uppercase Means Control Rule", "body": "Uppercase tracked type labels a control or a field. It is not used as a decorative line above a heading.", "section": "typography" },
-      { "name": "The Thumb Holds Still Rule", "body": "Anything under the writer's thumb keeps its cell when content changes: tab positions, word columns, and the panel's height stay fixed; only the words swap.", "section": "layout" },
-      { "name": "The No Cast Shadow Rule", "body": "No outer or drop shadows, no glows, no blur at any state. Inset rules drawn with box-shadow are permitted because they are lines, not elevation.", "section": "elevation" },
-      { "name": "The Rules Not Boxes Rule", "body": "Group with a rule and space before reaching for a border on four sides. Four-sided borders are reserved for controls (outlined buttons, checks, switches, tags) and for the dialog and menu edges.", "section": "shapes" }
+      { "name": "The Two Colour Jobs Rule", "body": "The theme accent means \"your song\"; category colours mean \"kind of word\". A category colour never marks app state, and the accent never codes a word type.", "section": "colors" },
+      { "name": "The Category Colours Hold Still Rule", "body": "The eight `--cat-*` values are identical in every theme. Theme blocks never redefine them.", "section": "colors" },
+      { "name": "The Every Theme Is AA Rule", "body": "ink, ink-2 and accent-text on sleeve and surface; on-accent on accent; on-panel, on-panel-2 and panel-accent on panel; white on every category colour: all at least 4.5:1 in every theme.", "section": "colors" },
+      { "name": "The Roles Not Values Rule", "body": "Components read semantic roles only. A theme is nothing but a block of role values; the one sanctioned literal is white text on a solid category colour.", "section": "colors" },
+      { "name": "The Sentence Case Rule", "body": "Labels, tabs and buttons are sentence case with no added tracking. Uppercase tracked lines are not part of this world.", "section": "typography" },
+      { "name": "The 800 Is For Names Rule", "body": "800 belongs to things with names: page titles, song titles, the headword, the wordmark, tile initials. Lyrics stay 450.", "section": "typography" },
+      { "name": "The Thumb Holds Still Rule", "body": "When a new word is finished, only the headword and chips change; category pills and the sheet height stay where the thumb left them.", "section": "layout" },
+      { "name": "The Soft Shadow Rule", "body": "Shadows are wide, low-opacity and theme-tinted. No hard offset shadows, no dark outlines to fake lift.", "section": "elevation" },
+      { "name": "The No Square Corners Rule", "body": "Nothing interactive or containing has a 0 radius; the only straight edges are 1px dividers.", "section": "shapes" }
     ],
     "dos": [
-      "Do read only semantic roles in components so all six printings stay correct.",
-      "Do mark exactly the active thing with the accent: selected tab underline, focus ring, track numeral, pinned state.",
-      "Do put suggestions, navigation and menus on the reversed ink slab, and everything else on the flat sleeve.",
-      "Do set titles and numerals at 800, lyrics at 400 with 1.8 leading, and controls in uppercase 700 at 0.07-0.08em.",
-      "Do keep every interactive row at least 44px tall and fields at 16px text.",
-      "Do separate with 1px or 1.5px rules; keep corners square.",
-      "Do give every new song view its two-digit accent track numeral from creation order.",
-      "Do honour reduced motion: the sheet, headword lift, loading run and control transitions all switch off."
+      "Do read only semantic roles so all six themes stay correct, and keep the eight category colours fixed across themes.",
+      "Do fill each song's header card with the theme accent and put white surfaces for writing and suggestions on the tinted ground.",
+      "Do colour suggestions by category: solid for the selected pill, 6-30% tints toward surface for chips, fading with match strength.",
+      "Do use pills for every control and 14-24px radii for containers.",
+      "Do set titles at 800 with -0.02em, labels and controls in sentence case at 650-700, lyrics at 450 with 1.85 leading.",
+      "Do keep tap targets at 44px (word chips, buttons, icon buttons, menu items, nav rows) and field text at 16px.",
+      "Do lift surfaces with the soft, theme-tinted shadows from the Elevation section.",
+      "Do honour reduced motion: the sheet, headword lift, chip press, loading run and control transitions all switch off."
     ],
     "donts": [
-      "Don't add drop shadows, glows or blur; distinguish floating surfaces with an ink edge instead.",
-      "Don't round corners or make pill chips; the radio mark is the only circle.",
-      "Don't use gradients as fills; they are allowed only to draw small shapes (chevron, knob) or fade an overflow edge.",
-      "Don't introduce a second accent or tint surfaces with the accent.",
-      "Don't add a second typeface or set lyrics in a heavy weight.",
-      "Don't set an uppercase tracked line above a heading as decoration; uppercase labels name controls and fields.",
-      "Don't let a content change move a tab, column or the panel height under the writer's thumb.",
-      "Don't wrap notes or settings groups in cards; use ruled rows."
+      "Don't use square corners, heavy rules or four-sided ink outlines.",
+      "Don't set labels, tabs or buttons in uppercase or add letter-spacing to them.",
+      "Don't use a category colour to mark app state, or the theme accent to code a word type.",
+      "Don't redefine `--cat-*` inside a theme block or add a theme that fails any AA pair.",
+      "Don't show suggestions as a plain word grid; they are tinted chips.",
+      "Don't use hard offset shadows or dark outlines for lift.",
+      "Don't add a second typeface; Raleway Variable is the only family.",
+      "Don't let a new lookup move the category pills or the sheet height under the writer's thumb."
     ]
   }
 }
