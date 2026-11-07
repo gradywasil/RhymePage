@@ -17,6 +17,9 @@
     "android:art": "node scripts/make-android-art.mjs",
     "test:firebase": "node scripts/test-firebase-emulators.mjs",
     "android:open": "cap open android",
+    "ios:sync": "npm run build:android && cap sync ios",
+    "ios:open": "cap open ios",
+    "ios:art": "node scripts/make-ios-art.mjs",
     "play:setup": "node scripts/play.mjs install",
     "play:check": "node scripts/play.mjs check",
     "play:upload": "node scripts/play.mjs internal",
@@ -27,6 +30,8 @@
   "dependencies": {
     "@capacitor/android": "8.5.3",
     "@capacitor/core": "8.5.3",
+    "@capacitor/ios": "^8.5.3",
+    "@capacitor/keyboard": "8.0.6",
     "@fontsource-variable/archivo": "^5.3.0",
     "@huggingface/transformers": "^4.2.0",
     "firebase": "^12.18.0",

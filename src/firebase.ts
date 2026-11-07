@@ -11,7 +11,7 @@ import {
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
-import { isAndroid } from "./utils/nativeApp";
+import { isNativeApp } from "./utils/nativeApp";
 
 const firebaseConfig = {
   apiKey: "AIzaSyArkjuqZMCEWfZ4iDXh32ims44svzP7yJU",
@@ -26,8 +26,10 @@ const firebaseConfig = {
 const app = initializeApp(import.meta.env.MODE === "android-emulator" ? {
   ...firebaseConfig, projectId: "demo-rhymepage", storageBucket: "demo-rhymepage.appspot.com", apiKey: "demo-rhymepage",
 } : firebaseConfig);
-export const analytics = isAndroid() ? null : getAnalytics(app);
-export const auth = isAndroid() ? initializeAuth(app, { persistence: indexedDBLocalPersistence }) : getAuth(app);
+// Inside the native webviews the browser-default auth helpers (popup/redirect
+// iframes, cookie-backed analytics) are unavailable, so both apps use IndexedDB.
+export const analytics = isNativeApp() ? null : getAnalytics(app);
+export const auth = isNativeApp() ? initializeAuth(app, { persistence: indexedDBLocalPersistence }) : getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const functions = getFunctions(app);

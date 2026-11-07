@@ -12,6 +12,10 @@ The web build and Android debug build passed after integration. All supplied fav
 
 The older notebook source and feature graphic below are preserved as historical candidates. The existing notebook feature graphic needs an RF09 replacement before store publication; it is not a matching current-brand asset.
 
+## iOS icon and launch splash (2026-11-07)
+
+`npm run ios:art` (`scripts/make-ios-art.mjs`, Sharp 0.35.5) derives `ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png` from the RF09 1024px icon, flattened onto the artwork's mint `#A4DFCC` because App Store icons must be opaque, and the three `Splash.imageset` images (2732px square, mint ground, RF09 artwork centred at 640px). No new artwork was generated; these are resized and composited copies of the owner-supplied kit.
+
 ## Historical notebook candidates
 
 Created with the built-in image-generation tool on 2026-10-26. These are release candidates, not user-approved store artwork. Original generated files are preserved in this directory. `npm run android:art` derives launcher densities, adaptive-icon foregrounds, legacy splash images, and the 512px Play icon using Sharp 0.35.5. The feature graphic is resized to 1024 x 500 without adding content.

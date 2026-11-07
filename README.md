@@ -27,7 +27,23 @@ npm run dev
 
 Vite prints the local URL. `npm run build` creates a production build in `dist`; `npm run preview` serves that build locally.
 
+## Design system
+
+The interface is built on in-house tokens and components, not a UI kit. `src/styles/tokens.css` defines six themes (Harbor, Lilac, Mint, Newsprint, Night, Forest) as semantic colour roles; `src/styles/components.css` holds the `rp-*` component classes; `src/theme/` holds the theme registry and provider. Settings > Appearance switches themes, and Auto follows the device. The design direction lives in `PRODUCT.md` and `.impeccable/surfaces/src-app-tsx.md`.
+
 ## Services and work in progress
+
+### iOS development
+
+The Capacitor iOS project is in `ios/` (bundle ID `com.rhymepage.app`, Swift Package Manager, iOS 15+). It ships the same mobile web build as Android.
+
+```sh
+npm install
+npm run ios:sync   # build the mobile web bundle and copy it into ios/
+npm run ios:open   # open the project in Xcode (macOS only)
+```
+
+Building and signing need a Mac with Xcode and an Apple Developer team selected under Signing & Capabilities. `npm run ios:art` regenerates the app icon and launch splash from the RF09 kit. On iOS, Google sign-in shows a "not available yet" message and email/password works; a native iOS Google credential bridge, LRC/JSON export through the share sheet, and recovery storage backed by native disk are still to do (the Android `RhymePage` plugin covers these on Android).
 
 ### Android development
 

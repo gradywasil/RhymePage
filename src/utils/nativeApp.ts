@@ -1,9 +1,12 @@
 import { Capacitor, registerPlugin, SystemBars, SystemBarsStyle, SystemBarType, type PluginListenerHandle } from "@capacitor/core";
 
 export const isAndroid = () => Capacitor.getPlatform() === "android";
+export const isIOS = () => Capacitor.getPlatform() === "ios";
+/** Running inside the Android or iOS app shell rather than a browser. */
+export const isNativeApp = () => Capacitor.isNativePlatform();
 
 export function updateSystemBarContrast() {
-  if (!isAndroid()) return;
+  if (!Capacitor.isNativePlatform()) return;
   const canvas = document.createElement("canvas");
   canvas.width = canvas.height = 1;
   const context = canvas.getContext("2d");
@@ -11,6 +14,8 @@ export function updateSystemBarContrast() {
   const styled = new Set<SystemBarType>();
   for (const [bar, selector] of [[SystemBarType.StatusBar, "[data-statusbar-surface]"], [SystemBarType.NavigationBar, ".app-tabbar:not([hidden])"], [SystemBarType.NavigationBar, ".app-frame"]] as const) {
     if (styled.has(bar)) continue;
+    // iOS has no navigation bar to style; only the status bar text follows the sleeve.
+    if (bar === SystemBarType.NavigationBar && !isAndroid()) continue;
     const surface = document.querySelector(selector) ?? (bar === SystemBarType.StatusBar ? document.querySelector(".app-frame") : null);
     if (!surface) continue;
     styled.add(bar);

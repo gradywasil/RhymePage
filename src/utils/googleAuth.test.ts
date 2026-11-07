@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import type { User } from "firebase/auth";
-const mocks = vi.hoisted(() => ({ android: false, token: vi.fn(), popup: vi.fn(), credential: vi.fn(), reauthPopup: vi.fn(), reauthCredential: vi.fn() }));
+const mocks = vi.hoisted(() => ({ android: false, ios: false, token: vi.fn(), popup: vi.fn(), credential: vi.fn(), reauthPopup: vi.fn(), reauthCredential: vi.fn() }));
 vi.mock("../firebase", () => ({ auth: "existing-auth", provider: "existing-provider" }));
-vi.mock("./nativeApp", () => ({ isAndroid: () => mocks.android, nativeApp: { getGoogleCredential: mocks.token } }));
+vi.mock("./nativeApp", () => ({ isAndroid: () => mocks.android, isIOS: () => mocks.ios, nativeApp: { getGoogleCredential: mocks.token } }));
 vi.mock("firebase/auth", () => ({
   GoogleAuthProvider: { credential: (token: string) => ({ token }) },
   signInWithPopup: mocks.popup, signInWithCredential: mocks.credential,
   reauthenticateWithPopup: mocks.reauthPopup, reauthenticateWithCredential: mocks.reauthCredential,
 }));
-import { reauthenticateWithGoogle, signInWithGoogle } from "./googleAuth";
+import { androidAuthError, reauthenticateWithGoogle, signInWithGoogle } from "./googleAuth";
 
 describe("Google identity handoff", () => {
-  beforeEach(() => { vi.clearAllMocks(); mocks.android = false; mocks.token.mockResolvedValue({ idToken: "test-id-token" }); });
+  beforeEach(() => { vi.clearAllMocks(); mocks.android = false; mocks.ios = false; mocks.token.mockResolvedValue({ idToken: "test-id-token" }); });
   it("preserves the web popup flow", async () => {
     await signInWithGoogle();
     expect(mocks.popup).toHaveBeenCalledWith("existing-auth", "existing-provider");
@@ -35,5 +35,14 @@ describe("Google identity handoff", () => {
     mocks.token.mockRejectedValue(new Error("cancelled"));
     await expect(signInWithGoogle()).rejects.toThrow("cancelled");
     expect(mocks.credential).not.toHaveBeenCalled();
+  });
+  it("refuses on iOS instead of opening a popup Google blocks in webviews", async () => {
+    mocks.ios = true;
+    const failure = signInWithGoogle();
+    await expect(failure).rejects.toMatchObject({ code: "auth/ios-google-unavailable" });
+    await expect(reauthenticateWithGoogle({ uid: "u" } as User)).rejects.toMatchObject({ code: "auth/ios-google-unavailable" });
+    expect(mocks.popup).not.toHaveBeenCalled();
+    expect(mocks.reauthPopup).not.toHaveBeenCalled();
+    expect(androidAuthError(await failure.catch((e) => e))).toMatch(/email and password/);
   });
 });

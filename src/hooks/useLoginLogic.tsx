@@ -11,7 +11,7 @@ import {
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { auth } from "../firebase";
 import { androidAuthError, signInWithGoogle } from "../utils/googleAuth";
-import { isAndroid } from "../utils/nativeApp";
+import { isNativeApp } from "../utils/nativeApp";
 import { publishProfile } from "../utils/profiles";
 import { toAppUser, type AppUser } from "../types/user";
 import type { User } from "firebase/auth";
@@ -84,7 +84,7 @@ const useLoginLogic = ({ setCurrentUser, loggedIn }: LoginProps) => {
   const applyPersistence = () =>
     setPersistence(
       auth,
-      rememberMe ? (isAndroid() ? indexedDBLocalPersistence : browserLocalPersistence) : browserSessionPersistence
+      rememberMe ? (isNativeApp() ? indexedDBLocalPersistence : browserLocalPersistence) : browserSessionPersistence
     );
 
   const handleLogin = async (e: FormEvent) => {
