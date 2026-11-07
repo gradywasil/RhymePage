@@ -18,9 +18,9 @@ export const SettingsSection = ({
   children,
 }: SettingsSectionProps) => (
   <section className="border-t border-rule pt-5 pb-7 first:border-t-0 first:pt-1 last:pb-0">
-    <h3 className={["text-[17px] font-bold", danger ? "text-danger" : ""].join(" ")}>
+    <h4 className={["text-[17px] font-bold", danger ? "text-danger" : ""].join(" ")}>
       {title}
-    </h3>
+    </h4>
     {description && <p className="rp-muted mt-1 text-[15px] leading-relaxed">{description}</p>}
     <div className="mt-4 flex flex-col gap-4">{children}</div>
   </section>

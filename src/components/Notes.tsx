@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { LuPlus } from "react-icons/lu";
+import { LuPin, LuPlus } from "react-icons/lu";
 import useNotesLogic from "../hooks/useNotesLogic";
 import NoteCard from "./NoteCard";
 import NoteManageDialog from "./NoteManageDialog";
@@ -48,6 +48,15 @@ const Notes = ({ currentUser }: NotesProps) => {
       </div>
     );
   }
+
+  // Pinned songs get their own shelf above the rest of your notes.
+  const pinnedNotes = tab === "mine" ? visibleNotes.filter((n) => n.isPinned) : [];
+  const shelves = pinnedNotes.length > 0
+    ? [
+        { key: "pinned", label: "Pinned", notes: pinnedNotes },
+        { key: "rest", label: "All songs", notes: visibleNotes.filter((n) => !n.isPinned) },
+      ].filter((shelf) => shelf.notes.length > 0)
+    : [{ key: "all", label: null as string | null, notes: visibleNotes }];
 
   const tabs = [
     { id: "mine" as const, label: "My notes", count: ownNotes.length },
@@ -117,19 +126,33 @@ const Notes = ({ currentUser }: NotesProps) => {
           )}
         </div>
       ) : (
-        <ol className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {visibleNotes.map((note) => (
-            <NoteCard
-              key={note.id}
-              note={note}
-              owned={tab === "mine"}
-              onTogglePin={togglePin}
-              onManage={setManaging}
-              onDelete={setPendingDelete}
-              owner={tab === "shared" ? owners[note.userId] : undefined}
-            />
+        <div className="mt-5 flex flex-col gap-7">
+          {shelves.map(({ key, label, notes }) => (
+            <section key={key} aria-label={label ?? undefined}>
+              {label && (
+                <h2 className="mb-3 flex items-center gap-2 text-[15px] font-bold">
+                  {key === "pinned" && <LuPin aria-hidden className="h-4 w-4 fill-current text-accent-text" />}
+                  {label}
+                  <span className="rp-muted font-semibold">{notes.length}</span>
+                </h2>
+              )}
+              {/* Square song cards: two across on a phone, more as the screen widens. */}
+              <ol className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                {notes.map((note) => (
+                  <NoteCard
+                    key={note.id}
+                    note={note}
+                    owned={tab === "mine"}
+                    onTogglePin={togglePin}
+                    onManage={setManaging}
+                    onDelete={setPendingDelete}
+                    owner={tab === "shared" ? owners[note.userId] : undefined}
+                  />
+                ))}
+              </ol>
+            </section>
           ))}
-        </ol>
+        </div>
       )}
 
       {managing && (

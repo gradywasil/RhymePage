@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import type { IconType } from "react-icons";
-import { LuLogIn, LuLogOut, LuNotebook, LuPenLine, LuSettings } from "react-icons/lu";
+import { LuLogIn, LuLogOut, LuNotebook, LuSettings, LuSquarePen } from "react-icons/lu";
 import type { AppUser } from "../../types/user";
 
 interface AppShellProps {
@@ -20,13 +20,13 @@ interface NavItem {
 const isEditor = (p: string) => p.startsWith("/notes/");
 
 const SIGNED_IN: NavItem[] = [
-  { to: "/notes/new", label: "Write", icon: LuPenLine, isActive: isEditor },
+  { to: "/notes/new", label: "Create", icon: LuSquarePen, isActive: isEditor },
   { to: "/notes", label: "Notebook", icon: LuNotebook, isActive: (p) => p === "/notes" },
   { to: "/settings", label: "Settings", icon: LuSettings, isActive: (p) => p.startsWith("/settings") || p.startsWith("/profile") },
 ];
 
 const GUEST: NavItem[] = [
-  { to: "/notes/new", label: "Write", icon: LuPenLine, isActive: isEditor },
+  { to: "/notes/new", label: "Create", icon: LuSquarePen, isActive: isEditor },
   { to: "/login", label: "Sign in", icon: LuLogIn, isActive: (p) => p === "/login" || p === "/register" },
 ];
 

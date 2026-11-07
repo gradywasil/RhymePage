@@ -177,7 +177,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
 
 
         {/* ---- Write / Sync / Play ---- */}
-        <div role="tablist" aria-label="Song view" className="rp-tabs mx-3 mt-3 flex-none md:mx-6">
+        <div role="tablist" aria-label="Song view" className="mx-3 mt-3 grid flex-none grid-cols-3 gap-1 rounded-full bg-sleeve-2 p-1 md:mx-6">
           {MODES.map(({ id, label }) => (
             <button
               key={id}
@@ -185,7 +185,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
               type="button"
               aria-selected={mode === id}
               onClick={() => setMode(id)}
-              className="rp-tab"
+              className="rp-tab justify-center bg-transparent aria-selected:bg-surface aria-selected:text-ink aria-selected:shadow-[0_1px_3px_rgb(var(--shadow)/0.18)]"
             >
               {label}
             </button>

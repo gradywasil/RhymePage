@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { LuCheck, LuChevronRight, LuLogOut } from "react-icons/lu";
+import { LuCheck, LuChevronDown, LuChevronRight, LuLogOut } from "react-icons/lu";
 import {
   DEFAULT_RHYME_SETTINGS,
   coerceSettings,
@@ -89,80 +89,137 @@ const Swatch = ({ option, selected }: { option: ThemeOption; selected: boolean }
   );
 };
 
+/**
+ * Theme dropdown: the current theme's swatch and name on a single row that
+ * opens a list of every theme. Changes apply the moment one is picked.
+ */
 const ThemePicker = () => {
   const { choice, setChoice } = useTheme();
-  const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null);
+  const items = useRef<(HTMLButtonElement | null)[]>([]);
+  const current = THEME_OPTIONS.find((option) => option.id === choice) ?? THEME_OPTIONS[0];
+  const currentIndex = THEME_OPTIONS.indexOf(current);
 
-  // Radio-group keys: arrows move and select, Home/End jump to the ends.
-  const onKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+  useEffect(() => {
+    if (!open) return;
+    items.current[currentIndex]?.focus();
+    const onPointer = (event: PointerEvent) => {
+      if (!root.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    return () => document.removeEventListener("pointerdown", onPointer);
+  }, [open, currentIndex]);
+
+  const close = () => {
+    setOpen(false);
+    trigger.current?.focus();
+  };
+
+  const pick = (id: ThemeChoice) => {
+    setChoice(id);
+    close();
+  };
+
+  const onListKey = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
     const last = THEME_OPTIONS.length - 1;
-    let next: number;
+    const move = (to: number) => {
+      event.preventDefault();
+      items.current[to]?.focus();
+    };
     switch (event.key) {
-      case "ArrowRight":
-      case "ArrowDown":
-        next = index === last ? 0 : index + 1;
-        break;
-      case "ArrowLeft":
-      case "ArrowUp":
-        next = index === 0 ? last : index - 1;
-        break;
-      case "Home":
-        next = 0;
-        break;
-      case "End":
-        next = last;
-        break;
-      default:
-        return;
+      case "ArrowDown": return move(index === last ? 0 : index + 1);
+      case "ArrowUp": return move(index === 0 ? last : index - 1);
+      case "Home": return move(0);
+      case "End": return move(last);
+      case "Escape":
+      case "Tab":
+        event.preventDefault();
+        return close();
     }
-    event.preventDefault();
-    setChoice(THEME_OPTIONS[next].id);
-    buttons.current[next]?.focus();
   };
 
   return (
-    <div
-      role="radiogroup"
-      aria-label="Theme"
-      className="grid grid-cols-2 gap-2 md:grid-cols-4"
-    >
-      {THEME_OPTIONS.map((option, index) => {
-        const selected = choice === option.id;
-        return (
-          <button
-            key={option.id}
-            ref={(el) => {
-              buttons.current[index] = el;
-            }}
-            type="button"
-            role="radio"
-            aria-checked={selected}
-            tabIndex={selected ? 0 : -1}
-            onClick={() => setChoice(option.id)}
-            onKeyDown={(event) => onKeyDown(event, index)}
-            className="flex min-h-16 items-center gap-3 rounded-2xl px-2 py-2 text-left transition-colors hover:bg-sleeve-2"
-          >
-            <Swatch option={option} selected={selected} />
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-[15px] font-semibold">{option.label}</span>
-              {option.note && <span className="rp-muted block text-[13px]">{option.note}</span>}
-            </span>
-            {selected && <LuCheck aria-hidden className="h-5 w-5 flex-none" />}
-          </button>
-        );
-      })}
+    <div ref={root} className="relative">
+      <button
+        ref={trigger}
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={`Theme: ${current.label}`}
+        onClick={() => setOpen((value) => !value)}
+        onKeyDown={(event) => {
+          if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            setOpen(true);
+          }
+        }}
+        className="flex min-h-16 w-full items-center gap-3 rounded-2xl border-[1.5px] border-rule bg-surface px-3 py-2 text-left transition-colors hover:border-ink-2"
+      >
+        <Swatch option={current} selected={false} />
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[16px] font-bold">{current.label}</span>
+          {current.note && <span className="rp-muted block text-[13px]">{current.note}</span>}
+        </span>
+        <LuChevronDown aria-hidden className={`h-5 w-5 flex-none text-ink-2 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+
+      {open && (
+        <div role="listbox" aria-label="Theme" className="rp-menu absolute inset-x-0 top-full z-30 mt-2 max-h-[22rem] overflow-y-auto">
+          {THEME_OPTIONS.map((option, index) => {
+            const selected = option.id === choice;
+            return (
+              <button
+                key={option.id}
+                ref={(el) => {
+                  items.current[index] = el;
+                }}
+                type="button"
+                role="option"
+                aria-selected={selected}
+                onClick={() => pick(option.id)}
+                onKeyDown={(event) => onListKey(event, index)}
+                className="flex min-h-14 w-full items-center gap-3 rounded-xl px-2 py-1.5 text-left hover:bg-sleeve-2 focus-visible:bg-sleeve-2"
+              >
+                <Swatch option={option} selected={selected} />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate text-[15px] font-semibold">{option.label}</span>
+                  {option.note && <span className="rp-muted block text-[13px]">{option.note}</span>}
+                </span>
+                {selected && <LuCheck aria-hidden className="h-5 w-5 flex-none text-accent-text" />}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
 
 /* ---------- Page ---------- */
 
-const Section = ({ id, title, children }: { id: (typeof SECTION_IDS)[number]; title: string; children: ReactNode }) => (
-  <section id={`settings-${id}`} aria-labelledby={`settings-${id}-title`} className="rp-card mt-5 scroll-mt-4 p-5 first-of-type:mt-8 md:p-6">
-    <h2 id={`settings-${id}-title`} className="rp-title text-2xl">{title}</h2>
-    <div className="mt-4">{children}</div>
+/** A top-level group of settings: its own heading, then one or more cards. */
+const Group = ({ id, title, blurb, children }: { id: string; title: string; blurb: string; children: ReactNode }) => (
+  <section id={`settings-group-${id}`} aria-labelledby={`settings-group-${id}-title`} className="mt-10 scroll-mt-4 first-of-type:mt-6">
+    <h2 id={`settings-group-${id}-title`} className="rp-title text-[26px] md:text-[30px]">{title}</h2>
+    <p className="rp-muted mt-1 text-[15px]">{blurb}</p>
+    <div className="mt-4 flex flex-col gap-4">{children}</div>
   </section>
 );
+
+const Section = ({ id, title, children }: { id: (typeof SECTION_IDS)[number]; title: string; children: ReactNode }) => (
+  <section id={`settings-${id}`} aria-labelledby={`settings-${id}-title`} className="rp-card scroll-mt-4 p-5 md:p-6">
+    <h3 id={`settings-${id}-title`} className="text-lg font-bold">{title}</h3>
+    <div className="mt-3">{children}</div>
+  </section>
+);
+
+const GROUPS = [
+  { id: "engine", label: "Rhyme engine" },
+  { id: "profile", label: "Profile & account" },
+  { id: "app", label: "App" },
+] as const;
 
 const Settings = ({ currentUser, setCurrentUser, onLogout }: SettingsProps) => {
   const [settings, setSettings] = useState<RhymeSettings>(DEFAULT_RHYME_SETTINGS);
@@ -239,67 +296,75 @@ const Settings = ({ currentUser, setCurrentUser, onLogout }: SettingsProps) => {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 pt-5 pb-10 md:px-10 md:pt-10">
       <h1 className="rp-title text-[34px] md:text-[44px]">Settings</h1>
+      <nav aria-label="Settings sections" className="no-bar -mx-4 mt-4 flex gap-2 overflow-x-auto px-4">
+        {GROUPS.map(({ id, label }) => (
+          <a key={id} href={`#settings-group-${id}`} className="rp-tag !h-9 flex-none !px-4 !text-[14px] hover:text-ink">{label}</a>
+        ))}
+      </nav>
 
-      <Section id="profile" title="Profile">
-        <Link
-          to="/profile"
-          className="group -mx-2 flex min-h-16 items-center gap-4 rounded-2xl px-2 py-2 transition-colors hover:bg-sleeve-2"
-        >
-          <span className="flex h-12 w-12 flex-none items-center justify-center overflow-hidden rounded-full bg-accent text-[15px] font-bold text-on-accent">
-            {currentUser.photoURL ? (
-              <img src={currentUser.photoURL} alt="" className="h-full w-full object-cover" />
-            ) : (
-              initials(currentUser.displayName)
-            )}
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block truncate text-[17px] font-semibold">
-              {currentUser.displayName || "Your profile"}
+      <Group id="engine" title="Rhyme engine" blurb="What the suggestion sheet looks up when you finish a word.">
+        <Section id="suggestions" title="Suggestions">
+            <SettingsDashboard
+              settings={settings}
+              onToggle={toggle}
+              onEngineChange={setEngine}
+              onMaxChange={setMax}
+              onSave={handleSave}
+              status={status}
+            />
+        </Section>
+      </Group>
+
+      <Group id="profile" title="Profile & account" blurb="Who you are on RhymePage and how you sign in.">
+        <Section id="profile" title="Your profile">
+          <Link
+            to="/profile"
+            className="group -mx-2 flex min-h-16 items-center gap-4 rounded-2xl px-2 py-2 transition-colors hover:bg-sleeve-2"
+          >
+            <span className="flex h-12 w-12 flex-none items-center justify-center overflow-hidden rounded-full bg-accent text-[15px] font-bold text-on-accent">
+              {currentUser.photoURL ? (
+                <img src={currentUser.photoURL} alt="" className="h-full w-full object-cover" />
+              ) : (
+                initials(currentUser.displayName)
+              )}
             </span>
-            {currentUser.email && (
-              <span className="rp-muted block truncate text-[15px]">{currentUser.email}</span>
-            )}
-          </span>
-          <span className="rp-label hidden sm:inline">View profile</span>
-          <LuChevronRight aria-hidden className="h-5 w-5 flex-none text-ink-2 group-hover:text-ink" />
-        </Link>
-      </Section>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-[17px] font-semibold">
+                {currentUser.displayName || "Your profile"}
+              </span>
+              {currentUser.email && (
+                <span className="rp-muted block truncate text-[15px]">{currentUser.email}</span>
+              )}
+            </span>
+            <span className="rp-label hidden sm:inline">View profile</span>
+            <LuChevronRight aria-hidden className="h-5 w-5 flex-none text-ink-2 group-hover:text-ink" />
+          </Link>
+        </Section>
 
-      <Section id="appearance" title="Appearance">
-        <p className="rp-muted mb-4 text-[15px] leading-relaxed">
-          Choose how RhymePage looks on this device. Changes apply right away.
-        </p>
-        <ThemePicker />
-      </Section>
+        <Section id="account" title="Account">
+          <SettingsProfile currentUser={currentUser} setCurrentUser={setCurrentUser} />
+        </Section>
+      </Group>
 
-      <Section id="suggestions" title="Suggestions">
-        <SettingsDashboard
-          settings={settings}
-          onToggle={toggle}
-          onEngineChange={setEngine}
-          onMaxChange={setMax}
-          onSave={handleSave}
-          status={status}
-        />
-      </Section>
+      <Group id="app" title="App" blurb="How RhymePage looks on this device, and the fine print.">
+        <Section id="appearance" title="Theme">
+          <ThemePicker />
+        </Section>
 
-      <Section id="account" title="Account">
-        <SettingsProfile currentUser={currentUser} setCurrentUser={setCurrentUser} />
-      </Section>
-
-      <Section id="about" title="About">
-        <ul className="flex flex-col text-[15px]">
-          <li className="flex min-h-11 items-center">
-            <Link to="/privacy" className="rp-link">Privacy policy</Link>
-          </li>
-          <li className="flex min-h-11 items-center">
-            <Link to="/delete-account" className="rp-link">Delete account</Link>
-          </li>
-        </ul>
-        <button type="button" className="rp-btn rp-btn--line mt-6" onClick={onLogout}>
-          <LuLogOut aria-hidden /> Sign out
-        </button>
-      </Section>
+        <Section id="about" title="About">
+          <ul className="flex flex-col text-[15px]">
+            <li className="flex min-h-11 items-center">
+              <Link to="/privacy" className="rp-link">Privacy policy</Link>
+            </li>
+            <li className="flex min-h-11 items-center">
+              <Link to="/delete-account" className="rp-link">Delete account</Link>
+            </li>
+          </ul>
+          <button type="button" className="rp-btn rp-btn--line mt-6" onClick={onLogout}>
+            <LuLogOut aria-hidden /> Sign out
+          </button>
+        </Section>
+      </Group>
     </div>
   );
 };

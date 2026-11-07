@@ -27,9 +27,10 @@ function initialOf(title: string): string {
   return title.trim().charAt(0).toUpperCase();
 }
 
-function firstLine(lyrics: string): string {
-  const line = lyrics.split("\n").map((l) => l.trim()).find(Boolean);
-  return line ?? "Nothing written yet.";
+/** The first few lines of the lyric, for the card's preview. */
+function opening(lyrics: string): string {
+  const lines = lyrics.split("\n").map((l) => l.trim()).filter(Boolean);
+  return lines.length ? lines.slice(0, 3).join("\n") : "Nothing written yet.";
 }
 
 /**
@@ -57,68 +58,88 @@ const NoteCard = ({ note, owned, onTogglePin, onManage, onDelete, owner }: NoteC
     };
   }, [menuOpen]);
 
+  const pinned = owned && (note.isPinned ?? false);
+
   return (
-    <li className="rp-card group relative flex min-h-[80px] min-w-0 items-start gap-3.5 p-3.5 transition-shadow hover:shadow-[0_10px_28px_rgb(var(--shadow)/0.14)]">
+    <li
+      className={[
+        "group relative flex aspect-square min-w-0 flex-col rounded-[24px] p-3 transition-shadow md:p-4",
+        "shadow-[0_8px_24px_rgb(var(--shadow)/0.08),0_1px_2px_rgb(var(--shadow)/0.06)] hover:shadow-[0_10px_28px_rgb(var(--shadow)/0.16)]",
+        // Pinned songs wear the theme accent: a tinted card with an accent ring.
+        pinned ? "bg-accent-soft ring-2 ring-accent-text/45" : "bg-surface",
+      ].join(" ")}
+    >
       <Link
         to={`/notes/${note.id}`}
-        aria-label={`Open ${title}`}
+        aria-label={`Open ${title}${pinned ? ", pinned" : ""}`}
         className="absolute inset-0 rounded-[24px]"
       />
-      <span
-        aria-hidden
-        className="pointer-events-none relative flex h-12 w-12 flex-none items-center justify-center rounded-2xl text-xl font-extrabold text-white"
-        style={{ background: `var(--cat-${colourFor(note.id)})` }}
-      >
-        {initialOf(title)}
-      </span>
 
-      <div className="pointer-events-none relative min-w-0 flex-1">
-        <h3 className="truncate text-[17px] font-bold leading-snug">{title}</h3>
-        <p className="rp-muted mt-0.5 truncate text-sm">{firstLine(note.lyrics ?? "")}</p>
-        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-2">
-          {owner && <span>Shared by {owner.displayName || "a RhymePage user"}</span>}
-          {!owned && !owner && <span>Shared with you</span>}
-          {note.tags?.slice(0, 4).map((tag) => <span key={tag} className="rounded-full bg-sleeve-2 px-2 py-0.5 font-semibold">#{tag}</span>)}
-          {owned && shareCount > 0 && <span>Shared with {shareCount}</span>}
-        </div>
+      <div className="pointer-events-none relative flex items-start gap-1">
+        <span
+          aria-hidden
+          className="flex h-10 w-10 flex-none items-center justify-center rounded-xl text-lg font-extrabold text-white md:h-11 md:w-11"
+          style={{ background: `var(--cat-${colourFor(note.id)})` }}
+        >
+          {initialOf(title)}
+        </span>
+
+        {owned && (
+          <div className="pointer-events-auto relative ml-auto flex items-center" ref={menuRef}>
+            <button
+              type="button"
+              aria-label={pinned ? `Unpin ${title}` : `Pin ${title}`}
+              aria-pressed={pinned}
+              className={[
+                "rp-icon-btn !h-10 !w-10",
+                pinned
+                  ? "text-accent-text"
+                  : "text-ink-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 [@media(pointer:coarse)]:opacity-100",
+              ].join(" ")}
+              onClick={() => onTogglePin(note.id, note.isPinned ?? false)}
+            >
+              <LuPin aria-hidden className={pinned ? "fill-current" : ""} />
+            </button>
+            <button
+              type="button"
+              aria-label={`More for ${title}`}
+              aria-haspopup="menu"
+              aria-expanded={menuOpen}
+              className="rp-icon-btn !h-10 !w-10 text-ink-2"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <LuEllipsis aria-hidden />
+            </button>
+            {menuOpen && (
+              <div role="menu" className="rp-menu absolute top-full right-0 z-30">
+                <button role="menuitem" type="button" className="rp-menu-item" onClick={() => { setMenuOpen(false); onManage(note); }}>
+                  <LuTag aria-hidden /> Tags &amp; sharing
+                </button>
+                <button role="menuitem" type="button" className="rp-menu-item" onClick={() => { setMenuOpen(false); onTogglePin(note.id, note.isPinned ?? false); }}>
+                  {pinned ? <LuPinOff aria-hidden /> : <LuPin aria-hidden />} {pinned ? "Unpin" : "Pin to top"}
+                </button>
+                <button role="menuitem" type="button" className="rp-menu-item rp-menu-item--danger" onClick={() => { setMenuOpen(false); onDelete(note); }}>
+                  <LuTrash2 aria-hidden /> Delete
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
-      {owned && (
-        <div className="relative flex flex-none items-center" ref={menuRef}>
-          <button
-            type="button"
-            aria-label={note.isPinned ? `Unpin ${title}` : `Pin ${title}`}
-            aria-pressed={note.isPinned ?? false}
-            className={`rp-icon-btn ${note.isPinned ? "text-accent-text" : "text-ink-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 [@media(pointer:coarse)]:opacity-100"}`}
-            onClick={() => onTogglePin(note.id, note.isPinned ?? false)}
-          >
-            {note.isPinned ? <LuPin aria-hidden className="fill-current" /> : <LuPin aria-hidden />}
-          </button>
-          <button
-            type="button"
-            aria-label={`More for ${title}`}
-            aria-haspopup="menu"
-            aria-expanded={menuOpen}
-            className="rp-icon-btn text-ink-2"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <LuEllipsis aria-hidden />
-          </button>
-          {menuOpen && (
-            <div role="menu" className="rp-menu absolute top-full right-0 z-30">
-              <button role="menuitem" type="button" className="rp-menu-item" onClick={() => { setMenuOpen(false); onManage(note); }}>
-                <LuTag aria-hidden /> Tags &amp; sharing
-              </button>
-              <button role="menuitem" type="button" className="rp-menu-item" onClick={() => { setMenuOpen(false); onTogglePin(note.id, note.isPinned ?? false); }}>
-                {note.isPinned ? <LuPinOff aria-hidden /> : <LuPin aria-hidden />} {note.isPinned ? "Unpin" : "Pin to top"}
-              </button>
-              <button role="menuitem" type="button" className="rp-menu-item rp-menu-item--danger" onClick={() => { setMenuOpen(false); onDelete(note); }}>
-                <LuTrash2 aria-hidden /> Delete
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+      <h3 className="pointer-events-none relative mt-3 line-clamp-2 text-[16px] font-bold leading-snug md:text-[17px]">{title}</h3>
+      <p className="rp-muted pointer-events-none relative mt-1 line-clamp-3 min-h-0 text-[13px] leading-snug whitespace-pre-line md:text-sm">
+        {opening(note.lyrics ?? "")}
+      </p>
+
+      <div className="pointer-events-none relative mt-auto flex flex-wrap items-center gap-1 pt-2 text-xs text-ink-2">
+        {owner && <span className="truncate">by {owner.displayName || "a RhymePage user"}</span>}
+        {!owned && !owner && <span>Shared with you</span>}
+        {note.tags?.slice(0, 2).map((tag) => (
+          <span key={tag} className={`max-w-full truncate rounded-full px-2 py-0.5 font-semibold ${pinned ? "bg-surface" : "bg-sleeve-2"}`}>#{tag}</span>
+        ))}
+        {owned && shareCount > 0 && <span>Shared with {shareCount}</span>}
+      </div>
     </li>
   );
 };
