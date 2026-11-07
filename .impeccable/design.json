@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-07T00:00:00Z",
+  "title": "Design System: RhymePage",
+  "extensions": {
+    "colorMeta": {
+      "sleeve": { "role": "neutral", "displayName": "Harbor Sleeve", "canonical": "#d3e4ee", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "sleeve-2": { "role": "neutral", "displayName": "Deeper Sleeve", "canonical": "#c3d8e5", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "ink": { "role": "neutral", "displayName": "Sleeve Ink", "canonical": "#10243a", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "ink-2": { "role": "neutral", "displayName": "Faded Ink", "canonical": "#3c5268", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "rule": { "role": "neutral", "displayName": "Sleeve Rule", "canonical": "#9db7c9", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "accent": { "role": "primary", "displayName": "Printed Vermilion", "canonical": "#a8321c", "tonalRamp": ["oklch(15% 0.066 33)", "oklch(26% 0.091 33)", "oklch(37% 0.117 33)", "oklch(48% 0.142 33)", "oklch(59% 0.149 33)", "oklch(70% 0.123 33)", "oklch(82% 0.096 33)", "oklch(95% 0.066 33)"] },
+      "on-accent": { "role": "neutral", "displayName": "Accent Reversal", "canonical": "#ffffff" },
+      "panel": { "role": "neutral", "displayName": "Ink Slab", "canonical": "#10243a", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "panel-2": { "role": "neutral", "displayName": "Slab Step", "canonical": "#1a3049", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "on-panel": { "role": "neutral", "displayName": "Reversed Sleeve", "canonical": "#e3eef4", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "on-panel-2": { "role": "neutral", "displayName": "Reversed Faded", "canonical": "#a9c0d0", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "panel-rule": { "role": "neutral", "displayName": "Slab Rule", "canonical": "#2a4058", "tonalRamp": ["#10243a", "#1a3049", "#2a4058", "#3c5268", "#9db7c9", "#c3d8e5", "#d3e4ee", "#e3eef4"] },
+      "panel-accent": { "role": "primary", "displayName": "Panel Coral", "canonical": "#f08a6e", "tonalRamp": ["oklch(15% 0.055 36)", "oklch(26% 0.076 36)", "oklch(37% 0.097 36)", "oklch(48% 0.118 36)", "oklch(59% 0.124 36)", "oklch(70% 0.103 36)", "oklch(82% 0.080 36)", "oklch(95% 0.055 36)"] },
+      "danger": { "role": "status", "displayName": "Proof Red", "canonical": "#a8281a", "tonalRamp": ["oklch(15% 0.070 30)", "oklch(26% 0.096 30)", "oklch(37% 0.123 30)", "oklch(48% 0.150 30)", "oklch(59% 0.157 30)", "oklch(70% 0.130 30)", "oklch(82% 0.101 30)", "oklch(95% 0.070 30)"] },
+      "ok": { "role": "status", "displayName": "Press Green", "canonical": "#1d6b45", "tonalRamp": ["oklch(15% 0.041 158)", "oklch(26% 0.056 158)", "oklch(37% 0.072 158)", "oklch(48% 0.087 158)", "oklch(59% 0.092 158)", "oklch(70% 0.076 158)", "oklch(82% 0.059 158)", "oklch(95% 0.041 158)"] }
+    },
+    "themes": {
+      "note": "Six printings of the same roles, from src/styles/tokens.css. Frontmatter colors are Harbor (the default and the light 'auto' choice); 'auto' resolves to Night when the device is dark.",
+      "harbor": { "dark": false, "sleeve": "#d3e4ee", "sleeve-2": "#c3d8e5", "ink": "#10243a", "ink-2": "#3c5268", "rule": "#9db7c9", "accent": "#a8321c", "on-accent": "#ffffff", "panel": "#10243a", "panel-2": "#1a3049", "on-panel": "#e3eef4", "on-panel-2": "#a9c0d0", "panel-rule": "#2a4058", "panel-accent": "#f08a6e", "danger": "#a8281a", "ok": "#1d6b45" },
+      "lilac": { "dark": false, "sleeve": "#e6dff3", "sleeve-2": "#d9cfec", "ink": "#1e1631", "ink-2": "#4c4262", "rule": "#b9acd3", "accent": "#9b2c5a", "on-accent": "#ffffff", "panel": "#1e1631", "panel-2": "#2a2140", "on-panel": "#ede7f7", "on-panel-2": "#beb2d6", "panel-rule": "#362b4e", "panel-accent": "#f59ab9", "danger": "#a3242c", "ok": "#1d6b45" },
+      "mint": { "dark": false, "sleeve": "#d3ece2", "sleeve-2": "#c1e2d5", "ink": "#0e2a21", "ink-2": "#355247", "rule": "#98c3b2", "accent": "#a63a16", "on-accent": "#ffffff", "panel": "#0e2a21", "panel-2": "#17372c", "on-panel": "#e2f2eb", "on-panel-2": "#a3c9ba", "panel-rule": "#24453a", "panel-accent": "#f6a178", "danger": "#a3241c", "ok": "#17643f" },
+      "newsprint": { "dark": false, "sleeve": "#eaeae6", "sleeve-2": "#dededa", "ink": "#161616", "ink-2": "#4a4a47", "rule": "#bdbdb7", "accent": "#b0261c", "on-accent": "#ffffff", "panel": "#161616", "panel-2": "#222221", "on-panel": "#ededea", "on-panel-2": "#b3b3ae", "panel-rule": "#2e2e2c", "panel-accent": "#ff8a70", "danger": "#a8231a", "ok": "#1d6b45" },
+      "night": { "dark": true, "sleeve": "#1c1a17", "sleeve-2": "#26231f", "ink": "#ede6da", "ink-2": "#b5ac9e", "rule": "#3d3832", "accent": "#f0875f", "on-accent": "#1c1a17", "panel": "#0f0e0c", "panel-2": "#1a1815", "on-panel": "#ede6da", "on-panel-2": "#ada496", "panel-rule": "#2a2723", "panel-accent": "#f0875f", "danger": "#ff8f7d", "ok": "#7fd1a3" },
+      "forest": { "dark": true, "sleeve": "#17251e", "sleeve-2": "#1f3128", "ink": "#e6efe8", "ink-2": "#a8bdb0", "rule": "#33493d", "accent": "#e9b44c", "on-accent": "#17251e", "panel": "#0d1712", "panel-2": "#15221b", "on-panel": "#e6efe8", "on-panel-2": "#9db3a6", "panel-rule": "#24362c", "panel-accent": "#e9b44c", "danger": "#ff9a86", "ok": "#8fd4a8" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Landing hero title beside its numeral; 42px on phone, 76px desktop, max 15ch." },
+      "headline": { "displayName": "Headline", "purpose": "Page titles; 34px on phone, 44px desktop." },
+      "title": { "displayName": "Title", "purpose": "Song title in the editor as a bare input; 28px on phone, 34px desktop." },
+      "numeral": { "displayName": "Track Numeral", "purpose": "Two-digit accent track number in creation order; 26px in the notebook, 34/42px in the editor." },
+      "headword": { "displayName": "Headword", "purpose": "The finished word heading the suggestion panel; also the wordmark." },
+      "lyric": { "displayName": "Lyric", "purpose": "The writing surface; 18px phone, 19px desktop, 1.8 leading, max 48rem." },
+      "row-title": { "displayName": "Row Title", "purpose": "Notebook track titles and suggested words (weight-ranked)." },
+      "body": { "displayName": "Body", "purpose": "Running text and fields (16px prevents iOS zoom)." },
+      "body-sm": { "displayName": "Body Small", "purpose": "Menu items, nav items, secondary copy." },
+      "credit": { "displayName": "Credit", "purpose": "The credit line under a title: author and themes." },
+      "control": { "displayName": "Control", "purpose": "Uppercase tracked buttons and tabs; 12px in small buttons and the desktop category index." },
+      "label": { "displayName": "Label", "purpose": "Uppercase tracked field labels and in-dialog section names. Never a decorative line above a heading." }
+    },
+    "shadows": [
+      { "name": "rule-tab-selected", "value": "inset 0 -3px 0 var(--accent)", "purpose": "Selected tab underline (panel-accent inside the slab). A printed rule, not elevation." },
+      { "name": "rule-field-focus", "value": "inset 0 -1.5px 0 var(--accent)", "purpose": "Thickens a focused field's bottom rule to 3px." },
+      { "name": "mark-checked", "value": "inset 0 0 0 3px var(--sleeve)", "purpose": "Leaves a sleeve gap inside a checked box or radio." }
+    ],
+    "motion": [
+      { "name": "state", "value": "120ms ease-out", "purpose": "Colour, border and underline changes on buttons, tabs, fields and checks." },
+      { "name": "switch", "value": "160ms cubic-bezier(0.2, 0.8, 0.2, 1)", "purpose": "Switch knob travel." },
+      { "name": "sheet", "value": "260ms cubic-bezier(0.32, 0.72, 0, 1)", "purpose": "Suggestion sheet height between peek, half and full (phone only)." },
+      { "name": "headword-in", "value": "260ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Headword lifts 0.3em and fades from 45% opacity when a new word is finished." },
+      { "name": "loading-run", "value": "1.1s cubic-bezier(0.65, 0, 0.35, 1) infinite", "purpose": "Ink segment running along the loading rule." },
+      { "name": "reduced-motion", "value": "none", "purpose": "All of the above switch off under prefers-reduced-motion." }
+    ],
+    "breakpoints": [
+      { "name": "narrow", "value": "359px", "purpose": "At or below: word grid drops to two columns." },
+      { "name": "sm", "value": "640px", "purpose": "Below: dialogs become bottom sheets." },
+      { "name": "md", "value": "768px", "purpose": "Ink rail replaces the tab bar; suggestion sheet docks right (320px)." },
+      { "name": "lg", "value": "1024px", "purpose": "Rail 240px, dock 416px, categories as a two-column index." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ink Button",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Default primary action: ink fill, sleeve text, uppercase, square.",
+      "html": "<button class=\"ds-btn ds-btn-ink\">Sign in to save</button>",
+      "css": ".ds-btn { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; border: 1.5px solid transparent; border-radius: 0; font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); font-size: 13px; font-weight: 700; letter-spacing: 0.07em; line-height: 1; text-transform: uppercase; white-space: nowrap; cursor: pointer; transition: background-color 120ms ease-out, color 120ms ease-out, border-color 120ms ease-out; } .ds-btn:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; } .ds-btn-ink { background: var(--ink, #10243a); color: var(--sleeve, #d3e4ee); } .ds-btn-ink:hover { background: var(--ink-2, #3c5268); }"
+    },
+    {
+      "name": "Accent Button",
+      "kind": "button",
+      "refersTo": "button-accent",
+      "description": "The single most important call on a screen; reverses to ink on hover.",
+      "html": "<button class=\"ds-btn-accent\">Start writing</button>",
+      "css": ".ds-btn-accent { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 0 18px; border: 1.5px solid transparent; border-radius: 0; background: var(--accent, #a8321c); color: var(--on-accent, #ffffff); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); font-size: 13px; font-weight: 700; letter-spacing: 0.07em; line-height: 1; text-transform: uppercase; cursor: pointer; transition: background-color 120ms ease-out, color 120ms ease-out; } .ds-btn-accent:hover { background: var(--ink, #10243a); color: var(--sleeve, #d3e4ee); } .ds-btn-accent:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Line Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Secondary action: 1.5px ink outline, sleeve-2 wash on hover.",
+      "html": "<button class=\"ds-btn-line\">Use notebook version</button>",
+      "css": ".ds-btn-line { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; padding: 0 18px; border: 1.5px solid var(--ink, #10243a); border-radius: 0; background: transparent; color: var(--ink, #10243a); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); font-size: 13px; font-weight: 700; letter-spacing: 0.07em; line-height: 1; text-transform: uppercase; cursor: pointer; transition: background-color 120ms ease-out; } .ds-btn-line:hover { background: var(--sleeve-2, #c3d8e5); } .ds-btn-line:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Sleeve-2 fill with a 1.5px ink bottom rule; focus turns the rule accent and thickens it.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-label\">Email</span><input class=\"ds-input\" type=\"email\" placeholder=\"you@example.com\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); } .ds-label { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; line-height: 1.3; text-transform: uppercase; color: var(--ink-2, #3c5268); } .ds-input { width: 100%; min-height: 44px; padding: 10px 12px; border: 0; border-bottom: 1.5px solid var(--ink, #10243a); border-radius: 0; background: var(--sleeve-2, #c3d8e5); color: var(--ink, #10243a); caret-color: var(--accent, #a8321c); font: inherit; font-size: 16px; line-height: 1.4; outline: none; transition: border-color 120ms ease-out, box-shadow 120ms ease-out; } .ds-input::placeholder { color: var(--ink-2, #3c5268); opacity: 1; } .ds-input:focus { border-bottom-color: var(--accent, #a8321c); box-shadow: inset 0 -1.5px 0 var(--accent, #a8321c); }"
+    },
+    {
+      "name": "Song View Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "Uppercase tabs on a 1.5px ink rule; the selected tab carries a 3px accent underline.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Write</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Sync</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Play</button></div>",
+      "css": ".ds-tabs { display: flex; gap: 20px; border-bottom: 1.5px solid var(--ink, #10243a); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); } .ds-tab { display: inline-flex; min-height: 44px; align-items: center; padding: 0; border: 0; background: none; font-size: 13px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-2, #3c5268); cursor: pointer; transition: color 120ms ease-out, box-shadow 120ms ease-out; } .ds-tab:hover { color: var(--ink, #10243a); } .ds-tab[aria-selected=\"true\"] { color: var(--ink, #10243a); box-shadow: inset 0 -3px 0 var(--accent, #a8321c); } .ds-tab:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Tag",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Square outlined tag; pressed reverses to ink. Never a pill.",
+      "html": "<button class=\"ds-tag\" aria-pressed=\"true\">winter</button> <button class=\"ds-tag\" aria-pressed=\"false\">city</button>",
+      "css": ".ds-tag { display: inline-flex; height: 26px; align-items: center; padding: 0 8px; border: 1px solid currentColor; border-radius: 0; background: transparent; font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); font-size: 12px; font-weight: 600; color: var(--ink-2, #3c5268); cursor: pointer; } .ds-tag[aria-pressed=\"true\"] { background: var(--ink, #10243a); border-color: var(--ink, #10243a); color: var(--sleeve, #d3e4ee); } .ds-tag:focus-visible { outline: 2px solid var(--accent, #a8321c); outline-offset: 2px; }"
+    },
+    {
+      "name": "Track Row",
+      "kind": "card",
+      "refersTo": "track-row",
+      "description": "A notebook entry as a ruled tracklist row: accent numeral, bold title, first line, credits.",
+      "html": "<ul class=\"ds-tracks\"><li class=\"ds-track\"><span class=\"ds-num\">01</span><div><h3 class=\"ds-track-title\">Night Bus</h3><p class=\"ds-track-line\">Streetlights counting down the blocks</p><p class=\"ds-track-credit\"><b>#city</b> <b>#winter</b></p></div></li><li class=\"ds-track\"><span class=\"ds-num\">02</span><div><h3 class=\"ds-track-title\">Harbour Lights</h3><p class=\"ds-track-line\">Nothing written yet.</p></div></li></ul>",
+      "css": ".ds-tracks { list-style: none; margin: 0; padding: 0; font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); color: var(--ink, #10243a); } .ds-track { display: flex; align-items: flex-start; gap: 16px; min-height: 76px; padding: 12px 4px 12px 0; border-bottom: 1px solid var(--rule, #9db7c9); cursor: pointer; transition: background-color 120ms ease-out; } .ds-track:hover { background: color-mix(in srgb, var(--sleeve-2, #c3d8e5) 60%, transparent); } .ds-num { width: 36px; flex: none; padding-top: 2px; text-align: right; font-size: 26px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent, #a8321c); } .ds-track-title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.375; } .ds-track-line { margin: 2px 0 0; font-size: 14px; color: var(--ink-2, #3c5268); } .ds-track-credit { margin: 6px 0 0; font-size: 12px; color: var(--ink-2, #3c5268); }"
+    },
+    {
+      "name": "Suggestion Panel",
+      "kind": "custom",
+      "refersTo": "suggestion-panel",
+      "description": "The reversed ink slab: headword, uppercase category tabs with counts, weight-ranked word rows in fixed columns.",
+      "html": "<aside class=\"ds-panel\"><p class=\"ds-headword\">tonight</p><div class=\"ds-ptabs\"><button class=\"ds-ptab\" aria-selected=\"true\">Rhymes <span>25</span></button><button class=\"ds-ptab\" aria-selected=\"false\">Sound-alikes <span>25</span></button></div><div class=\"ds-words\"><button class=\"ds-word ds-w0\">daylight</button><button class=\"ds-word ds-w0\">night</button><button class=\"ds-word ds-w0\">fortnight</button><button class=\"ds-word ds-w1\">midnight</button><button class=\"ds-word ds-w1\">sunlight</button><button class=\"ds-word ds-w1\">satellite</button><button class=\"ds-word ds-w2\">rite</button><button class=\"ds-word ds-w2\">sight</button><button class=\"ds-word ds-w2\">white</button></div></aside>",
+      "css": ".ds-panel { background: var(--panel, #10243a); color: var(--on-panel, #e3eef4); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); padding-bottom: 4px; } .ds-headword { margin: 0; padding: 10px 16px; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; animation: ds-head-in 260ms cubic-bezier(0.16, 1, 0.3, 1); } @keyframes ds-head-in { from { opacity: 0.45; transform: translateY(0.3em); } to { opacity: 1; transform: none; } } .ds-ptabs { display: flex; gap: 20px; padding: 0 16px; border-bottom: 1.5px solid var(--panel-rule, #2a4058); } .ds-ptab { display: inline-flex; gap: 6px; min-height: 44px; align-items: center; padding: 0; border: 0; background: none; font: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--on-panel-2, #a9c0d0); cursor: pointer; transition: color 120ms ease-out; } .ds-ptab span { font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; } .ds-ptab:hover { color: var(--on-panel, #e3eef4); } .ds-ptab[aria-selected=\"true\"] { color: var(--on-panel, #e3eef4); box-shadow: inset 0 -3px 0 var(--panel-accent, #f08a6e); } .ds-words { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding-top: 4px; } .ds-word { display: flex; min-height: 44px; align-items: center; padding: 0 12px; border: 0; background: none; font: inherit; font-size: 17px; line-height: 1.25; text-align: left; color: var(--on-panel, #e3eef4); cursor: pointer; transition: background-color 120ms ease-out; } .ds-word:hover { background: var(--panel-2, #1a3049); } .ds-word:focus-visible, .ds-ptab:focus-visible { outline: 2px solid var(--panel-accent, #f08a6e); outline-offset: 2px; } .ds-w0 { font-weight: 700; } .ds-w1 { font-weight: 500; } .ds-w2 { font-weight: 400; color: var(--on-panel-2, #a9c0d0); } @media (prefers-reduced-motion: reduce) { .ds-headword { animation: none; } }"
+    },
+    {
+      "name": "Phone Tab Bar",
+      "kind": "nav",
+      "refersTo": "tab-bar",
+      "description": "Ink slab bottom navigation; active item on-panel with a panel-accent icon.",
+      "html": "<nav class=\"ds-tabbar\"><a class=\"ds-tabbar-item\" aria-current=\"page\" href=\"#\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z\"/></svg>Write</a><a class=\"ds-tabbar-item\" href=\"#\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 19.5A2.5 2.5 0 0 1 6.5 17H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15Z\"/></svg>Notebook</a></nav>",
+      "css": ".ds-tabbar { display: grid; grid-template-columns: repeat(2, 1fr); background: var(--panel, #10243a); border-top: 1px solid var(--panel-rule, #2a4058); font-family: var(--font-sans, 'Archivo', system-ui, sans-serif); } .ds-tabbar-item { display: flex; height: 58px; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 600; color: var(--on-panel-2, #a9c0d0); text-decoration: none; } .ds-tabbar-item svg { width: 22px; height: 22px; } .ds-tabbar-item[aria-current=\"page\"] { color: var(--on-panel, #e3eef4); } .ds-tabbar-item[aria-current=\"page\"] svg { color: var(--panel-accent, #f08a6e); } .ds-tabbar-item:hover { color: var(--on-panel, #e3eef4); } .ds-tabbar-item:focus-visible { outline: 2px solid var(--panel-accent, #f08a6e); outline-offset: -2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Inner Sleeve",
+    "overview": "Every song is a track printed on an album's inner sleeve: a track number, a bold title, a small credit line, then the lyric. The ground is one flat sleeve colour, the type is sleeve ink, and a single printed accent marks whatever is active. The suggestion panel, the tab bar, the desktop rail and the menus are a solid slab of ink with sleeve-coloured type reversed out of it. Nothing floats; structure comes from printed rules and that one reversal.\n\nThe system is quiet so the writer's words carry the page. Lyrics sit in calm regular-weight text at a generous 1.8 leading; chrome speaks in small uppercase tracked labels; only titles and track numerals are set heavy. Density is phone-first: 44px touch rows everywhere, a 16px page gutter, and the same layout grows into a rail-editor-dock arrangement on desktop rather than being restyled.\n\nA theme is a different printing of the same sleeve. Six printings ship (Harbor, Lilac, Mint, Newsprint, Night, Forest); components only ever read the semantic roles, so every theme re-colours the same rules, slab and accent. The build rejects the grey-chrome notes app with a blue accent and pill chips.",
+    "keyCharacteristics": [
+      "Flat sleeve ground, sleeve ink, one printed accent per printing.",
+      "A reversed ink slab for the suggestion panel, tab bar, desktop rail and menus.",
+      "Archivo throughout: 800 for titles and numerals, uppercase tracked 700 for controls and labels, 400 for lyrics.",
+      "Rules instead of boxes; square corners; no cast shadows.",
+      "Accent track numerals (two digits, zero-padded, creation order) anchor every song.",
+      "44px minimum touch target on every interactive row."
+    ],
+    "rules": [
+      { "name": "The One Printed Accent Rule", "body": "A printing has exactly one accent (plus its slab reprint). It marks state and the track numeral; it is never a decorative fill, background tint or second brand colour.", "section": "colors" },
+      { "name": "The Every Printing Is AA Rule", "body": "ink, ink-2 and accent against sleeve, and on-panel, on-panel-2 and panel-accent against panel, are each at least 4.5:1 in every theme. A new printing ships only when all six pairs pass.", "section": "colors" },
+      { "name": "The Roles Not Values Rule", "body": "Components read semantic roles (`--sleeve`, `--ink`, `--panel`...) only. A hex inside a component is a bug; a theme is nothing but a block of role values.", "section": "colors" },
+      { "name": "The Weight Carries Rank Rule", "body": "Size steps are few; rank is weight. 800 is reserved for titles, numerals, the headword and the wordmark; lyrics are always 400.", "section": "typography" },
+      { "name": "The Uppercase Means Control Rule", "body": "Uppercase tracked type labels a control or a field. It is not used as a decorative line above a heading.", "section": "typography" },
+      { "name": "The Thumb Holds Still Rule", "body": "Anything under the writer's thumb keeps its cell when content changes: tab positions, word columns, and the panel's height stay fixed; only the words swap.", "section": "layout" },
+      { "name": "The No Cast Shadow Rule", "body": "No outer or drop shadows, no glows, no blur at any state. Inset rules drawn with box-shadow are permitted because they are lines, not elevation.", "section": "elevation" },
+      { "name": "The Rules Not Boxes Rule", "body": "Group with a rule and space before reaching for a border on four sides. Four-sided borders are reserved for controls (outlined buttons, checks, switches, tags) and for the dialog and menu edges.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do read only semantic roles in components so all six printings stay correct.",
+      "Do mark exactly the active thing with the accent: selected tab underline, focus ring, track numeral, pinned state.",
+      "Do put suggestions, navigation and menus on the reversed ink slab, and everything else on the flat sleeve.",
+      "Do set titles and numerals at 800, lyrics at 400 with 1.8 leading, and controls in uppercase 700 at 0.07-0.08em.",
+      "Do keep every interactive row at least 44px tall and fields at 16px text.",
+      "Do separate with 1px or 1.5px rules; keep corners square.",
+      "Do give every new song view its two-digit accent track numeral from creation order.",
+      "Do honour reduced motion: the sheet, headword lift, loading run and control transitions all switch off."
+    ],
+    "donts": [
+      "Don't add drop shadows, glows or blur; distinguish floating surfaces with an ink edge instead.",
+      "Don't round corners or make pill chips; the radio mark is the only circle.",
+      "Don't use gradients as fills; they are allowed only to draw small shapes (chevron, knob) or fade an overflow edge.",
+      "Don't introduce a second accent or tint surfaces with the accent.",
+      "Don't add a second typeface or set lyrics in a heavy weight.",
+      "Don't set an uppercase tracked line above a heading as decoration; uppercase labels name controls and fields.",
+      "Don't let a content change move a tab, column or the panel height under the writer's thumb.",
+      "Don't wrap notes or settings groups in cards; use ruled rows."
+    ]
+  }
+}
