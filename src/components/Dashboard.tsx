@@ -95,7 +95,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
               <LuChevronLeft aria-hidden /> Notebook
             </Link>
           ) : (
-            <span className="rp-label px-2">Demo</span>
+            <span className="rp-label hidden px-2 sm:inline">Demo</span>
           )}
           <p className={`ml-auto flex items-center gap-2 whitespace-nowrap text-xs font-bold uppercase tracking-[0.08em] ${markTone}`} title={fullMessage}>
             <span aria-hidden className={`h-[11px] w-[11px] flex-none border-[1.5px] border-current ${mark.filled ? "bg-current" : ""}`} />

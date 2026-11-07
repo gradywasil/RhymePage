@@ -57,7 +57,8 @@
   }
   .suggest[data-state] .suggest-words > * { width: 100%; }
   /* The dock is narrow and has no swipe affordance, so every category stays in view. */
-  .suggest .rp-tabs { flex-wrap: wrap; column-gap: 18px; overflow: visible; }
+  .suggest .rp-tabs { flex-wrap: wrap; gap: 0 18px; overflow: visible; padding-top: 2px; }
+  .suggest .rp-tab { min-height: 36px; }
 }
 
 /* The headword lifts into place as each new word is finished. */
