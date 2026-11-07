@@ -1,0 +1,19 @@
+[
+  {
+    "origin": [
+      "http://127.0.0.1:5173",
+      "http://localhost:5173",
+      "https://rhymepage.com",
+      "https://www.rhymepage.com"
+    ],
+    "method": ["GET", "HEAD"],
+    "responseHeader": [
+      "Content-Type",
+      "Content-Length",
+      "Content-Range",
+      "Accept-Ranges",
+      "Range"
+    ],
+    "maxAgeSeconds": 3600
+  }
+]

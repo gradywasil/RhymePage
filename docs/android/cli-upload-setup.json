@@ -1,0 +1,42 @@
+{
+  "recordedAt": "2026-10-27T03:10:20.777Z",
+  "fastlane": "2.241.2",
+  "ruby": "3.4.12",
+  "bundler": "2.6.9",
+  "rubyHome": "C:\\Users\\arran\\AppData\\Local\\AndroidReleaseTools\\ruby-3.4.12",
+  "rubyArchiveSHA256": "3806f164377824bcb17e1cf39b17d967e2bdc01e8547ce0254cd786dbe2cfe13",
+  "msysArchiveSHA256": "ea2f31a0b6ade63914ce441ffb022f0f6aa96982bfefa2326460a26d5fb01322",
+  "systemPathChanged": false,
+  "localDependencyInstallation": "passed",
+  "laneLoading": "passed",
+  "rubySyntax": "passed",
+  "nodeSyntax": "passed",
+  "missingCredentialGuard": "verified",
+  "playCredentialConfigured": false,
+  "playAuthenticationTested": false,
+  "playUploadAttempted": false,
+  "defaultTrack": "internal",
+  "defaultStatus": "draft",
+  "sources": [
+    {
+      "path": "Gemfile",
+      "sha256": "fb27f11a63706f4d6858221774d2878b5b8c7fcfcd253f95590299909a62c6a1"
+    },
+    {
+      "path": "Gemfile.lock",
+      "sha256": "8760563d0d820a52f4892b76c6ea5fae203c6a876e6a9d998887f57e58fdcb3f"
+    },
+    {
+      "path": "fastlane/Appfile",
+      "sha256": "bfcf0309183d5e56bb98375a431deaf3e0403ef1be09289453a7a810e9922f94"
+    },
+    {
+      "path": "fastlane/Fastfile",
+      "sha256": "297fc8d834f243e0dbc1bb1b859f399a707cfa23347972da5008165ec6543259"
+    },
+    {
+      "path": "scripts/play.mjs",
+      "sha256": "95b6515ee4d507962a9ac51a11c855dda0ea7365ebb58743692cd7ddebf540b8"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "recordedAt": "2026-10-27T02:57:06.713Z",
+  "aab": {
+    "path": "android/app/build/outputs/bundle/release/rhymepage-upload-v2.aab",
+    "applicationId": "com.rhymepage.app",
+    "versionCode": 2,
+    "versionName": "0.1.1",
+    "bytes": 5730701,
+    "sha256": "f260ccd18881a7f98870859b517c29dea9040e594997ffe97d6779aa558e9e2e",
+    "signing": "Same RSA 3072 upload certificate as version 1",
+    "debuggable": false,
+    "cleartextTraffic": false,
+    "microphonePermission": false,
+    "speechModelIncluded": false
+  },
+  "certificate": {
+    "sha1": "81c3a5e4715e8c5394832811268b4906c0884bb9",
+    "sha256": "d8bd45d866f772c654e3bd53d070e38ba31597012ca8bc5aaf595678ea077add"
+  },
+  "checks": {
+    "unitTests": 91,
+    "unitTestFiles": 14,
+    "eslint": "passed",
+    "typescript": "passed",
+    "bundleBuild": "passed",
+    "bundletoolValidation": "passed",
+    "jarSignature": "verified",
+    "manifest": "verified",
+    "releaseLintErrors": 0,
+    "releaseLintWarnings": 29,
+    "releaseRuntimeTested": false,
+    "playUploaded": false,
+    "playAccepted": false,
+    "physicalDeviceTested": false,
+    "sourceHashesUnchangedDuringBuild": true
+  },
+  "previousAab": {
+    "path": "node_modules/.cache/android-development/artifacts/rhymepage-upload-v1.aab",
+    "sha256": "48a6c478ca8a57130725b7f953e273fea27275db49dcdc1c547ebf876fd3fc58"
+  },
+  "secretHandling": "Private card file delivery, process-local signing inputs, temporary delivery file removed after build",
+  "sources": [
+    {
+      "path": "capacitor.config.ts",
+      "sha256": "1f2e4f2de69f67485d4aee4187fc5c8bcd1f8301d81f456a75f4b60f22fd1bbe"
+    },
+    {
+      "path": "android/app/build.gradle",
+      "sha256": "785e117b5566bf27c431a6926c601c9e38f5c80e1852c25d609c315c61f4ecbf"
+    },
+    {
+      "path": "android/app/google-services.json",
+      "sha256": "cecd3bcb014ef1e1351354f1d9f46f6c774d0e2d30ad6ccedda91e5f9da47057"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "sha256": "8744ca1c49341a58f06dc860ff780b2a913b3a0c3bea155ea1553f378165489f"
+    },
+    {
+      "path": "android/app/src/main/java/com/rhymepage/app/MainActivity.java",
+      "sha256": "77fff303710a1de4d392256edb665b33bc088a63750ab291be242f78540b88db"
+    },
+    {
+      "path": "android/app/src/main/java/com/rhymepage/app/RhymePagePlugin.java",
+      "sha256": "7aa81f836f52ffa28f42b89d49274c7ddd1f76ce0ccd8c3f1ab7e7d6f951272b"
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "15a7c3ad508b4d1882d217ff8e3d371e0ebff0f188a247dabe182f6d072d0a86"
+    },
+    {
+      "path": "src/components/Footer.tsx",
+      "sha256": "c2d52db0c91d641fa33e330ab72ae97ea58061d9946a2ba23e2bde6ad3189430"
+    },
+    {
+      "path": "src/components/Landing.tsx",
+      "sha256": "e5bfc57d1ea5a74caa13d03d5ab37864e9a32c3b37ea59c17be64a50a5eb3729"
+    },
+    {
+      "path": "src/components/Notes.tsx",
+      "sha256": "67e3fc814c3a4c4089efe1afb79d39ac02c032ad0fb6e01e3550633b359fa778"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "ebee78b16eea0516d95ffb476f1ef82a60beb91306e928621b6586ac2aec8821"
+    },
+    {
+      "path": "src/blocks/suggest.css",
+      "sha256": "f2466e334e7e50505f7e8ef3e69719a845c4d07d041618c85e16c497afb98880"
+    },
+    {
+      "path": "src/utils/nativeApp.ts",
+      "sha256": "7b327fa47893a109f79716704b1ed41aeaea22b7f7a1dc1f4cadf6278ce2ba99"
+    }
+  ]
+}

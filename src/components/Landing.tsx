@@ -226,7 +226,7 @@ const Landing = ({ loggedIn }: LandingProps) => {
   }, [animate]);
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-10 md:py-14">
+    <div className="mx-auto w-full max-w-6xl px-4 py-6 md:py-14">
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight md:text-5xl">
           Welcome to <span className="text-primary">Rhyme</span>
@@ -236,11 +236,11 @@ const Landing = ({ loggedIn }: LandingProps) => {
           An API-powered lyric notebook that writes your rhymes with you.
         </p>
 
-        <div className="mx-auto mt-6 w-fit max-w-full rounded-lg bg-secondary px-6 py-4 text-secondary-content">
+        <div className="mx-auto mt-4 min-w-64 w-fit max-w-full rounded-lg bg-secondary px-4 py-3 text-secondary-content md:mt-6 md:px-6 md:py-4">
           <p className="alt-font typing min-h-[1.6em] text-xl md:text-2xl" />
         </div>
 
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
+        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 md:mt-7">
           {loggedIn ? (
             <button
               type="button"
@@ -277,12 +277,12 @@ const Landing = ({ loggedIn }: LandingProps) => {
         </div>
       </div>
 
-      <section className="mt-12 rounded-xl border border-base-300 px-3 py-6 md:px-6">
+      <section className="mt-7 rounded-xl border border-base-300 px-3 py-4 md:mt-12 md:px-6 md:py-6">
         <h2 className="text-center text-[0.68rem] font-medium uppercase tracking-[0.14em] opacity-55">
           Finish a word and you get all of this back
         </h2>
 
-        <div className="mt-6 grid grid-cols-3 gap-x-3 gap-y-6 lg:grid-cols-6">
+        <div className="mt-4 grid grid-cols-3 gap-x-3 gap-y-6 md:mt-6 lg:grid-cols-6">
           {COLUMNS.map(({ label, secondary, samples }) => (
             <div
               key={label}

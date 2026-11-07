@@ -9,7 +9,6 @@ import {
   query,
   updateDoc,
   where,
-  writeBatch,
 } from "firebase/firestore";
 import type { Note } from "../types/note";
 
@@ -81,23 +80,4 @@ export function collectTags(notes: Note[]): string[] {
 /** Tags are matched case-insensitively and stored trimmed. */
 export function normalizeTag(raw: string): string {
   return raw.trim().replace(/\s+/g, " ").toLowerCase();
-}
-
-/** Used when deleting an account: remove everything the user owns. */
-export async function deleteNotesOwnedBy(uid: string): Promise<number> {
-  const db = getFirestore();
-  const snap = await getDocs(
-    query(collection(db, "notes"), where("userId", "==", uid))
-  );
-  if (snap.empty) return 0;
-
-  // Firestore caps a batch at 500 writes.
-  let removed = 0;
-  for (let i = 0; i < snap.docs.length; i += 450) {
-    const batch = writeBatch(db);
-    for (const d of snap.docs.slice(i, i + 450)) batch.delete(d.ref);
-    await batch.commit();
-    removed += Math.min(450, snap.docs.length - i);
-  }
-  return removed;
 }

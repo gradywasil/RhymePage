@@ -1,0 +1,760 @@
+﻿{
+    "recordedAt":  "2026-10-26T17:06:55.0788122-06:00",
+    "gitHead":  "014cabe4b4a6ecedaffb26ca050f15ab479e033a",
+    "workingTree":  "Shared dirty checkout; current source identities, not exclusive ownership of changes.",
+    "aab":  {
+                "microphonePermission":  false,
+                "applicationId":  "com.rhymepage.app",
+                "cleartextTraffic":  false,
+                "appBackup":  false,
+                "artwork":  "Owner RF09 icon kit",
+                "versionName":  "0.1.0",
+                "compileSdk":  36,
+                "debuggable":  false,
+                "targetSdk":  36,
+                "versionCode":  1,
+                "minSdk":  24,
+                "path":  "android/app/build/outputs/bundle/release/rhymepage-upload.aab",
+                "signing":  "RSA 3072 / SHA256withRSA private upload key; final jarsigner manifest-first copy",
+                "bytes":  5728308,
+                "sha256":  "48a6c478ca8a57130725b7f953e273fea27275db49dcdc1c547ebf876fd3fc58"
+            },
+    "certificate":  {
+                        "uploadKeyRegisteredInFirebase":  false,
+                        "sha1":  "81c3a5e4715e8c5394832811268b4906c0884bb9",
+                        "publicPEM":  "docs/android/rhymepage-upload-certificate.pem",
+                        "alias":  "rhymepage-upload",
+                        "sha256":  "d8bd45d866f772c654e3bd53d070e38ba31597012ca8bc5aaf595678ea077add",
+                        "playAppSigningCertificateKnown":  false
+                    },
+    "toolchain":  {
+                      "bundletoolSHA256":  "a099cfa1543f55593bc2ed16a70a7c67fe54b1747bb7301f37fdfd6d91028e29",
+                      "node":  "24.22.1",
+                      "gradle":  "8.14.3",
+                      "bundletoolDownloadDigestVerified":  true,
+                      "agp":  "8.13.0",
+                      "jdk":  "Temurin 21.0.12.1+1",
+                      "bundletoolVersion":  "1.18.3",
+                      "capacitor":  "8.5.3"
+                  },
+    "checks":  {
+                   "buildPreflight":  "passed",
+                   "releaseLintWarnings":  29,
+                   "signedUniversalAPKGeneration":  "passed",
+                   "bundletoolValidation":  "passed",
+                   "releaseBundleBuild":  "passed",
+                   "remoteFunctionsInventory":  "read-only query failed",
+                   "eslint":  "passed",
+                   "generatedAPKSignature":  "verified",
+                   "jarSignature":  "verified",
+                   "unitTestFiles":  14,
+                   "androidWebBuild":  "passed",
+                   "jarArchiveReaderConsistency":  "passed",
+                   "physicalDeviceTested":  false,
+                   "releaseRuntimeTested":  false,
+                   "releaseLintErrors":  0,
+                   "playUploaded":  false,
+                   "unitTests":  91,
+                   "submissionPrivacyGate":  "still required",
+                   "playAccepted":  false,
+                   "backendActivated":  false,
+                   "typeCheck":  "passed"
+               },
+    "generatedAPK":  {
+                         "path":  "node_modules/.cache/android-development/artifacts/rhymepage-release-v1.apk",
+                         "sha256":  "873d7ffd1072206af1a379c0959aaaf23b2f3eaea250de6425d9d19780e80565",
+                         "installed":  false,
+                         "signedWith":  "same upload key"
+                     },
+    "secretHandling":  "Password supplied through private card; no password in project. Automatic safety review blocked removal of the temporary delivery file in T3 private storage.",
+    "sources":  [
+                    {
+                        "sha256":  "785e117b5566bf27c431a6926c601c9e38f5c80e1852c25d609c315c61f4ecbf",
+                        "path":  "android/app/build.gradle"
+                    },
+                    {
+                        "sha256":  "22677113620b575d92ba7529ca011e676faecabfa52f3784588e8ef8acd46372",
+                        "path":  "android/app/google-services.json"
+                    },
+                    {
+                        "sha256":  "4173c0b8e58ab56210e7c519485c152f40e48aff4b846893c5da7f72f99e32f9",
+                        "path":  "android/app/src/main/AndroidManifest.xml"
+                    },
+                    {
+                        "sha256":  "ba0952beccd8178bb687f1e09fcbcb50cf0827bc3221d508d415439dcdac8d89",
+                        "path":  "android/app/src/main/java/com/rhymepage/app/MainActivity.java"
+                    },
+                    {
+                        "sha256":  "7aa81f836f52ffa28f42b89d49274c7ddd1f76ce0ccd8c3f1ab7e7d6f951272b",
+                        "path":  "android/app/src/main/java/com/rhymepage/app/RhymePagePlugin.java"
+                    },
+                    {
+                        "sha256":  "718ba51adf166bb55c3e9936bb8199a0148457f7f0191aaa2f37a94f3159d6ec",
+                        "path":  "android/app/src/main/res/drawable/ic_launcher_background.xml"
+                    },
+                    {
+                        "sha256":  "435a882ea6ab93b1d278fe4be30d3f2405c810f8a49b9c213205a667982e031c",
+                        "path":  "android/app/src/main/res/drawable/rhymepage_monochrome.xml"
+                    },
+                    {
+                        "sha256":  "09980509d8b574183663b90cbaa967df8e32a9e9fa48ff8435a7a2c7eb1e09e4",
+                        "path":  "android/app/src/main/res/drawable/splash.png"
+                    },
+                    {
+                        "sha256":  "e3f61cc0aa314280d502c41ab1f56bfdd423a20426a1f143d5d004b0a56c9d31",
+                        "path":  "android/app/src/main/res/drawable-land-hdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "09980509d8b574183663b90cbaa967df8e32a9e9fa48ff8435a7a2c7eb1e09e4",
+                        "path":  "android/app/src/main/res/drawable-land-mdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "5f5e29b952b2107e6dd04f1b09b07e97271e78ee1a7008d7f0fe50718149cc07",
+                        "path":  "android/app/src/main/res/drawable-land-xhdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "d6bceb9b872ec5c6ac00a0db483c0c4acb7bbdfbe5daca125175af44eeb4c154",
+                        "path":  "android/app/src/main/res/drawable-land-xxhdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "d8f2f71a24b993710dab57208f7d8397c339cd5d74d77bd4c166151e1d456887",
+                        "path":  "android/app/src/main/res/drawable-land-xxxhdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "82d19d1848dcb55300e08bb8678aa6b1c31fd7cfc0c014de04e7d79d51eef36f",
+                        "path":  "android/app/src/main/res/drawable-port-hdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "50d7f342e1a2f165215a318c0ca8b84747f9af7542ba73b5dcddd99ab1750fba",
+                        "path":  "android/app/src/main/res/drawable-port-mdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "03220d66f57e9670afc71d1c3e87347797bbf053e2d944ce0ba4eb283c01648a",
+                        "path":  "android/app/src/main/res/drawable-port-xhdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "878cad1b51f78e8d3eaa079b01608377c4b0530189dc07bcc0aa56f83236eef4",
+                        "path":  "android/app/src/main/res/drawable-port-xxhdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "8b7f8f7786be5e153a1f88b2d962c60ef906fc7f8c9010c79b38b472e38bca1d",
+                        "path":  "android/app/src/main/res/drawable-port-xxxhdpi/splash.png"
+                    },
+                    {
+                        "sha256":  "a8514094f754b099d3e55ce1d6e0b2de79db418b2eeacb0fc2a6bb0bfadef221",
+                        "path":  "android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
+                    },
+                    {
+                        "sha256":  "5d770feb791313b947020cbfc57e5c733c556dac5e9e49261a1190e527073253",
+                        "path":  "android/app/src/main/res/layout/activity_main.xml"
+                    },
+                    {
+                        "sha256":  "79ca38eade23ccfd7afc135f9313e8dd46f7232b465bbb47937a846b67d4ca5c",
+                        "path":  "android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+                    },
+                    {
+                        "sha256":  "79ca38eade23ccfd7afc135f9313e8dd46f7232b465bbb47937a846b67d4ca5c",
+                        "path":  "android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+                    },
+                    {
+                        "sha256":  "1a38f869bac5229ffad68d494eca9c135b1eb2f32f489f8be69225f64fedc258",
+                        "path":  "android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+                    },
+                    {
+                        "sha256":  "a15a85c878ecf86ea14cee7033265c15797ea1bcdbcbbcfd32a81b633664ebe6",
+                        "path":  "android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png"
+                    },
+                    {
+                        "sha256":  "1a38f869bac5229ffad68d494eca9c135b1eb2f32f489f8be69225f64fedc258",
+                        "path":  "android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
+                    },
+                    {
+                        "sha256":  "ac05651429249fa0b1952c8387d696833ad1be23231e75257156698e4abb8f2a",
+                        "path":  "android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+                    },
+                    {
+                        "sha256":  "0e234747bfaf73ed9e51eca9dbca815f2df5e0731508efa8d57a30e339b9e2f7",
+                        "path":  "android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png"
+                    },
+                    {
+                        "sha256":  "ac05651429249fa0b1952c8387d696833ad1be23231e75257156698e4abb8f2a",
+                        "path":  "android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+                    },
+                    {
+                        "sha256":  "6ab9d8315148cf7c347539498a8dc4320fc5b336e95a3e64623ee0894e8314f3",
+                        "path":  "android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+                    },
+                    {
+                        "sha256":  "c3a0eb0d44fc4d2e3fa8f8fd770403856d43892c84064d94650d19cbebc8f0c4",
+                        "path":  "android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png"
+                    },
+                    {
+                        "sha256":  "6ab9d8315148cf7c347539498a8dc4320fc5b336e95a3e64623ee0894e8314f3",
+                        "path":  "android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+                    },
+                    {
+                        "sha256":  "c91fe12e3d60fe784559a8ea466f0436e865a73b25bf79cbf098c90542a479c9",
+                        "path":  "android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+                    },
+                    {
+                        "sha256":  "092440f0fda7029df741269593672687a5becdd16d4ac7962a67c313ac8f24a2",
+                        "path":  "android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png"
+                    },
+                    {
+                        "sha256":  "c91fe12e3d60fe784559a8ea466f0436e865a73b25bf79cbf098c90542a479c9",
+                        "path":  "android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+                    },
+                    {
+                        "sha256":  "791d3473f5c8a5bd27658b5fa5cff146873e230c2d671ca34460d3bebef86bff",
+                        "path":  "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+                    },
+                    {
+                        "sha256":  "e6fc652bb9552e5442b22428b3d4fea6018ec9e961c236a01d5eaf3952baf777",
+                        "path":  "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png"
+                    },
+                    {
+                        "sha256":  "791d3473f5c8a5bd27658b5fa5cff146873e230c2d671ca34460d3bebef86bff",
+                        "path":  "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+                    },
+                    {
+                        "sha256":  "1b6e54000844e58cdf8c993b3eeb2d2972fcd1044d6faaf4797016d96f4ef7cd",
+                        "path":  "android/app/src/main/res/values/ic_launcher_background.xml"
+                    },
+                    {
+                        "sha256":  "70e3ae526bd62e1fe59d3b996dfe6b7df80718a796f6783fb0de333686ca9a6c",
+                        "path":  "android/app/src/main/res/values/strings.xml"
+                    },
+                    {
+                        "sha256":  "bc59a3f63e05fc253a69eda5f72b4189c98bc40bda15024f718fb5c1892b7b95",
+                        "path":  "android/app/src/main/res/values/styles.xml"
+                    },
+                    {
+                        "sha256":  "e9dcda493e663c5c4db9e3cb3bd968477a6e90aa8840bcbba40d72ed54b767ce",
+                        "path":  "android/app/src/main/res/xml/config.xml"
+                    },
+                    {
+                        "sha256":  "a46ed43ef65c90cb6778f4581decf3556e3f0055aad8f36d69dae16f9a0e99aa",
+                        "path":  "android/app/src/main/res/xml/file_paths.xml"
+                    },
+                    {
+                        "sha256":  "a6552067f90b3e60bfc1fb66fd29d886280eddf0bc58d72b975fe5b17ecde83b",
+                        "path":  "android/app/src/voice/AndroidManifest.xml"
+                    },
+                    {
+                        "sha256":  "46ade7db7afeb8049ccea59fce83095dca736ceb8c9acd79cc944e988c3357d9",
+                        "path":  "android/build.gradle"
+                    },
+                    {
+                        "sha256":  "9a479a85aa879bb55284fc16d0de5b81a745c3854f4e2d88c42e7debaf007435",
+                        "path":  "android/gradle/wrapper/gradle-wrapper.properties"
+                    },
+                    {
+                        "sha256":  "83d502c9ed8fcf1dd4791482067abeedbebae49fafe9cd14a8a1f5891deb0d88",
+                        "path":  "android/variables.gradle"
+                    },
+                    {
+                        "sha256":  "3a32ea2c07f19e910c39f8dd56a4cdb34a943f50792e6853f4d988979789a44f",
+                        "path":  "assets/branding/play-icon-512.png"
+                    },
+                    {
+                        "sha256":  "61fbb6b3607a931e931faabc633404bd9b5ee8b811785401114eaa526c5b22ae",
+                        "path":  "assets/branding/rf09/RF09-refined-mic-pencil-favicon.ico"
+                    },
+                    {
+                        "sha256":  "b3545a3c66cc6dfdbcd8c9676acb68918e3193d77be13d18ff50d81069a1b117",
+                        "path":  "assets/branding/rf09/RF09-refined-mic-pencil-favicon.svg"
+                    },
+                    {
+                        "sha256":  "80a5744d940e3113b4ea862da053b796abe628687d0f0e06776e259746ff94fb",
+                        "path":  "assets/branding/rf09/RF09-refined-mic-pencil-favicon-16.png"
+                    },
+                    {
+                        "sha256":  "385567f890499373c75667b5a52c782c42cf2e2acc99aa07c8a094b5354bc6f3",
+                        "path":  "assets/branding/rf09/RF09-refined-mic-pencil-favicon-256.png"
+                    },
+                    {
+                        "sha256":  "0aae8e48be17fce0e62ad9f95a27223636fe36d28396602f910793375fe4be59",
+                        "path":  "assets/branding/rf09/RF09-refined-mic-pencil-favicon-32.png"
+                    },
+                    {
+                        "sha256":  "9d863b8c13f9fac1a7c8626b6b1a70fbf68e2514d5f0fdf16d3d3a4f38109a29",
+                        "path":  "assets/branding/rf09/RF09-refined-mic-pencil-favicon-48.png"
+                    },
+                    {
+                        "sha256":  "6fcfbe2a0d7ac960f730efe9ee4f0fdbdf545227c520c32e5e9f17af3e9b47ef",
+                        "path":  "assets/branding/rf09/RF09-refined-mic-pencil-icon-1024.png"
+                    },
+                    {
+                        "sha256":  "3a32ea2c07f19e910c39f8dd56a4cdb34a943f50792e6853f4d988979789a44f",
+                        "path":  "assets/branding/rf09/RF09-refined-mic-pencil-icon-512.png"
+                    },
+                    {
+                        "sha256":  "1c5a13ddf653a56123a16a79d8bc1d5e05512cb9dc9cf11ea3a7d32e78a0b917",
+                        "path":  "capacitor.config.ts"
+                    },
+                    {
+                        "sha256":  "71dbffb1c99e07662cdf902da0a3b822ea7e8ba59d78436248b75e8db993b62f",
+                        "path":  "docs/android/rhymepage-upload-certificate.pem"
+                    },
+                    {
+                        "sha256":  "ce014c74a97dbd5083964d87a323481674eb633ef51420121761e276e0d2557f",
+                        "path":  "firebase.json"
+                    },
+                    {
+                        "sha256":  "53d6c59865f7b34b83652760eaca430f7c9fa3540598546f5af2ad83ae50145a",
+                        "path":  "firestore.indexes.json"
+                    },
+                    {
+                        "sha256":  "ab411ea4d70e5e430c4726ca561e1ac097f8dfdb2437d6ae3fe24ee5ae200f4b",
+                        "path":  "firestore.rules"
+                    },
+                    {
+                        "sha256":  "f1f27fab483630d6b35bb774f0fbdd076591cee9810f1ad5efaa79057ae72b2a",
+                        "path":  "functions/delete-account.mjs"
+                    },
+                    {
+                        "sha256":  "eb57ce3098dc7b9ea6fc3f0d533658642ed6b53e6b31450ec46f464fbf59eb3e",
+                        "path":  "functions/index.mjs"
+                    },
+                    {
+                        "sha256":  "8ed083a74f0b16667bca3175f5e4113065e802834625a5e6f81150b700865290",
+                        "path":  "functions/package.json"
+                    },
+                    {
+                        "sha256":  "de1dcb3d21706b7dfb226cd85d75c91f0725d2e22f24e6de8396227929b76238",
+                        "path":  "functions/package-lock.json"
+                    },
+                    {
+                        "sha256":  "5085a1cc30de352933fcbe529df9c5bebd3b1063da58f2d20c7516c949119dc1",
+                        "path":  "index.html"
+                    },
+                    {
+                        "sha256":  "51af94566d62b97a175d30cbea5e7d31dbe05eee4e5cb80c7d92b48b39a58647",
+                        "path":  "package.json"
+                    },
+                    {
+                        "sha256":  "fdee9f88a593c6db6b2c194cac5030fd630baec4a6e0e4e2aee1bd8733d280bb",
+                        "path":  "package-lock.json"
+                    },
+                    {
+                        "sha256":  "6fdbadcb44ddaefc3a948e2ab49a83d9f5bd3dc462002d647546ab1fbfc9f97c",
+                        "path":  "public/apple-touch-icon.png"
+                    },
+                    {
+                        "sha256":  "61fbb6b3607a931e931faabc633404bd9b5ee8b811785401114eaa526c5b22ae",
+                        "path":  "public/favicon.ico"
+                    },
+                    {
+                        "sha256":  "b3545a3c66cc6dfdbcd8c9676acb68918e3193d77be13d18ff50d81069a1b117",
+                        "path":  "public/favicon.svg"
+                    },
+                    {
+                        "sha256":  "80a5744d940e3113b4ea862da053b796abe628687d0f0e06776e259746ff94fb",
+                        "path":  "public/favicon-16.png"
+                    },
+                    {
+                        "sha256":  "0aae8e48be17fce0e62ad9f95a27223636fe36d28396602f910793375fe4be59",
+                        "path":  "public/favicon-32.png"
+                    },
+                    {
+                        "sha256":  "c570f48c1d64aee2debe7e7e81b7ad2f05ecdbea637a65b303d082d37a6bdacc",
+                        "path":  "scripts/build-android.mjs"
+                    },
+                    {
+                        "sha256":  "d6704b4c66dad82c61e8fe4d276f941e8bca9f83d51cfd43df0720ef3793b703",
+                        "path":  "scripts/build-android-bundle.ps1"
+                    },
+                    {
+                        "sha256":  "e842714c33015085be9bf494ceb1fa84736b7c04242ab294b7b1bb9d43f6b617",
+                        "path":  "scripts/make-android-art.mjs"
+                    },
+                    {
+                        "sha256":  "9302b48fbe0e3f4e5776074792a7b62d7335ce72aee2991ec6b92e70072bbfec",
+                        "path":  "scripts/prepare-android.mjs"
+                    },
+                    {
+                        "sha256":  "cf9f77e7e8fc1bb87a71aaa130d9621e663ec1bbbb4ff32e7cd0825e7c69cd67",
+                        "path":  "scripts/release-preflight.mjs"
+                    },
+                    {
+                        "sha256":  "00d1562f31e377bf93845d43f34379e1b823385f31d24efc8be9249968bfcfba",
+                        "path":  "scripts/stage-alignment-prototype-model.mjs"
+                    },
+                    {
+                        "sha256":  "54190ff116a64ee935189a1d57fa43bab011a998b3ab19b41f732439aca3cb59",
+                        "path":  "scripts/test-firebase-emulators.mjs"
+                    },
+                    {
+                        "sha256":  "1fd25f5befe1f7b1c4e6583f35625e62340fc47e00b2bf617a15006dd9380a97",
+                        "path":  "src/alignment/alignmentError.test.ts"
+                    },
+                    {
+                        "sha256":  "fab3036981124d6c368401e979ad2d07fa4f51c236c2af1c8ec8461206f4e0c2",
+                        "path":  "src/alignment/alignmentError.ts"
+                    },
+                    {
+                        "sha256":  "af38675c85998aa0e6ed8726cf6209a33df8f1885cd3400f28a9edd061745136",
+                        "path":  "src/alignment/canonicalLyricsMatcher.test.ts"
+                    },
+                    {
+                        "sha256":  "2dba7af0d6beb4e814caec5ef0ee50d8946f40380a902016f3165a99ad8841ab",
+                        "path":  "src/alignment/canonicalLyricsMatcher.ts"
+                    },
+                    {
+                        "sha256":  "f6bb6c46db0dc6b3c847c8bf16ab2ee6d20ffee5a50d6e5e4241b220e0fc67e8",
+                        "path":  "src/alignment/platformSupport.ts"
+                    },
+                    {
+                        "sha256":  "56e708d5a35f613cc37184c67260bc64409d3e0493c32026ae84213c86fab556",
+                        "path":  "src/alignment/sherpaLoader.test.ts"
+                    },
+                    {
+                        "sha256":  "c5ad78a6f1ac69d60990a58b2e396251c4cf884f1cab9344306e7b304da96fd4",
+                        "path":  "src/alignment/sherpaLoader.ts"
+                    },
+                    {
+                        "sha256":  "d3ee7ddb50fac2980c4f9c3aa5f3efa6a0b4abc9baf77c421078dc891234c39a",
+                        "path":  "src/alignment/sherpaRecognition.test.ts"
+                    },
+                    {
+                        "sha256":  "9266f60a96e8609810e6d168ca4c17db56c402acae0480641f2fafd120dba1b8",
+                        "path":  "src/alignment/sherpaRecognition.ts"
+                    },
+                    {
+                        "sha256":  "74e83d798129aa45039774b46140d8580d632c6f79a07b70d08f9469820fd426",
+                        "path":  "src/alignment/vocalGuideCapture.test.ts"
+                    },
+                    {
+                        "sha256":  "f6e5a62dacdb168ab7277495300981d4ab96c74eac5699f8940ac6ec931bbbd8",
+                        "path":  "src/alignment/vocalGuideCapture.ts"
+                    },
+                    {
+                        "sha256":  "52cf21b437b936db0ef162b1c6334ece38c5172f5081a24d2e4f8552903b84a5",
+                        "path":  "src/App.tsx"
+                    },
+                    {
+                        "sha256":  "2f035bd50b770ddbfab58c61dcf7e3e198dde4e4b66153fc49dba22c09ace72c",
+                        "path":  "src/blocks/containers.css"
+                    },
+                    {
+                        "sha256":  "c95a46db96bea2a962db5ff15bbf6cb04ced6bfc62d9f9b88da7dbdb68374e8d",
+                        "path":  "src/blocks/suggest.css"
+                    },
+                    {
+                        "sha256":  "a3dee4baf3df2c4d365ba5a007ad24b42b5a1fd6b9ce7efe7ffd6c0c1e0aa61b",
+                        "path":  "src/blocks/text.css"
+                    },
+                    {
+                        "sha256":  "b7049a60bd9c8ed031ba282c7c90889a2b5a25fd1a78d74f2ac5983e3ad965ca",
+                        "path":  "src/components/ConfirmDialog.tsx"
+                    },
+                    {
+                        "sha256":  "0ce183678d3cce9f278b161945f0cf9da809e24bbf14da3a5712ab030c76fe35",
+                        "path":  "src/components/Dashboard.tsx"
+                    },
+                    {
+                        "sha256":  "73750aab081b06be3b5981e87f6e93bfe4fd133088a26e7929b047bc0987c68d",
+                        "path":  "src/components/DefinitionView.tsx"
+                    },
+                    {
+                        "sha256":  "64a252abe0d62ea181bef9a22402c1cf30595a09317eeb90e2e34a72573d5cf0",
+                        "path":  "src/components/Footer.tsx"
+                    },
+                    {
+                        "sha256":  "d9ecf0ec40234b0274e8e4d42311d354c3b9de36d7d35af6061aabdf483a888b",
+                        "path":  "src/components/FormControls.tsx"
+                    },
+                    {
+                        "sha256":  "54a6dd60722ce8045d1f4de4e888e78d21419ba43372abe9e638d444b503b389",
+                        "path":  "src/components/Header.tsx"
+                    },
+                    {
+                        "sha256":  "2a8591e97cccfdad340c0338208aff624ac2268372eec422af8ecf04fe692fa0",
+                        "path":  "src/components/HeaderLogo.tsx"
+                    },
+                    {
+                        "sha256":  "a2cfcaae079844c87e661c71259427f3e1105c5aa033e80272ae3213bfec95b3",
+                        "path":  "src/components/HeaderTheme.tsx"
+                    },
+                    {
+                        "sha256":  "9bebeb1ce8558baea1a67186ab25ec72e551e32e762b88d8ccf94d787ec24497",
+                        "path":  "src/components/Landing.tsx"
+                    },
+                    {
+                        "sha256":  "ba77e0313355ff9e0f6c269e3a26c1eb441509829e309a1f0b1d0ecb9d3e8d0c",
+                        "path":  "src/components/LegalPages.tsx"
+                    },
+                    {
+                        "sha256":  "bae5609b6499dbaaf87346005287f46a7ea1ead9f81bf176e862d31347784fe6",
+                        "path":  "src/components/Loading.tsx"
+                    },
+                    {
+                        "sha256":  "2d9ce6e176f83e6dd406f2b3d6b3f336f9de43ef9f6115beef08f70031e17e0d",
+                        "path":  "src/components/Login.tsx"
+                    },
+                    {
+                        "sha256":  "cf401a27df117a5f848044991a9cef8e77edff00371b7e7542b1ab27d05b414a",
+                        "path":  "src/components/Missing.tsx"
+                    },
+                    {
+                        "sha256":  "1095153fe5bf3731d061772ad17e86a56c94feef01f62f767511bacf4304e640",
+                        "path":  "src/components/MissingLinks.tsx"
+                    },
+                    {
+                        "sha256":  "aa21f24b79a98d8fe4192d9cc3e39d35be71ab988a15f809ac9f097db29ac5bb",
+                        "path":  "src/components/NoteCard.tsx"
+                    },
+                    {
+                        "sha256":  "0e451a19f0953be2aa74818ad0b9b949eaf370324b9b067b8043ef60fe36fbba",
+                        "path":  "src/components/NoteManageDialog.tsx"
+                    },
+                    {
+                        "sha256":  "cd137c360704d6223043910af89fd06ce6e46631941110f9f4eaf15a24466093",
+                        "path":  "src/components/Notes.tsx"
+                    },
+                    {
+                        "sha256":  "ac35c1c30b898be54aac33fbf26a1d1cf5aaa571d9effea4b9533aef1c34f58f",
+                        "path":  "src/components/PlayPanel.tsx"
+                    },
+                    {
+                        "sha256":  "f5a1e6b13b415a7c56320ad1494ad2b08ecd1bf535935d0d0bad61fd09d8687d",
+                        "path":  "src/components/Profile.tsx"
+                    },
+                    {
+                        "sha256":  "d13b473255a215c03a12d67db5c0db2eb9d7cb7cac148f2b52557aa249eae01a",
+                        "path":  "src/components/Register.tsx"
+                    },
+                    {
+                        "sha256":  "42d469bfbe52a1021fef9bc60c8e6c455e3a2d0bded0566834791a61a3c2495a",
+                        "path":  "src/components/Settings.tsx"
+                    },
+                    {
+                        "sha256":  "fa341a36ef5e687377cca7c0802c5d7cc9bf42956ba8a8c9d5782aa40b62a04e",
+                        "path":  "src/components/SettingsDashboard.tsx"
+                    },
+                    {
+                        "sha256":  "8c7fbfb831a4d2609598c6756710058320d7a00f94e431591fbe5e310a3c9d3d",
+                        "path":  "src/components/SettingsProfile.tsx"
+                    },
+                    {
+                        "sha256":  "18273c1f83e339fe2ac95a65721162947b403a4ee2226deb7bd2f2eba3b1eec4",
+                        "path":  "src/components/SettingsSection.tsx"
+                    },
+                    {
+                        "sha256":  "8ad6c7923ed689ba814b4bf76672eb4876293b9f75706b2c96a5f193b253c83c",
+                        "path":  "src/components/SuggestionPanel.tsx"
+                    },
+                    {
+                        "sha256":  "20f5ead9979cde54314a3c9321ea43ba0f69113b42d6b4dfbaae99e3b168df3e",
+                        "path":  "src/components/SyncPanel.tsx"
+                    },
+                    {
+                        "sha256":  "7c4bc6f277e1bd0970520e2b7bb90fd8f6af3e35a1aa287663a29c7140b6d215",
+                        "path":  "src/components/WaveformEditor.tsx"
+                    },
+                    {
+                        "sha256":  "a88e21d14405a516506fdbda1a0bb94ccd1569c857eab5c00288fbfa804de94c",
+                        "path":  "src/components/WordChip.tsx"
+                    },
+                    {
+                        "sha256":  "70f0bcfa56d60686b9d97beb70bf493a38be4b36e864ed5aafd5cdedf926125b",
+                        "path":  "src/components/WordSyncEditor.tsx"
+                    },
+                    {
+                        "sha256":  "e4421a71ed9be817ec62a5fc88a16b505b95096617a06836aae9dd0cbcbca513",
+                        "path":  "src/firebase.ts"
+                    },
+                    {
+                        "sha256":  "d3e9c9d7542e28d11b70cab3f42b646d2393dc57c806d274b8122d20b8504216",
+                        "path":  "src/hooks/useAccountLogic.ts"
+                    },
+                    {
+                        "sha256":  "93ef4568bf94ef35049915fb49cf65edd4045148af191549023287636c62ae01",
+                        "path":  "src/hooks/useAndroidNavigation.ts"
+                    },
+                    {
+                        "sha256":  "a8a02b95d87a4e7797021a38e5f500ffe807df3d15d3578f44fafb5fa388e2d5",
+                        "path":  "src/hooks/useAppLogic.tsx"
+                    },
+                    {
+                        "sha256":  "462bedaa483e569d1e332d81f6936b1158ceb00a234de8997c3a4f85209458a6",
+                        "path":  "src/hooks/useDashboardLogic.tsx"
+                    },
+                    {
+                        "sha256":  "ee5a7b0ebfb39995ef1afe457accf13f3f084e0ea8d4e237ac5e08d158a2dc7e",
+                        "path":  "src/hooks/useLoginLogic.tsx"
+                    },
+                    {
+                        "sha256":  "243e3e603971f80e8ea1e95f7ffb19c5b56eec01355936f1d79ff2bfb5170991",
+                        "path":  "src/hooks/useLongPress.ts"
+                    },
+                    {
+                        "sha256":  "7ae81ee697428e4e522e51ccc359a63cd56f70f1e3d2d50fc6275d01f5736bc4",
+                        "path":  "src/hooks/useNoteDraft.ts"
+                    },
+                    {
+                        "sha256":  "52ecd47572e8eaa368828e78c2cb2a2dde059cdde7208ccd561f997e1480e76f",
+                        "path":  "src/hooks/useNotesLogic.tsx"
+                    },
+                    {
+                        "sha256":  "801d8b60ded80db6ac2189839deec64790e697b0590010aa5e7e0fce592f87e1",
+                        "path":  "src/hooks/usePlayLogic.tsx"
+                    },
+                    {
+                        "sha256":  "4e8d6fb987fb02d4d31f9ac27725a4677d4f155932e73efb0c441fa1dd293feb",
+                        "path":  "src/hooks/useRegisterLogic.tsx"
+                    },
+                    {
+                        "sha256":  "9171b0abd81681c17273610d79441f1f90309ab47dcf850d1617317f3e5fae16",
+                        "path":  "src/hooks/useSyncLogic.tsx"
+                    },
+                    {
+                        "sha256":  "219a799d4e33885c4c2bf62e21c6e86f74250f115aafd48d07da59b75bcb5c5a",
+                        "path":  "src/index.css"
+                    },
+                    {
+                        "sha256":  "60895c7a4b20b6d96d463680e2e546c4e46e0e2d3ff85afee452458d6f2a7b9c",
+                        "path":  "src/main.tsx"
+                    },
+                    {
+                        "sha256":  "d75c681c25b553e773b02ae228b4480bd5a7220dc998ac5c5e64b4342d287f7d",
+                        "path":  "src/prototypes/alignmentRuntime.prototype.ts"
+                    },
+                    {
+                        "sha256":  "742045f7d202005ecb77a0898095f13766c18eb36aae80166372ca7c251c2e29",
+                        "path":  "src/prototypes/alignmentRuntime.worker.ts"
+                    },
+                    {
+                        "sha256":  "944fd79f7548da6954ef0e11414b9b8f47c878aec075b96f5c3ea2eb5fd8ee40",
+                        "path":  "src/types/declarations.d.ts"
+                    },
+                    {
+                        "sha256":  "e370d835fd30db55d116ac256f0fdee72100d13e65f2ba0accafe6bafefb56fe",
+                        "path":  "src/types/note.ts"
+                    },
+                    {
+                        "sha256":  "8d87d599846d9492060a45a9af0d5651b825a310f4ddf601f546349f354681c2",
+                        "path":  "src/types/profile.ts"
+                    },
+                    {
+                        "sha256":  "9e956256aa363c0a33e8d35968cc22c88158d361a881e98ea4d05a659b1d0652",
+                        "path":  "src/types/settings.ts"
+                    },
+                    {
+                        "sha256":  "5dcacc0f696e80c359936cee16435d26ba1d29d9370bb54fe0fa018537ccc2b3",
+                        "path":  "src/types/sync.test.ts"
+                    },
+                    {
+                        "sha256":  "00a40113b03b52689941292621476fe0152aefe3e0cd55eaf792ec399bc61271",
+                        "path":  "src/types/sync.ts"
+                    },
+                    {
+                        "sha256":  "598f651a7ee7addb322c9fae5bdb81b7253cab441cc3b80636dd443b2ef71c69",
+                        "path":  "src/types/user.ts"
+                    },
+                    {
+                        "sha256":  "a2069c7611f36e85d6180f07c1393b549d75f5734f595c7c978788f1c7e818ba",
+                        "path":  "src/utils/authSession.test.ts"
+                    },
+                    {
+                        "sha256":  "a6ca787202288dc5143da7e18d66938826c52c720002b25c6a288a342c7ccaa0",
+                        "path":  "src/utils/authSession.ts"
+                    },
+                    {
+                        "sha256":  "b8c9156e01471467b4aaf9c175666d7bf5b3bf93575aff35be383330f8285597",
+                        "path":  "src/utils/dictionaryApi.ts"
+                    },
+                    {
+                        "sha256":  "3db66209e337246338849e796cd2319cfdbae96bcd957a44ac2bcd912d1b5474",
+                        "path":  "src/utils/googleAuth.test.ts"
+                    },
+                    {
+                        "sha256":  "0883d982698766dadaffcd7099f2e96b493672c512e987063089e4e54f5fc19d",
+                        "path":  "src/utils/googleAuth.ts"
+                    },
+                    {
+                        "sha256":  "fdc6458cf01b5ebca649e43dbd7ac844cc6d20b8a5315b4fad7a91a27e9253b0",
+                        "path":  "src/utils/lyrics.test.ts"
+                    },
+                    {
+                        "sha256":  "c08f22fc6a6097b0b8691198ff320cf88e4b5bc3adefca17634a4eba40c85b94",
+                        "path":  "src/utils/lyrics.ts"
+                    },
+                    {
+                        "sha256":  "c9f1de60b1290bb82de8cb8cc5b10c3721a14aac494b494181ba39147c77a567",
+                        "path":  "src/utils/nativeApp.ts"
+                    },
+                    {
+                        "sha256":  "d8aed17df1e154b10f95291e6110e2c177159d15dde5ec0a4969ec53c710c14c",
+                        "path":  "src/utils/noteDraft.test.ts"
+                    },
+                    {
+                        "sha256":  "e9ecac9cd046fdf4af6a7796f25c169cf752d5c6ab3546491843fcbfd04a6eed",
+                        "path":  "src/utils/noteDraft.ts"
+                    },
+                    {
+                        "sha256":  "6ef7940bdeb92c33ca4f3a3fa240411e0908a95d0aad3f00dd1d97c3eefea0aa",
+                        "path":  "src/utils/noteDraftRepository.ts"
+                    },
+                    {
+                        "sha256":  "754f8454be663ece902ae3e27890884cc983f3aa0b24b7ca0bf2e1140b3d9923",
+                        "path":  "src/utils/notesApi.ts"
+                    },
+                    {
+                        "sha256":  "df267ba2d73024823c350ce06a8bb7aa3b14466f8e8de1073ef14aaf81b64411",
+                        "path":  "src/utils/profiles.ts"
+                    },
+                    {
+                        "sha256":  "f256007f0e8e94f01e461c53ee2429395c79e19a1645d7dad02745a91379c6ad",
+                        "path":  "src/utils/recoveryStorage.test.ts"
+                    },
+                    {
+                        "sha256":  "d43eb2d7835cbdcb2444a0b7c7d16da2de9da7ec0d2d6fcd43f1e959a46a38be",
+                        "path":  "src/utils/recoveryStorage.ts"
+                    },
+                    {
+                        "sha256":  "f908a10701f6f71156e103ba7dadaedbdfc8780660df37427c67439acf409537",
+                        "path":  "src/utils/rhymeApi.ts"
+                    },
+                    {
+                        "sha256":  "95fe939121c9d86cc992c35927f4d54677bdc803924079b31dc345d122e5dd60",
+                        "path":  "src/utils/syncApi.ts"
+                    },
+                    {
+                        "sha256":  "a5ca5def3cae8711069d506fd9a2217c0049a3e585d5b64f946c6bc684ba1cc1",
+                        "path":  "src/utils/syncDiff.test.ts"
+                    },
+                    {
+                        "sha256":  "39558b0422b2419d1dd9b7490de9cadc8b8388914aa99d707e15a8744e6f1734",
+                        "path":  "src/utils/syncDiff.ts"
+                    },
+                    {
+                        "sha256":  "d46ccaf0bfcf082de399cfeee6f32b30b07935dbaf95efc078370abf4d3379dc",
+                        "path":  "src/utils/syncExport.test.ts"
+                    },
+                    {
+                        "sha256":  "6be4801c221868cd899f68fa2dca1371f686e8d2d59afcbde44591c6ce660d22",
+                        "path":  "src/utils/syncExport.ts"
+                    },
+                    {
+                        "sha256":  "85e64abaf0349105a4a5479a529be4a5e4eeb70efc9d09f3549714512a670839",
+                        "path":  "src/utils/timingDraft.test.ts"
+                    },
+                    {
+                        "sha256":  "72031648242e271c250e6b32df84233861de52f8099ddb8303f601520ceeb6bf",
+                        "path":  "src/utils/timingDraft.ts"
+                    },
+                    {
+                        "sha256":  "53ac908e5c5e6115874cbb7b0cdf4ae3e34c657758add4e8ee8bb5d5d37aaf5f",
+                        "path":  "src/vite-env.d.ts"
+                    },
+                    {
+                        "sha256":  "bcf5f5a2a42ae84fe3622dc97b7a0f5d1f223429c6f1dd22d701707d59c61951",
+                        "path":  "storage.rules"
+                    },
+                    {
+                        "sha256":  "c94b54941ec4f0810784db7e205cd6eef1f053029d7e878240894e9d3fb455cf",
+                        "path":  "vite.config.ts"
+                    }
+                ]
+}

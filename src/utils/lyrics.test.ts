@@ -1,5 +1,22 @@
 import { describe, expect, it } from "vitest";
-import { splitLyricLines, splitWords } from "./lyrics";
+import { getCompletedWord, splitLyricLines, splitWords } from "./lyrics";
+
+describe("getCompletedWord", () => {
+  it("accepts committed text from an Android keyboard without a Space keydown", () => {
+    expect(getCompletedWord("night ", 6)).toBe("night");
+    expect(getCompletedWord("night\n", 6)).toBe("night");
+  });
+
+  it("uses the completed word at the caret while editing an earlier line", () => {
+    expect(getCompletedWord("Moonlight, falls\nanother night", 11)).toBe("moonlight");
+  });
+
+  it("waits for a word boundary and ignores empty input", () => {
+    expect(getCompletedWord("night", 5)).toBe("");
+    expect(getCompletedWord("night later", 3)).toBe("");
+    expect(getCompletedWord("  ", 2)).toBe("");
+  });
+});
 
 describe("splitLyricLines", () => {
   it("drops blank lines used for verse/chorus spacing", () => {

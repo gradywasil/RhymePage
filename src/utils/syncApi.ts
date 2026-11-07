@@ -3,19 +3,22 @@ import {
   doc,
   getDoc,
   getFirestore,
+  runTransaction,
   serverTimestamp,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import {
   deleteObject,
   getDownloadURL,
   getStorage,
   ref as storageRef,
-  uploadBytes,
+  uploadBytesResumable,
 } from "firebase/storage";
 import { splitLyricLines } from "./lyrics";
 import { reconcileLines } from "./syncDiff";
+import { requireAuthenticatedUid } from "./authSession";
 import type { LineTiming, SyncAudio, SyncDoc, SyncWarning } from "../types/sync";
 
 function syncDocRef(noteId: string) {
@@ -165,7 +168,8 @@ export async function discardOrphanedLine(
  */
 export async function recordLineTimings(
   noteId: string,
-  patches: { lineId: string; patch: Partial<Omit<LineTiming, "lineId">> }[]
+  patches: { lineId: string; patch: Partial<Omit<LineTiming, "lineId">> }[],
+  expectedLyrics?: string,
 ): Promise<void> {
   if (patches.length === 0) return;
   const updates: Record<string, unknown> = { updatedAt: serverTimestamp() };
@@ -174,7 +178,15 @@ export async function recordLineTimings(
       updates[`lines.${lineId}.${key}`] = value;
     }
   }
-  await updateDoc(syncDocRef(noteId), updates);
+  if (expectedLyrics === undefined) await updateDoc(syncDocRef(noteId), updates);
+  else await runTransaction(getFirestore(), async transaction => {
+    const snapshot = await transaction.get(syncDocRef(noteId));
+    const data = snapshot.data();
+    if (data?.lyricsSnapshot !== expectedLyrics || patches.some(patch => !data?.lines?.[patch.lineId])) {
+      throw new Error("Lyrics changed before timing could be saved. Review the device timing first.");
+    }
+    transaction.update(syncDocRef(noteId), updates);
+  });
 }
 
 export async function recordLineTiming(
@@ -189,15 +201,19 @@ function probeAudioDuration(file: File): Promise<number | null> {
   return new Promise((resolve) => {
     const url = URL.createObjectURL(file);
     const probe = new Audio();
-    const cleanup = () => URL.revokeObjectURL(url);
-    probe.addEventListener("loadedmetadata", () => {
-      cleanup();
-      resolve(Number.isFinite(probe.duration) ? probe.duration : null);
-    });
-    probe.addEventListener("error", () => {
-      cleanup();
-      resolve(null);
-    });
+    let settled = false;
+    const finish = (duration: number | null) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timeout);
+      probe.removeAttribute("src");
+      probe.load();
+      URL.revokeObjectURL(url);
+      resolve(duration);
+    };
+    const timeout = setTimeout(() => finish(null), 10_000);
+    probe.addEventListener("loadedmetadata", () => finish(Number.isFinite(probe.duration) ? probe.duration : null), { once: true });
+    probe.addEventListener("error", () => finish(null), { once: true });
     probe.src = url;
   });
 }
@@ -219,6 +235,9 @@ const AUDIO_CONTENT_TYPES_BY_EXTENSION: Record<string, string> = {
   webm: "audio/webm",
 };
 
+/** Matches the Storage Rules upload cap; large WAV backing tracks are common. */
+const MAX_AUDIO_BYTES = 200 * 1024 * 1024;
+
 function resolveAudioContentType(file: File): string {
   if (file.type.startsWith("audio/")) return file.type;
   const extension = file.name.split(".").pop()?.toLowerCase();
@@ -233,21 +252,45 @@ function resolveAudioContentType(file: File): string {
  */
 export async function attachAudio(
   noteId: string,
-  uid: string,
-  file: File
+  file: File,
+  options: { signal?: AbortSignal; onProgress?: (percent: number) => void } = {},
 ): Promise<SyncAudio> {
+  if (file.size >= MAX_AUDIO_BYTES) {
+    throw new Error("Audio files can be up to 200 MB. Export a smaller file, then try again.");
+  }
+  if (file.size === 0) throw new Error("This audio file is empty. Choose another recording.");
+  const contentType = resolveAudioContentType(file);
+  if (!contentType.startsWith("audio/")) throw new Error("Choose an audio file such as MP3, M4A, WAV, OGG, or FLAC.");
+  options.signal?.throwIfAborted();
+  // Never use the app's boot-cache identity for a protected Storage request.
+  // Firebase alone knows whether the session/token is still valid.
+  const uid = requireAuthenticatedUid(getAuth().currentUser?.uid);
+  const note = await getDoc(doc(getFirestore(), "notes", noteId));
+  if (!note.exists() || note.data().userId !== uid) {
+    throw new Error("Only the account that created this note can attach or replace its audio.");
+  }
   const existing = await getSyncDoc(noteId);
   const storage = getStorage();
   const previousAudio = existing?.audio;
-  const contentType = resolveAudioContentType(file);
+  if (previousAudio && !previousAudio.storagePath.startsWith(`notes/${noteId}/sync/`)) throw new Error("This audio attachment needs repair before it can be replaced.");
 
-  // The uploader's uid is embedded in the path -- storage.rules checks it
-  // directly there rather than cross-referencing Firestore for write access.
-  const path = `notes/${noteId}/sync/main/audio/${uid}/${Date.now()}-${file.name}`;
+  // Audio is scoped to the note; Storage Rules verifies that the live session
+  // owns that note before allowing this upload.
+  const path = `notes/${noteId}/sync/main/audio/${crypto.randomUUID()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_").slice(-128)}`;
   const objectRef = storageRef(storage, path);
-  await uploadBytes(objectRef, file, { contentType });
-  const downloadUrl = await getDownloadURL(objectRef);
-  const durationSeconds = await probeAudioDuration(file);
+  let committed = false;
+  try {
+    const upload = uploadBytesResumable(objectRef, file, { contentType });
+    const cancel = () => upload.cancel();
+    options.signal?.addEventListener("abort", cancel, { once: true });
+    try {
+      await new Promise<void>((resolve, reject) => upload.on("state_changed", snapshot => {
+        options.onProgress?.(Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100));
+      }, reject, resolve));
+    } finally { options.signal?.removeEventListener("abort", cancel); }
+    options.signal?.throwIfAborted();
+    const downloadUrl = await getDownloadURL(objectRef);
+    const durationSeconds = await probeAudioDuration(file);
 
   const audio: SyncAudio = {
     storagePath: path,
@@ -269,11 +312,14 @@ export async function attachAudio(
     });
   }
 
-  await updateDoc(syncDocRef(noteId), {
-    audio,
-    warnings,
-    updatedAt: serverTimestamp(),
+  await runTransaction(getFirestore(), async transaction => {
+    options.signal?.throwIfAborted();
+    if (getAuth().currentUser?.uid !== uid) throw new Error("Your sign-in session changed. Please retry.");
+    const latest = await transaction.get(syncDocRef(noteId));
+    if (latest.data()?.audio?.storagePath !== previousAudio?.storagePath) throw new Error("The audio changed elsewhere. Reopen this note before replacing it.");
+    transaction.update(syncDocRef(noteId), { audio, warnings, updatedAt: serverTimestamp() });
   });
+  committed = true;
 
   if (previousAudio) {
     await deleteObject(storageRef(storage, previousAudio.storagePath)).catch(
@@ -285,6 +331,9 @@ export async function attachAudio(
   }
 
   return audio;
+  } finally {
+    if (!committed) await deleteObject(objectRef).catch(() => undefined);
+  }
 }
 
 /** Removes the audio attachment. The sync (line timing) is preserved -- see decision #26/27 of the spec. */
@@ -292,11 +341,15 @@ export async function removeAudio(noteId: string): Promise<void> {
   const existing = await getSyncDoc(noteId);
   if (!existing?.audio) return;
   const storage = getStorage();
-  await deleteObject(storageRef(storage, existing.audio.storagePath)).catch(
-    () => {}
-  );
-  await updateDoc(syncDocRef(noteId), {
-    audio: deleteField(),
-    updatedAt: serverTimestamp(),
+  const uid = requireAuthenticatedUid(getAuth().currentUser?.uid);
+  const note = await getDoc(doc(getFirestore(), "notes", noteId));
+  if (note.data()?.userId !== uid || !existing.audio.storagePath.startsWith(`notes/${noteId}/sync/`)) throw new Error("Only the note owner can remove this audio.");
+  await deleteObject(storageRef(storage, existing.audio.storagePath)).catch(error => {
+    if (error.code !== "storage/object-not-found") throw error;
+  });
+  await runTransaction(getFirestore(), async transaction => {
+    const latest = await transaction.get(syncDocRef(noteId));
+    if (latest.data()?.audio?.storagePath !== existing.audio?.storagePath) throw new Error("The audio changed elsewhere. Reopen the note before removing it.");
+    transaction.update(syncDocRef(noteId), { audio: deleteField(), updatedAt: serverTimestamp() });
   });
 }

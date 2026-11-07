@@ -98,6 +98,7 @@ const PlayPanel = ({ currentUser, noteId }: PlayPanelProps) => {
   const {
     syncDoc,
     loading,
+    error,
     hasAudio,
     audioRef,
     isPlaying,
@@ -136,7 +137,7 @@ const PlayPanel = ({ currentUser, noteId }: PlayPanelProps) => {
   if (!syncDoc || syncDoc.lineOrder.length === 0) {
     return (
       <div className="mx-auto max-w-md px-4 py-10 text-center text-sm opacity-70">
-        No synced lyrics yet -- head to the Sync tab to mark this song's timing.
+        {error || "No synced lyrics yet. Head to the Sync tab to mark this song's timing."}
       </div>
     );
   }
@@ -145,6 +146,7 @@ const PlayPanel = ({ currentUser, noteId }: PlayPanelProps) => {
 
   return (
     <div className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col gap-3 px-3 py-3 md:px-5">
+      {error && <p role="alert" className="text-sm text-error">{error}</p>}
       {hasAudio && syncDoc.audio && (
         <audio ref={audioRef} src={syncDoc.audio.downloadUrl} preload="metadata" />
       )}

@@ -3,10 +3,11 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  publicDir: mode.startsWith('android') ? false : 'public',
   plugins: [react(), tailwindcss()],
   build: {
     minify: 'esbuild',
     cssCodeSplit: true,
   },
-})
+}))

@@ -3,7 +3,7 @@ import type { FieldValue, Timestamp } from "firebase/firestore";
 export type SyncStatus = "draft" | "complete";
 
 /** How a line's timing was captured. "waveform" and manual word-level editing are later phases. */
-export type TimingSource = "fast-sync" | "manual" | "waveform";
+export type TimingSource = "fast-sync" | "manual" | "waveform" | "local-alignment";
 
 /**
  * Optional per-word timing, subordinate to its parent line. Not required for a
@@ -68,6 +68,96 @@ export interface SyncDoc {
   createdAt?: Timestamp | FieldValue;
   updatedAt?: Timestamp | FieldValue;
   createdBy: string;
+}
+
+/**
+ * A candidate timing generated from a local vocal-guide recording. Proposals
+ * intentionally never appear on `SyncDoc`: they are held in component state
+ * until the songwriter explicitly applies them.
+ */
+export interface TimingProposal {
+  /** A client-generated identifier that lets the UI distinguish takes. */
+  id: string;
+  /** The lines for which the recognizer produced credible timing. */
+  lines: ProposedLineTiming[];
+}
+
+export interface ProposedLineTiming {
+  /** Existing SyncDoc line identity; a proposal cannot create lyric lines. */
+  lineId: string;
+  start: number;
+  end: number;
+  /** Optional word-level timing subordinate to this existing lyric line. */
+  words?: WordTiming[];
+  /** The recognizer/matcher could not confidently place this line or all its words. */
+  uncertain: boolean;
+}
+
+/** The narrow patch shape which can be passed to the existing sync write API. */
+export interface LineTimingPatch {
+  lineId: string;
+  patch: Partial<
+    Pick<LineTiming, "start" | "end" | "source" | "words" | "needsReview">
+  >;
+}
+
+/**
+ * Ephemeral alignment UI state. This state is deliberately not serializable to
+ * Firestore: retry and discard are local state transitions and write nothing.
+ */
+export type TimingProposalState =
+  | { phase: "idle" }
+  | { phase: "review"; proposal: TimingProposal };
+
+export const emptyTimingProposalState: TimingProposalState = { phase: "idle" };
+
+/** Moves a newly-generated proposal into the review step without touching SyncDoc. */
+export function reviewTimingProposal(proposal: TimingProposal): TimingProposalState {
+  return { phase: "review", proposal };
+}
+
+/** Discard and retry have the same persistence behavior: neither writes anything. */
+export function discardTimingProposal(): TimingProposalState {
+  return emptyTimingProposalState;
+}
+
+export function retryTimingProposal(): TimingProposalState {
+  return emptyTimingProposalState;
+}
+
+/**
+ * Converts a reviewed proposal into the patches accepted by `recordLineTimings`.
+ * Uncertain matches remain visible after applying by flagging their line for
+ * manual review; confident patches do not clear an existing review flag.
+ */
+export function toLineTimingPatches(proposal: TimingProposal): LineTimingPatch[] {
+  return proposal.lines.map(({ lineId, start, end, words, uncertain }) => ({
+    lineId,
+    patch: {
+      start,
+      end,
+      source: "local-alignment",
+      ...(words === undefined ? {} : { words }),
+      ...(uncertain ? { needsReview: true } : {}),
+    },
+  }));
+}
+
+/**
+ * Ends review and returns only the patches that a caller may deliberately
+ * persist. Calling this function alone has no side effects.
+ */
+export function applyTimingProposal(state: TimingProposalState): {
+  state: TimingProposalState;
+  patches: LineTimingPatch[];
+} {
+  if (state.phase === "idle") {
+    return { state, patches: [] };
+  }
+  return {
+    state: emptyTimingProposalState,
+    patches: toLineTimingPatches(state.proposal),
+  };
 }
 
 /**

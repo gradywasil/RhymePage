@@ -1,4 +1,12 @@
 {
-  "indexes": [],
-  "fieldOverrides": []
+  "indexes": [{
+    "collectionGroup": "notes",
+    "queryScope": "COLLECTION",
+    "fields": [
+      { "fieldPath": "userId", "order": "ASCENDING" },
+      { "fieldPath": "lastEditedAt", "order": "DESCENDING" },
+      { "fieldPath": "__name__", "order": "DESCENDING" }
+    ]
+  }],
+  "fieldOverrides": [{ "collectionGroup": "accountDeletionLocks", "fieldPath": "expiresAt", "ttl": true, "indexes": [] }]
 }

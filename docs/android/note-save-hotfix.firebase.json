@@ -1,0 +1,3 @@
+{
+  "firestore": { "rules": "note-save-hotfix.rules" }
+}

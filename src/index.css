@@ -8,18 +8,49 @@
     business;
 }
 
+.app-frame {
+  --app-safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px));
+  padding-top: max(env(safe-area-inset-top, 0px), var(--safe-area-inset-top, 0px));
+  padding-right: max(env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px));
+  padding-bottom: var(--app-safe-bottom);
+  padding-left: max(env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px));
+}
+
+.app-frame[data-writing="false"] {
+  padding-bottom: 0;
+}
+
+.app-footer {
+  padding-bottom: var(--app-safe-bottom);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-base-content)) transparent;
+}
+
 ::-webkit-scrollbar {
-  width: .75rem;
-  margin-left: .5rem;
+  width: .375rem;
+  height: .375rem;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
+  background: color-mix(in srgb, var(--color-primary) 40%, var(--color-base-content));
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: color-mix(in srgb, var(--color-primary) 55%, var(--color-base-content));
+}
+
+@media (forced-colors: active) {
+  * { scrollbar-color: auto; }
+  ::-webkit-scrollbar-thumb { background: CanvasText; }
 }
 
 @font-face {

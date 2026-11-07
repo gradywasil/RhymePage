@@ -4,25 +4,17 @@ import {
   useMemo,
   useRef,
   useState,
-  type KeyboardEvent,
 } from "react";
-import {
-  Timestamp,
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  getFirestore,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { useNoteDraft } from "./useNoteDraft";
 import {
   RELATION_KEYS,
   fetchRelated,
   type RelatedWord,
   type RelationKey,
 } from "../utils/rhymeApi";
-import { getLastWord } from "../utils/lyrics";
+import { getCompletedWord } from "../utils/lyrics";
 import { getDefinition } from "../utils/dictionaryApi";
 import {
   DEFAULT_RHYME_SETTINGS,
@@ -45,7 +37,6 @@ const NO_SUGGESTIONS = emptySuggestions();
 
 /** Wait this long after the last keystroke before hitting the API. */
 const SUGGEST_DEBOUNCE_MS = 250;
-const AUTOSAVE_DEBOUNCE_MS = 2000;
 
 interface DashboardProps {
   currentUser: AppUser | null;
@@ -53,20 +44,27 @@ interface DashboardProps {
 }
 
 const useDashboardLogic = ({ currentUser, existingNoteId }: DashboardProps) => {
-  const [title, setTitle] = useState<string>("");
-  const [lyrics, setLyrics] = useState<string>("");
-  const [themes, setThemes] = useState<string>("");
-  const [isPinned, setIsPinned] = useState<boolean>(false);
-  const [createdAt, setCreatedAt] = useState<Timestamp>();
+  const { draft, state: draftState } = useNoteDraft(currentUser?.uid ?? null, existingNoteId);
+  const { title, lyrics, themes } = draftState.content;
+  const setTitle = (title: string) => draft.edit({ title });
+  const setLyrics = (lyrics: string) => draft.edit({ lyrics });
+  const setThemes = (themes: string) => draft.edit({ themes });
+  const noteId = draftState.cloudExists ? draftState.noteId : "";
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!existingNoteId && draftState.cloudExists && !draftState.dirty && !draftState.saving) {
+      navigate(`/notes/${draftState.noteId}`, { replace: true });
+    }
+  }, [existingNoteId, draftState.cloudExists, draftState.dirty, draftState.saving, draftState.noteId, navigate]);
   const [lastWord, setLastWord] = useState<string>("");
   const [suggestions, setSuggestions] = useState<Suggestions>(emptySuggestions);
+  const [suggestionError, setSuggestionError] = useState("");
   const [activeCategory, setActiveCategory] = useState<RelationKey>("rhyme");
   const [definition, setDefinition] = useState<DictionaryEntry | null>(null);
   const [definitionWord, setDefinitionWord] = useState<string>("");
   const [definitionState, setDefinitionState] = useState<
     "idle" | "loading" | "empty" | "error" | "ready"
   >("idle");
-  const [noteId, setNoteId] = useState<string>(existingNoteId || "");
   const [settings, setSettings] = useState<RhymeSettings>(DEFAULT_RHYME_SETTINGS);
 
   /** The live textarea, so suggestions can be inserted at the caret. */
@@ -82,31 +80,7 @@ const useDashboardLogic = ({ currentUser, existingNoteId }: DashboardProps) => {
     [currentUser, settings]
   );
 
-  const buildNote = useCallback(
-    (uid: string) => ({
-      userId: uid,
-      title,
-      lyrics,
-      themes: themes || "",
-      isPinned: isPinned || false,
-      createdAt: createdAt || serverTimestamp(),
-      lastEditedAt: serverTimestamp(),
-    }),
-    [title, lyrics, themes, isPinned, createdAt]
-  );
-
-  const handleSave = async () => {
-    // The menu item only *looks* disabled when signed out, so guard for real.
-    if (!currentUser) return;
-
-    const notesCollection = collection(db, "notes");
-    if (noteId) {
-      await updateDoc(doc(notesCollection, noteId), buildNote(currentUser.uid));
-    } else {
-      const noteRef = await addDoc(notesCollection, buildNote(currentUser.uid));
-      if (noteRef) setNoteId(noteRef.id);
-    }
-  };
+  const handleSave = draft.save;
 
   const clearDefinition = useCallback(() => {
     setDefinitionState("idle");
@@ -132,24 +106,19 @@ const useDashboardLogic = ({ currentUser, existingNoteId }: DashboardProps) => {
     }
   }, []);
 
-  const handleReset = useCallback(() => {
-    setNoteId("");
-    setTitle("");
-    setLyrics("");
-    setThemes("");
+  const handleReset = () => {
+    if (existingNoteId) navigate("/notes/new");
+    else draft.resetNew();
     setLastWord("");
     setSuggestions(emptySuggestions());
     clearDefinition();
-  }, [clearDefinition]);
+  };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key !== " " && e.key !== "Enter") return;
-    // Read up to the caret: the word being finished is the one before it.
-    const upToCaret = e.currentTarget.value.slice(
-      0,
-      e.currentTarget.selectionStart ?? e.currentTarget.value.length
-    );
-    setLastWord(getLastWord(upToCaret));
+  const handleLyricsChange = (value: string, caret: number, composing = false) => {
+    setLyrics(value);
+    if (composing) return;
+    const word = getCompletedWord(value, caret);
+    if (word) setLastWord(word);
   };
 
   /**
@@ -202,10 +171,10 @@ const useDashboardLogic = ({ currentUser, existingNoteId }: DashboardProps) => {
               max: activeSettings.max,
               signal: controller.signal,
             });
-            return [key, words] as const;
+            return [key, words, false] as const;
           } catch {
             // An aborted or failed section just stays empty.
-            return [key, [] as RelatedWord[]] as const;
+            return [key, [] as RelatedWord[], true] as const;
           }
         })
       );
@@ -214,6 +183,7 @@ const useDashboardLogic = ({ currentUser, existingNoteId }: DashboardProps) => {
       const next = emptySuggestions();
       for (const [key, words] of settled) next[key] = words;
       setSuggestions(next);
+      setSuggestionError(settled.length > 0 && settled.every(([, , failed]) => failed) ? "Word suggestions could not load. Check your connection. Your writing is kept on this device." : "");
     }, SUGGEST_DEBOUNCE_MS);
 
     return () => {
@@ -240,53 +210,15 @@ const useDashboardLogic = ({ currentUser, existingNoteId }: DashboardProps) => {
     };
   }, [currentUser, db]);
 
-  // Load an existing note, or clear the form for a new one.
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      if (!existingNoteId) {
-        handleReset();
-        return;
-      }
-      const noteData = await getDoc(doc(db, "notes", existingNoteId));
-      if (cancelled || !noteData.exists()) return;
-      const note = noteData.data();
-      setNoteId(existingNoteId);
-      setTitle(note.title ?? "");
-      setLyrics(note.lyrics ?? "");
-      setThemes(note.themes ?? "");
-      setIsPinned(note.isPinned ?? false);
-      setCreatedAt(note.createdAt);
-      setLastWord(getLastWord(note.lyrics ?? ""));
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [existingNoteId, db, handleReset]);
-
-  // Autosave, but only for a note that already exists and a user who owns it.
-  useEffect(() => {
-    if (!noteId || !currentUser) return;
-    const saveTimer = setTimeout(() => {
-      updateDoc(
-        doc(collection(db, "notes"), noteId),
-        buildNote(currentUser.uid)
-      ).catch(() => {
-        // Leave the draft in the editor rather than interrupting the writer.
-      });
-    }, AUTOSAVE_DEBOUNCE_MS);
-    return () => clearTimeout(saveTimer);
-  }, [noteId, currentUser, buildNote, db]);
-
   return {
     noteId,
     title,
     setTitle,
     lyrics,
-    setLyrics,
     themes,
     setThemes,
     suggestions: lastWord ? suggestions : NO_SUGGESTIONS,
+    suggestionError: lastWord ? suggestionError : "",
     settings: activeSettings,
     lastWord,
     activeCategory,
@@ -300,7 +232,11 @@ const useDashboardLogic = ({ currentUser, existingNoteId }: DashboardProps) => {
     handleSave,
     handleReset,
     handleLeftClick,
-    handleKeyDown,
+    handleLyricsChange,
+    draftState,
+    retryDraft: draft.load,
+    resolveRecovery: draft.resolveRecovery,
+    importDeviceDraft: draft.edit,
   };
 };
 

@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import Loading from "./components/Loading";
 import Footer from "./components/Footer";
 import { Suspense, lazy, useEffect } from "react";
+import { useAndroidNavigation } from "./hooks/useAndroidNavigation";
+import { updateSystemBarContrast } from "./utils/nativeApp";
 const Notes = lazy(() => import("./components/Notes"));
 const Landing = lazy(() => import("./components/Landing"));
 const Login = lazy(() => import("./components/Login"));
@@ -12,10 +14,12 @@ const Settings = lazy(() => import("./components/Settings"));
 const Dashboard = lazy(() => import("./components/Dashboard"));
 const Profile = lazy(() => import("./components/Profile"));
 const Missing = lazy(() => import("./components/Missing"));
+const LegalPages = lazy(() => import("./components/LegalPages"));
 
 function App() {
   const {
     isLoading,
+    authReady,
     loggedIn,
     currentUser,
     theme,
@@ -27,6 +31,7 @@ function App() {
   // The dashboard is a fixed frame: every pixel goes to writing or suggestions.
   const { pathname } = useLocation();
   const isWriting = pathname.startsWith("/notes/");
+  useAndroidNavigation(currentUser?.uid ?? null, authReady);
 
   /*
    * data-theme has to live on <html>, not this div: daisyUI's :root fallback
@@ -36,10 +41,11 @@ function App() {
    */
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
+    updateSystemBarContrast();
+  }, [theme, isWriting]);
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden main-font bg-base-100 text-base-content">
+    <div data-writing={isWriting} className="app-frame flex h-dvh flex-col overflow-hidden main-font bg-base-100 text-base-content">
       <Header
         currentUser={currentUser}
         theme={theme}
@@ -49,8 +55,10 @@ function App() {
       {isLoading && <Loading />}
       <main className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
       <Suspense fallback={<Loading />}>
-        <Routes>
+        {!authReady ? <Loading /> : <Routes>
           <Route path="/" element={<Landing loggedIn={loggedIn} />} />
+          <Route path="/privacy" element={<LegalPages page="privacy" signedIn={loggedIn} />} />
+          <Route path="/delete-account" element={<LegalPages page="deletion" signedIn={loggedIn} />} />
           <Route
             path="/login"
             element={
@@ -70,11 +78,11 @@ function App() {
           <Route path="/notes" element={<Notes currentUser={currentUser} />} />
           <Route
             path="/notes/new"
-            element={<Dashboard currentUser={currentUser} />}
+            element={<Dashboard key={`${currentUser?.uid ?? "guest"}:${pathname}`} currentUser={currentUser} />}
           />
           <Route
             path="/notes/:existingNoteId"
-            element={<Dashboard currentUser={currentUser} />}
+            element={<Dashboard key={`${currentUser?.uid ?? "guest"}:${pathname}`} currentUser={currentUser} />}
           />
           <Route
             path="/profile"
@@ -85,7 +93,7 @@ function App() {
             element={<Profile currentUser={currentUser} />}
           />
           <Route path="*" element={<Missing loggedIn={loggedIn} />} />
-        </Routes>
+        </Routes>}
       </Suspense>
       </main>
       {!isWriting && <Footer />}

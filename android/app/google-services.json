@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "826172871931",
+    "project_id": "rhymepage-6b98b",
+    "storage_bucket": "rhymepage-6b98b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826172871931:android:4e1181db21bab05385cc5e",
+        "android_client_info": {
+          "package_name": "com.rhymepage.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "826172871931-9k391iuo1h5r4uartaq2328h8qkqqte2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rhymepage.app",
+            "certificate_hash": "9f1ce0af2a0e1772a38a7ade8451949aa1c1a695"
+          }
+        },
+        {
+          "client_id": "826172871931-fqh1am2apbh5fniir2d4pd3rb2t7gti1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rhymepage.app",
+            "certificate_hash": "81c3a5e4715e8c5394832811268b4906c0884bb9"
+          }
+        },
+        {
+          "client_id": "826172871931-tj0ab9nc6rep9kgj45i65fbm2r4f2fuu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rhymepage.app",
+            "certificate_hash": "10877113d28e05e323406bd33fecc0580158a1f1"
+          }
+        },
+        {
+          "client_id": "826172871931-i33ht68v5mhmui4gsuj74fsf0nq8nnq9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJKayg7vEFASat79TigycvcbOt5j83lDw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "826172871931-i33ht68v5mhmui4gsuj74fsf0nq8nnq9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

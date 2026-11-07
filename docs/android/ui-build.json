@@ -1,0 +1,114 @@
+{
+  "recordedAt": "2026-10-27T02:34:49.827Z",
+  "scope": "Android UI refinement in a shared dirty checkout; not ownership of other working-tree changes",
+  "apk": {
+    "path": "node_modules/.cache/android-development/artifacts/rhymepage-ui-debug.apk",
+    "sha256": "cfc2b7f7ae2631c5ede42d0fb521e74a211ed09e95d5e6b0538b4e643b0d339f",
+    "bytes": 7615365,
+    "applicationId": "com.rhymepage.app",
+    "signing": "Debug",
+    "versionCode": 1,
+    "versionName": "0.1.0",
+    "installedAndLaunched": true,
+    "playUploaded": false
+  },
+  "checks": {
+    "unitTests": 91,
+    "eslint": "passed",
+    "webBuild": "passed",
+    "androidBuild": "passed",
+    "androidLintErrors": 0,
+    "androidLintWarnings": 29,
+    "designDetectorFindings": 0,
+    "physicalDeviceTested": false
+  },
+  "runtime": {
+    "device": "Owned Android 16 / API 36.1 emulator-5580",
+    "webView": "134.0.6998.135",
+    "notebookData": "14 local-only demo-rhymepage fixtures in isolated emulatortest APK",
+    "sizesCssPx": [
+      [
+        411,
+        914
+      ],
+      [
+        914,
+        411
+      ],
+      [
+        1067,
+        1707
+      ],
+      [
+        320,
+        711
+      ]
+    ],
+    "lightAndDarkThemes": true,
+    "fontScale130": true,
+    "keyboardResize": true,
+    "footerSafeBottom": 24,
+    "footerLegalClearance": 28
+  },
+  "existingPlayAab": {
+    "path": "android/app/build/outputs/bundle/release/rhymepage-upload.aab",
+    "sha256": "48a6c478ca8a57130725b7f953e273fea27275db49dcdc1c547ebf876fd3fc58",
+    "unchanged": true
+  },
+  "sources": [
+    {
+      "path": "capacitor.config.ts",
+      "sha256": "1f2e4f2de69f67485d4aee4187fc5c8bcd1f8301d81f456a75f4b60f22fd1bbe"
+    },
+    {
+      "path": "android/app/src/main/AndroidManifest.xml",
+      "sha256": "8744ca1c49341a58f06dc860ff780b2a913b3a0c3bea155ea1553f378165489f"
+    },
+    {
+      "path": "android/app/src/main/java/com/rhymepage/app/MainActivity.java",
+      "sha256": "77fff303710a1de4d392256edb665b33bc088a63750ab291be242f78540b88db"
+    },
+    {
+      "path": "src/App.tsx",
+      "sha256": "15a7c3ad508b4d1882d217ff8e3d371e0ebff0f188a247dabe182f6d072d0a86"
+    },
+    {
+      "path": "src/components/Footer.tsx",
+      "sha256": "aeeb62e6453978175a234dd96ef5a61c007ae313d4296a5aaa79abb8e083f24a"
+    },
+    {
+      "path": "src/components/Landing.tsx",
+      "sha256": "e5bfc57d1ea5a74caa13d03d5ab37864e9a32c3b37ea59c17be64a50a5eb3729"
+    },
+    {
+      "path": "src/components/Notes.tsx",
+      "sha256": "67e3fc814c3a4c4089efe1afb79d39ac02c032ad0fb6e01e3550633b359fa778"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "7cc7c900c55480be49f5af1467163960b160b4a6924833cebc831158036a2ce8"
+    },
+    {
+      "path": "src/blocks/suggest.css",
+      "sha256": "f2466e334e7e50505f7e8ef3e69719a845c4d07d041618c85e16c497afb98880"
+    },
+    {
+      "path": "src/utils/nativeApp.ts",
+      "sha256": "7b327fa47893a109f79716704b1ed41aeaea22b7f7a1dc1f4cadf6278ce2ba99"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "docs/android/evidence/ui-notebook-forest.png",
+      "sha256": "1e5351303803a10d976953480e6bf2568ebb3c5899efae6930c1a43a2068ee8b"
+    },
+    {
+      "path": "docs/android/evidence/ui-landing-gesture-area.png",
+      "sha256": "bf76693bfb81d15020fed64316201d4d0fddd8acd68115ac81f4939bdbb3331f"
+    },
+    {
+      "path": "docs/android/evidence/ui-editor-keyboard.png",
+      "sha256": "9f7fbf3e25970035f7e7b6ad0ec8cffc2c4ef09dce65b236c265cf112fc62a69"
+    }
+  ]
+}

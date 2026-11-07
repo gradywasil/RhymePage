@@ -14,6 +14,7 @@ const STATE_LABEL: Record<SheetState, string> = {
 };
 
 interface SuggestionPanelProps {
+  error?: string;
   suggestions: Suggestions;
   settings: RhymeSettings;
   lastWord: string;
@@ -30,6 +31,7 @@ interface SuggestionPanelProps {
 }
 
 const SuggestionPanel = ({
+  error,
   suggestions,
   settings,
   lastWord,
@@ -130,9 +132,9 @@ const SuggestionPanel = ({
             ))
           ) : (
             <p className="px-1 py-2 text-sm opacity-60">
-              {lastWord
+              {error || (lastWord
                 ? `Nothing found for "${lastWord}".`
-                : "Finish a word to see suggestions."}
+                : "Finish a word to see suggestions.")}
             </p>
           )}
         </div>

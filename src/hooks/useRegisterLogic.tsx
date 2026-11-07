@@ -2,7 +2,6 @@ import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
-  signInWithPopup,
   updateProfile,
 } from "firebase/auth";
 import {
@@ -13,7 +12,8 @@ import {
   setDoc,
 } from "firebase/firestore";
 import type { User } from "firebase/auth";
-import { auth, provider } from "../firebase";
+import { auth } from "../firebase";
+import { androidAuthError, signInWithGoogle } from "../utils/googleAuth";
 import { publishProfile } from "../utils/profiles";
 import { toAppUser, type AppUser } from "../types/user";
 
@@ -23,6 +23,8 @@ interface RegisterProps {
 }
 
 function readableError(error: unknown): string {
+  const androidError = androidAuthError(error);
+  if (androidError) return androidError;
   const code =
     typeof error === "object" && error !== null && "code" in error
       ? String((error as { code: unknown }).code)
@@ -104,7 +106,7 @@ const useRegisterLogic = ({ setCurrentUser, loggedIn }: RegisterProps) => {
     setError("");
     setGoogleLoading(true);
     try {
-      await signInWithPopup(auth, provider);
+      await signInWithGoogle();
       await finishSignUp();
     } catch (err) {
       setError(readableError(err));

@@ -42,15 +42,15 @@ const Notes = ({ currentUser }: NotesProps) => {
   ];
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-6 md:py-8">
+    <div className="mx-auto w-full max-w-5xl px-4 py-4 md:py-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-bold md:text-3xl">Notebook</h1>
-        <button type="button" className="btn btn-primary btn-sm" onClick={createNote}>
+        <button type="button" className="btn btn-primary min-h-12" onClick={createNote}>
           New note
         </button>
       </div>
 
-      <div role="tablist" className="mt-5 flex gap-1 border-b border-base-300">
+      <div role="tablist" className="mt-3 flex gap-1 border-b border-base-300 md:mt-5">
         {tabs.map(({ id, label, count }) => (
           <button
             key={id}
@@ -62,7 +62,7 @@ const Notes = ({ currentUser }: NotesProps) => {
               setTagFilter(null);
             }}
             className={[
-              "-mb-px flex items-center gap-1.5 border-b-2 px-3 py-2 text-sm font-medium transition",
+              "-mb-px flex min-h-12 items-center gap-1.5 border-b-2 px-3 py-2 text-sm font-medium transition",
               "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
               tab === id
                 ? "border-primary text-primary"
@@ -150,7 +150,7 @@ const Notes = ({ currentUser }: NotesProps) => {
       {pendingDelete && (
         <ConfirmDialog
           title={`Delete "${pendingDelete.title || "Untitled"}"?`}
-          body="The note and its lyrics go for good. This cannot be undone."
+          body="This permanently removes the note, attached audio, and lyric timing. This cannot be undone."
           confirmLabel="Delete note"
           onCancel={() => setPendingDelete(null)}
           onConfirm={async () => {

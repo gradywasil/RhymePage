@@ -21,7 +21,7 @@ interface SettingsProps {
 }
 
 const Settings = ({ currentUser, setCurrentUser }: SettingsProps) => {
-  const [tab, setTab] = useState<Tab>("suggestions");
+  const [tab, setTab] = useState<Tab>(() => new URLSearchParams(window.location.search).get("section") === "account" ? "account" : "suggestions");
   const [settings, setSettings] = useState<RhymeSettings>(DEFAULT_RHYME_SETTINGS);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">(
     "idle"

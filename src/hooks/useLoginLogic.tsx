@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import {
   browserLocalPersistence,
   browserSessionPersistence,
+  indexedDBLocalPersistence,
   sendPasswordResetEmail,
   setPersistence,
   signInWithEmailAndPassword,
-  signInWithPopup,
 } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { auth, provider } from "../firebase";
+import { auth } from "../firebase";
+import { androidAuthError, signInWithGoogle } from "../utils/googleAuth";
+import { isAndroid } from "../utils/nativeApp";
 import { publishProfile } from "../utils/profiles";
 import { toAppUser, type AppUser } from "../types/user";
 import type { User } from "firebase/auth";
@@ -20,6 +22,8 @@ interface LoginProps {
 }
 
 function readableError(error: unknown): string {
+  const androidError = androidAuthError(error);
+  if (androidError) return androidError;
   const code =
     typeof error === "object" && error !== null && "code" in error
       ? String((error as { code: unknown }).code)
@@ -80,7 +84,7 @@ const useLoginLogic = ({ setCurrentUser, loggedIn }: LoginProps) => {
   const applyPersistence = () =>
     setPersistence(
       auth,
-      rememberMe ? browserLocalPersistence : browserSessionPersistence
+      rememberMe ? (isAndroid() ? indexedDBLocalPersistence : browserLocalPersistence) : browserSessionPersistence
     );
 
   const handleLogin = async (e: FormEvent) => {
@@ -105,7 +109,7 @@ const useLoginLogic = ({ setCurrentUser, loggedIn }: LoginProps) => {
     setGoogleLoading(true);
     try {
       await applyPersistence();
-      const { user } = await signInWithPopup(auth, provider);
+      const { user } = await signInWithGoogle();
       await finishSignIn(user);
     } catch (err) {
       setError(readableError(err));

@@ -1,0 +1,189 @@
+{
+  "publishedAt": "2026-10-27T03:54:17.115Z",
+  "site": "rhymepage-6b98b",
+  "publishedVersion": "projects/826172871931/sites/rhymepage-6b98b/versions/8e44f8bd1ee3aee6",
+  "previousVersion": "projects/rhymepage-6b98b/sites/rhymepage-6b98b/versions/7f4b07e838756f4b",
+  "release": "projects/826172871931/sites/rhymepage-6b98b/channels/live/releases/1793073198590000",
+  "checks": [
+    {
+      "url": "https://rhymepage.com/privacy",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 7620,
+      "sha256": "e7f7cff4ed4299297f240f54ee4940f94cd579c95fcdabe422ee3d4a2d040da9",
+      "matchesLocalFile": true
+    },
+    {
+      "url": "https://rhymepage.com/delete-account",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 4042,
+      "sha256": "e54ba78a5da4b35a5b079eaadcd655fd2c1f7649e050250c34c92e2df0b45bca",
+      "matchesLocalFile": true
+    },
+    {
+      "url": "https://rhymepage.com/legal/raleway-500.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 20704,
+      "sha256": "263105b83da311cd76db478c2d958dfded7cc73be6233045a3d3a2b57b86882f",
+      "matchesLocalFile": true
+    },
+    {
+      "url": "https://rhymepage.com/legal/raleway-800.woff2",
+      "status": 200,
+      "contentType": "font/woff2",
+      "bytes": 21384,
+      "sha256": "ead9bd74ee6eceb2b359a4cd56da7376535359cd3c7d18d574e034432caa0533",
+      "matchesLocalFile": true
+    },
+    {
+      "url": "https://www.rhymepage.com/privacy",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 7620,
+      "sha256": "e7f7cff4ed4299297f240f54ee4940f94cd579c95fcdabe422ee3d4a2d040da9",
+      "matchesLocalFile": true
+    }
+  ],
+  "homepageUnchanged": true,
+  "homepageSHA256": "73522d6acbcdf5e43eb7b0fa2c1d24686ff1aa4c4498b8914861cd20776dcb54",
+  "preservedFiles": [
+    {
+      "path": "/404.html",
+      "gzipSHA256": "6537619fa0edb6a05c3fa83265461172fea2307ecff34424f323310c8c8eb4be"
+    },
+    {
+      "path": "/__/firebase/init.js",
+      "gzipSHA256": "2fc98bb4b7d69bcf54e322439473a9ba266232d9b9be696809c56e98226e932c"
+    },
+    {
+      "path": "/__/firebase/init.json",
+      "gzipSHA256": "38e47019107eae867a817c4aec5efc8809140e192fbc70816b9b408434250df7"
+    },
+    {
+      "path": "/assets/ConfirmDialog-BAc421Sp.js",
+      "gzipSHA256": "a9c97ce2c7bbd39cf80594dc223fe4676b4328512a68594a869000d1c3767caa"
+    },
+    {
+      "path": "/assets/Dashboard-COgnwM-I.js",
+      "gzipSHA256": "479f0b4adc0132976ba65d6337f3527aa87482012e88a7b700815690020c1f8b"
+    },
+    {
+      "path": "/assets/FormControls-CTibhMcW.js",
+      "gzipSHA256": "9c53d5e7c3b295aee712fe97696f7b2fd07ac967a0e9d8004a5aa07f8294c487"
+    },
+    {
+      "path": "/assets/Landing-Cp1u79LG.js",
+      "gzipSHA256": "794641a88100c5e4241c1339e6c6916909a0671f9e18a658e4f0a856201351ee"
+    },
+    {
+      "path": "/assets/Login-gdqE9SgM.js",
+      "gzipSHA256": "3303fac32615895f983a88ebdfea2c7bb38274f6e56c1f24b60488067d8e907f"
+    },
+    {
+      "path": "/assets/Missing-Bw8iWtG2.js",
+      "gzipSHA256": "624df1462b6740ad5a47a2014a797229ae604bfc7b7ae5bb07a61ce49d0062ab"
+    },
+    {
+      "path": "/assets/Notes-D3uaQSmp.js",
+      "gzipSHA256": "782ba253e8c9afbb59bbc674c813a7fb196cf3ad37003cdb2403eadf0e56b74c"
+    },
+    {
+      "path": "/assets/Profile-CmQez7zP.js",
+      "gzipSHA256": "24972cc0e0de06ca5e4aa2fedc039f72b870fc53b37fbd33d62e83a12ab04e0a"
+    },
+    {
+      "path": "/assets/Register-CULjjTJL.js",
+      "gzipSHA256": "34bd5ab5e255e66a873d5ed5d16068f71c4d0c7e4866ea6ee70d30d2666f6da6"
+    },
+    {
+      "path": "/assets/Settings-CQ18EHOx.js",
+      "gzipSHA256": "adb73e1a2345397da61b0afa6500e8b4762ee4b36600bbe3f95070c5b6ae1c24"
+    },
+    {
+      "path": "/assets/SettingsDashboard-BS1qzenp.js",
+      "gzipSHA256": "b70d05128f1bb0b9824b2316222f102f6840d7deafc949015bcacf4460bc1677"
+    },
+    {
+      "path": "/assets/SettingsProfile-D8LevwrI.js",
+      "gzipSHA256": "7d6cf577828e59798699c2c97faf52c762055133ffffcadfb6c1bd1120e69144"
+    },
+    {
+      "path": "/assets/SettingsSection-FkLHXwUd.js",
+      "gzipSHA256": "ef09ba8969a3a451fc10281daf724911ba96789b7dfaad0762adc3a7ab4af26b"
+    },
+    {
+      "path": "/assets/index-DdlGFCYB.css",
+      "gzipSHA256": "feb7f6b00b04d336b85cde28e84a961590e60d409202bfdb3f3659e223610580"
+    },
+    {
+      "path": "/assets/index-DwByI1Fh.js",
+      "gzipSHA256": "eac2df9c0985067e7cf01fad38530f13cfbcb7e1454b2872b7e524a315a5409e"
+    },
+    {
+      "path": "/assets/index-t2injFt3.js",
+      "gzipSHA256": "e05bfac653107719804f1e710f1edfdb29cb8da8d7ba30d69714a02e8bf7637a"
+    },
+    {
+      "path": "/assets/notesApi-BuOSwCIw.js",
+      "gzipSHA256": "5e1a2797aba0b5e973afe49c2fe5a519756633f7118ed3d2c5d96c5eebc395be"
+    },
+    {
+      "path": "/assets/nothing-you-could-do-v15-latin-regular-B7VfwEBS.woff2",
+      "gzipSHA256": "52de7e1fb181bef54f8ba87e68e166c319a907c98f5f8e8f964094ce2e963e82"
+    },
+    {
+      "path": "/assets/profiles-CJvPYGMj.js",
+      "gzipSHA256": "867e06b71764637871b14882437916402af34951c454c722ae11e84a2f7c5b6f"
+    },
+    {
+      "path": "/assets/raleway-v28-latin-300-B_EnTGzj.woff2",
+      "gzipSHA256": "63d781eaba1add24bf3b5c3c8da34df7869e4c6d4d80c0dddddaee6942292140"
+    },
+    {
+      "path": "/assets/raleway-v28-latin-300italic-Dfcll91b.woff2",
+      "gzipSHA256": "2bde40c3691790fb0e49869426c6d20a0a118f452c1c46208a35e57f02037666"
+    },
+    {
+      "path": "/assets/raleway-v28-latin-500-C7lqZ_p4.woff2",
+      "gzipSHA256": "6d5068d736cf87496c1261fc92d0da81e3576f1287a334f9d50b4ac07dc8a322"
+    },
+    {
+      "path": "/assets/raleway-v28-latin-800-GcJccCw7.woff2",
+      "gzipSHA256": "e485af732374f0b5b170bbd5c4fb1ec49893a0d6de7bd6e098b2f725d4bd199d"
+    },
+    {
+      "path": "/assets/regions.esm-CDsoJNbX.js",
+      "gzipSHA256": "fc33a8277b5dd2cfb47bc41650bea4d5715d235e4471ded50e2ed0e1e057d8e7"
+    },
+    {
+      "path": "/assets/settings-Cj6SO88-.js",
+      "gzipSHA256": "a7fb453e7a2d9fbfb69b1f64988a13034e4b4a5717e1d39e016bc951dddd45c8"
+    },
+    {
+      "path": "/assets/wavesurfer.esm-IoTNXFUF.js",
+      "gzipSHA256": "2bd93289c92d6c7b17ba15aca2f15728290732b19c8919d83db24bf70f099763"
+    },
+    {
+      "path": "/favicon.ico",
+      "gzipSHA256": "86c7288977ca6cedc5c8003ada25aa4ea8e36c83e3296b03f5aed093effd2c9f"
+    },
+    {
+      "path": "/index.html",
+      "gzipSHA256": "daabd00a7acec1b59df9953c16fa1d8901ce7107ad6425a9dfb027c8b22e66ba"
+    },
+    {
+      "path": "/vite.svg",
+      "gzipSHA256": "9de4d3c4e50257d9874f07e9efc929efefc85e51f931a9af716f9a7ebb23ef68"
+    }
+  ],
+  "addedFiles": {
+    "/privacy/index.html": "f94852070b8e2a5782480366ee23675fe25b477610943196b2a42de7c9c2b574",
+    "/delete-account/index.html": "5c7cf92409428a5b9dfb6fbfd08ffbe814aa771d4df56ad00e6695fb40b87830",
+    "/legal/raleway-500.woff2": "19dbc0599a3c679b838adc386cf1729a340455f86bccea4c692b96e4020b4a1c",
+    "/legal/raleway-800.woff2": "40f884774db41b04ef9c2b6af9d4ed59028d06829ff9fad2ab5bbb5380db8031"
+  },
+  "scope": "Static legal pages and fonts only; no app bundle, backend rules, Functions, or account data changed",
+  "renderChecks": "390px dark and 1280px light; no horizontal overflow; script-free HTML"
+}

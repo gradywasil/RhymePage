@@ -1,6 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { computeSyncStatus } from "./sync";
-import type { LineTiming, SyncDoc } from "./sync";
+import {
+  applyTimingProposal,
+  computeSyncStatus,
+  discardTimingProposal,
+  emptyTimingProposalState,
+  retryTimingProposal,
+  reviewTimingProposal,
+  toLineTimingPatches,
+} from "./sync";
+import type { LineTiming, SyncDoc, TimingProposal } from "./sync";
 
 function line(overrides: Partial<LineTiming> & Pick<LineTiming, "lineId">): LineTiming {
   return {
@@ -100,5 +108,73 @@ describe("computeSyncStatus", () => {
       doc({ lines: { a }, lineOrder: ["a"] })
     );
     expect(result).toBe("complete");
+  });
+});
+
+describe("timing proposal lifecycle", () => {
+  const proposal: TimingProposal = {
+    id: "take-1",
+    lines: [
+      {
+        lineId: "a",
+        start: 1.25,
+        end: 2.5,
+        words: [
+          { text: "hello", start: 1.25, end: 1.7 },
+          { text: "world", start: 1.7, end: 2.5 },
+        ],
+        uncertain: false,
+      },
+      { lineId: "b", start: 2.5, end: 3.25, uncertain: true },
+    ],
+  };
+
+  it("keeps a newly generated proposal separate from SyncDoc until review", () => {
+    const reviewed = reviewTimingProposal(proposal);
+
+    expect(reviewed).toEqual({ phase: "review", proposal });
+    expect("proposal" in doc()).toBe(false);
+  });
+
+  it("turns a reviewed proposal into deliberate existing timing patches", () => {
+    expect(toLineTimingPatches(proposal)).toEqual([
+      {
+        lineId: "a",
+        patch: {
+          start: 1.25,
+          end: 2.5,
+          source: "local-alignment",
+          words: proposal.lines[0].words,
+        },
+      },
+      {
+        lineId: "b",
+        patch: {
+          start: 2.5,
+          end: 3.25,
+          source: "local-alignment",
+          needsReview: true,
+        },
+      },
+    ]);
+  });
+
+  it("ends review only when apply returns patches for the caller to persist", () => {
+    const result = applyTimingProposal(reviewTimingProposal(proposal));
+
+    expect(result.state).toBe(emptyTimingProposalState);
+    expect(result.patches).toEqual(toLineTimingPatches(proposal));
+  });
+
+  it("does not create patches when apply is called without a proposal", () => {
+    expect(applyTimingProposal(emptyTimingProposalState)).toEqual({
+      state: emptyTimingProposalState,
+      patches: [],
+    });
+  });
+
+  it("lets retry and discard clear in-memory review without producing patches", () => {
+    expect(discardTimingProposal()).toBe(emptyTimingProposalState);
+    expect(retryTimingProposal()).toBe(emptyTimingProposalState);
   });
 });

@@ -1,5 +1,6 @@
 import { computeSyncStatus } from "../types/sync";
 import type { SyncDoc } from "../types/sync";
+import { isAndroid, nativeApp } from "./nativeApp";
 
 function formatLrcTimestamp(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -45,12 +46,14 @@ export function slugForFilename(title: string): string {
   return slug || "song";
 }
 
-export function downloadTextFile(filename: string, content: string, mimeType: string): void {
+export async function downloadTextFile(filename: string, content: string, mimeType: string): Promise<boolean> {
+  if (isAndroid()) return (await nativeApp.exportText({ filename, content, mimeType })).saved;
   const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = filename;
   anchor.click();
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return true;
 }

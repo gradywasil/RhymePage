@@ -14,6 +14,7 @@ const usePlayLogic = ({ currentUser, noteId }: UsePlayLogicProps) => {
   const [loading, setLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [error, setError] = useState("");
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -54,6 +55,7 @@ const usePlayLogic = ({ currentUser, noteId }: UsePlayLogicProps) => {
         return;
       }
       setLoading(true);
+      try {
       const doc = await getSyncDoc(noteId);
       if (cancelled) return;
       setSyncDoc(doc);
@@ -62,6 +64,9 @@ const usePlayLogic = ({ currentUser, noteId }: UsePlayLogicProps) => {
       if (Number.isFinite(saved) && saved > 0) {
         clockBaseRef.current = saved;
         setCurrentTime(saved);
+      }
+      } catch {
+        if (!cancelled) { setError("Could not load playback. Check your connection and reopen Play."); setLoading(false); }
       }
     })();
     return () => {
@@ -76,7 +81,7 @@ const usePlayLogic = ({ currentUser, noteId }: UsePlayLogicProps) => {
     const saved = Number(localStorage.getItem(positionKey));
     if (!Number.isFinite(saved) || saved <= 0) return;
     const apply = () => {
-      audioEl.currentTime = saved;
+      audioEl.currentTime = Math.min(saved, Number.isFinite(audioEl.duration) ? audioEl.duration : saved);
     };
     if (audioEl.readyState >= 1) apply();
     else audioEl.addEventListener("loadedmetadata", apply, { once: true });
@@ -122,13 +127,16 @@ const usePlayLogic = ({ currentUser, noteId }: UsePlayLogicProps) => {
     };
   }, [hasAudio, persistPosition]);
 
-  const play = useCallback(() => {
+  const play = useCallback(async () => {
+    setError("");
+    try {
     if (audioRef.current && hasAudio) {
-      audioRef.current.play();
+      await audioRef.current.play();
     } else {
       clockStartRef.current = performance.now();
     }
     setIsPlaying(true);
+    } catch { setError("Audio could not play. Check your connection and try again."); setIsPlaying(false); }
   }, [hasAudio]);
 
   const pause = useCallback(() => {
@@ -164,6 +172,24 @@ const usePlayLogic = ({ currentUser, noteId }: UsePlayLogicProps) => {
     seek(0);
   }, [pause, seek]);
 
+  useEffect(() => {
+    const audio = audioRef.current;
+    const hide = () => { if (document.hidden) pause(); };
+    const stopped = () => { setIsPlaying(false); if (audio) persistPosition(audio.currentTime); };
+    const failed = () => { stopped(); setError("Audio playback was interrupted. Check your connection and retry."); };
+    audio?.addEventListener("ended", stopped);
+    audio?.addEventListener("pause", stopped);
+    audio?.addEventListener("error", failed);
+    document.addEventListener("visibilitychange", hide);
+    return () => {
+      audio?.removeEventListener("ended", stopped);
+      audio?.removeEventListener("pause", stopped);
+      audio?.removeEventListener("error", failed);
+      audio?.pause();
+      document.removeEventListener("visibilitychange", hide);
+    };
+  }, [hasAudio, pause, persistPosition]);
+
   const activeLineId = useMemo(() => {
     if (!syncDoc) return null;
     for (const lineId of syncDoc.lineOrder) {
@@ -183,6 +209,7 @@ const usePlayLogic = ({ currentUser, noteId }: UsePlayLogicProps) => {
   return {
     syncDoc,
     loading,
+    error,
     hasAudio,
     audioRef,
     isPlaying,

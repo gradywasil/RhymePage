@@ -187,7 +187,7 @@ const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEdito
           type="button"
           className="btn btn-outline btn-sm"
           disabled={!ready}
-          onClick={() => void wavesurferRef.current?.playPause()}
+          onClick={() => void wavesurferRef.current?.playPause().catch(() => setLoadError(true))}
         >
           {isPlaying ? "Pause" : "Play"}
         </button>

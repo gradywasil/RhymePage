@@ -1,0 +1,92 @@
+﻿{
+    "recordedAt":  "2026-10-26T15:13:56.5465395-06:00",
+    "gitHead":  "014cabe4b4a6ecedaffb26ca050f15ab479e033a",
+    "workingTree":  "Shared dirty checkout; source hashes below cover selected files only.",
+    "apk":  {
+                "signing":  "Android debug key; apksigner v2 verification passed",
+                "path":  "android/app/build/outputs/apk/debug/app-debug.apk",
+                "targetSdk":  36,
+                "applicationId":  "com.rhymepage.app",
+                "versionCode":  1,
+                "sha256":  "06650334d48699619a3410ea582a2595dd54ada9c3dabd3ae6517089167b49e2",
+                "minSdk":  24,
+                "bytes":  178754107,
+                "versionName":  "0.1.0"
+            },
+    "toolchain":  {
+                      "java":  "Temurin 21.0.12.1+1",
+                      "node":  "24.22.1",
+                      "androidGradlePlugin":  "8.13.0",
+                      "gradle":  "8.14.3",
+                      "jdkArchiveSha256":  "f9d6e191ab098c0d416e7d588a24420a8621cd2f4720dab2459b8b7b2d2d8b4e",
+                      "npm":  "11.18.0"
+                  },
+    "runtime":  {
+                    "android":  "16",
+                    "device":  "Medium_Phone_API_36.1",
+                    "sdk":  36,
+                    "serial":  "emulator-5554",
+                    "webview":  "134.0.6998.135",
+                    "abi":  "x86_64",
+                    "physicalDeviceTested":  false
+                },
+    "packagedWebBytes":  205678330,
+    "sources":  [
+                    {
+                        "sha256":  "b50b425f3f7e3b45d35a41ae04d75c68ff167f0dc8c2d020cc9b99db744883e2",
+                        "path":  "package.json"
+                    },
+                    {
+                        "sha256":  "3a61d21759ff52bea44c707b194dd06108a495c29e0157f0253efc7524d801a4",
+                        "path":  "package-lock.json"
+                    },
+                    {
+                        "sha256":  "5d4c53c407e8c5313d42c507258095e47deb855afd4b935bf339d9f8136c5c64",
+                        "path":  "capacitor.config.ts"
+                    },
+                    {
+                        "sha256":  "f579cadccbceda121f1ad4777e046d89d0e32654b041a556468c21c97bbe25f7",
+                        "path":  "scripts/prepare-android.mjs"
+                    },
+                    {
+                        "sha256":  "9c6a82f8ad21d3f612941f45a5d983136966e07dc7591307a2e7fde97834558a",
+                        "path":  "scripts/build-android.mjs"
+                    },
+                    {
+                        "sha256":  "f1f8774049138b365fafdeb212dcef75014e4717670d275b28d63e55a354a4da",
+                        "path":  "src/components/Dashboard.tsx"
+                    },
+                    {
+                        "sha256":  "a7f893e3bcc7b4bc18b7b64fda866750e4353cbb9243d0a5969e04d9fc266fe8",
+                        "path":  "src/hooks/useDashboardLogic.tsx"
+                    },
+                    {
+                        "sha256":  "c08f22fc6a6097b0b8691198ff320cf88e4b5bc3adefca17634a4eba40c85b94",
+                        "path":  "src/utils/lyrics.ts"
+                    },
+                    {
+                        "sha256":  "fdc6458cf01b5ebca649e43dbd7ac844cc6d20b8a5315b4fad7a91a27e9253b0",
+                        "path":  "src/utils/lyrics.test.ts"
+                    },
+                    {
+                        "sha256":  "8ce1f957b7d091eddad86f4d78989c691ce88c13b6bde7d9542a8d09f0ff7fe4",
+                        "path":  "src/alignment/sherpaLoader.test.ts"
+                    },
+                    {
+                        "sha256":  "82a8792ff333281ead6084d6acf328ce0d472c397c79ec098ab911d5ecd08489",
+                        "path":  "android/app/src/main/AndroidManifest.xml"
+                    },
+                    {
+                        "sha256":  "59c925309d0e7600cc60cfc45398cc7c7ac3eec75168b5c11e06e4010ef67fc4",
+                        "path":  "android/app/build.gradle"
+                    },
+                    {
+                        "sha256":  "83d502c9ed8fcf1dd4791482067abeedbebae49fafe9cd14a8a1f5891deb0d88",
+                        "path":  "android/variables.gradle"
+                    },
+                    {
+                        "sha256":  "9a479a85aa879bb55284fc16d0de5b81a745c3854f4e2d88c42e7debaf007435",
+                        "path":  "android/gradle/wrapper/gradle-wrapper.properties"
+                    }
+                ]
+}

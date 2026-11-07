@@ -3,11 +3,15 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {
   getAuth,
+  initializeAuth,
+  indexedDBLocalPersistence,
   GoogleAuthProvider,
   connectAuthEmulator,
 } from "firebase/auth";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { isAndroid } from "./utils/nativeApp";
 
 const firebaseConfig = {
   apiKey: "AIzaSyArkjuqZMCEWfZ4iDXh32ims44svzP7yJU",
@@ -19,11 +23,14 @@ const firebaseConfig = {
   measurementId: "G-K9094K0YSW"
 };
 
-const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
-export const auth = getAuth(app);
+const app = initializeApp(import.meta.env.MODE === "android-emulator" ? {
+  ...firebaseConfig, projectId: "demo-rhymepage", storageBucket: "demo-rhymepage.appspot.com", apiKey: "demo-rhymepage",
+} : firebaseConfig);
+export const analytics = isAndroid() ? null : getAnalytics(app);
+export const auth = isAndroid() ? initializeAuth(app, { persistence: indexedDBLocalPersistence }) : getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+export const functions = getFunctions(app);
 export const provider = new GoogleAuthProvider();
 
 if (import.meta.env.DEV) {
@@ -42,11 +49,13 @@ if (import.meta.env.DEV) {
  * HMR can trigger by re-running this module -- the try/catch is for that, not
  * for masking a real connection failure.
  */
-if (import.meta.env.DEV && import.meta.env.VITE_USE_FIREBASE_EMULATOR === "true") {
+if ((import.meta.env.DEV && import.meta.env.VITE_USE_FIREBASE_EMULATOR === "true") || import.meta.env.MODE === "android-emulator") {
+  const host = import.meta.env.MODE === "android-emulator" ? "10.0.2.2" : "127.0.0.1";
   try {
-    connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
-    connectFirestoreEmulator(db, "127.0.0.1", 8080);
-    connectStorageEmulator(storage, "127.0.0.1", 9199);
+    connectAuthEmulator(auth, `http://${host}:9099`, { disableWarnings: true });
+    connectFirestoreEmulator(db, host, 8080);
+    connectStorageEmulator(storage, host, 9199);
+    connectFunctionsEmulator(functions, host, 5001);
     console.info("[firebase] connected to local emulators");
   } catch {
     // Already connected -- expected on hot reload.

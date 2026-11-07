@@ -5,6 +5,8 @@ import SuggestionPanel, { type SheetState } from "./SuggestionPanel";
 import SyncPanel from "./SyncPanel";
 import PlayPanel from "./PlayPanel";
 import type { AppUser } from "../types/user";
+import ConfirmDialog from "./ConfirmDialog";
+import { unsignedDeviceDraft } from "../utils/noteDraft";
 
 interface DashboardProps {
   currentUser: AppUser | null;
@@ -29,16 +31,19 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
   // Local UI state, not a route param: switching modes shouldn't remount the
   // page or interrupt audio playback / scroll position.
   const [mode, setMode] = useState<Mode>("write");
+  const [resetting, setResetting] = useState(false);
+  const [unsignedDraft, setUnsignedDraft] = useState(() => currentUser && !existingNoteId ? unsignedDeviceDraft(localStorage) : null);
+  const [importing, setImporting] = useState(false);
 
   const {
     noteId,
     title,
     setTitle,
     lyrics,
-    setLyrics,
     themes,
     setThemes,
     suggestions,
+    suggestionError,
     settings,
     lastWord,
     lyricsRef,
@@ -52,11 +57,27 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
     handleSave,
     handleReset,
     handleLeftClick,
-    handleKeyDown,
+    handleLyricsChange,
+    draftState,
+    retryDraft,
+    resolveRecovery,
+    importDeviceDraft,
   } = useDashboardLogic({ currentUser, existingNoteId });
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col">
+      <div className="flex-none border-b border-base-300 px-3 py-2 text-xs" aria-live="polite">
+        <p role={draftState.storageError ? "alert" : "status"}>{draftState.storageError || draftState.message || "Writing is kept on this device as you type."}</p>
+        {!draftState.ready && <button type="button" className="btn btn-ghost btn-xs" onClick={() => void retryDraft()}>Retry notebook load</button>}
+        {unsignedDraft && !draftState.dirty && !draftState.cloudExists && <button type="button" className="btn btn-ghost btn-xs" onClick={() => setImporting(true)}>Import unsigned draft from this device</button>}
+        {draftState.recovery && draftState.cloud && (
+          <div className="mt-1 flex flex-wrap gap-2">
+            <button type="button" className="btn btn-outline btn-xs" onClick={() => resolveRecovery(true)}>Keep device draft</button>
+            <button type="button" className="btn btn-ghost btn-xs" onClick={() => resolveRecovery(false)}>Use notebook version</button>
+            <details className="w-full"><summary>Compare notebook version</summary><p className="mt-2 font-semibold">{draftState.cloud.title || "Untitled"}</p><pre className="max-h-40 overflow-auto whitespace-pre-wrap font-sans">{draftState.cloud.lyrics}</pre><p>{draftState.cloud.themes}</p></details>
+          </div>
+        )}
+      </div>
       <div
         role="tablist"
         aria-label="Song view"
@@ -100,7 +121,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
               <button
                 type="button"
                 onClick={handleSave}
-                disabled={!currentUser}
+                disabled={!currentUser || !draftState.ready || draftState.recovery || draftState.saving}
                 title={
                   currentUser
                     ? "Save to your notebook - it autosaves from then on"
@@ -108,11 +129,12 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
                 }
                 className="btn btn-primary btn-sm"
               >
-                Save
+                {draftState.saving ? "Saving..." : "Save"}
               </button>
               <button
                 type="button"
-                onClick={handleReset}
+                onClick={() => setResetting(true)}
+                disabled={draftState.saving}
                 className="btn btn-ghost btn-sm"
               >
                 Reset
@@ -143,14 +165,21 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
               className="min-h-0 w-full flex-1 resize-none bg-transparent px-3 py-3 text-lg
                          leading-loose outline-none placeholder:opacity-40 md:px-5"
               value={lyrics}
-              onChange={(e) => setLyrics(e.target.value)}
-              onKeyDown={handleKeyDown}
+              onChange={(e) => handleLyricsChange(
+                e.currentTarget.value,
+                e.currentTarget.selectionStart,
+                e.nativeEvent instanceof InputEvent && e.nativeEvent.isComposing
+              )}
+              onCompositionEnd={(e) => handleLyricsChange(
+                e.currentTarget.value, e.currentTarget.selectionStart
+              )}
             />
             </div>
           </div>
 
           {/* ---- suggestions: bottom sheet on a phone, right dock on desktop ---- */}
           <SuggestionPanel
+            error={suggestionError}
             suggestions={suggestions}
             settings={settings}
             lastWord={lastWord}
@@ -173,6 +202,8 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
       )}
 
       {mode === "play" && <PlayPanel currentUser={currentUser} noteId={noteId} />}
+      {resetting && <ConfirmDialog title="Start a new draft?" body={existingNoteId ? "Your current writing stays in its device recovery copy. A new draft opens." : "This clears this device draft. Any note already saved to your notebook stays there."} confirmLabel="New draft" onCancel={() => setResetting(false)} onConfirm={() => { handleReset(); setResetting(false); }} />}
+      {importing && unsignedDraft && <ConfirmDialog title="Import this device's unsigned writing?" body="This copies the unsigned demo draft into your editor. Review it before saving it to your account. The unsigned recovery copy is kept." confirmLabel="Import draft" onCancel={() => setImporting(false)} onConfirm={() => { importDeviceDraft(unsignedDraft); setUnsignedDraft(null); setImporting(false); }} />}
     </div>
   );
 };

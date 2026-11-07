@@ -1,0 +1,38 @@
+{
+  "recordedAt": "2026-10-27T02:46:10.113Z",
+  "parentUiBuild": "ui-build.json",
+  "change": "Compact footer from 80 to 60 CSS px on the phone while preserving its 24 px gesture inset",
+  "apk": {
+    "path": "node_modules/.cache/android-development/artifacts/rhymepage-footer-debug.apk",
+    "sha256": "50e6b471bc1f44e9fc85dfefcebd5e2f2e084a45ec0845677e10ba6f0ad51814",
+    "bytes": 7650807,
+    "signing": "debug",
+    "installedAndLaunched": true,
+    "playUploaded": false
+  },
+  "checks": {
+    "androidBuild": "passed",
+    "typeCheck": "passed",
+    "designDetectorFindings": 0,
+    "phoneWidth": 411,
+    "narrowPhoneWidth": 320,
+    "wideLayoutWidth": 1067,
+    "horizontalOverflow": false,
+    "physicalDeviceTested": false
+  },
+  "evidence": {
+    "path": "docs/android/evidence/ui-footer-compact.png",
+    "sha256": "3666d85fc6ea93c82c5f0751b13b4cd24bd8100c813d540d6f20d6cdb0bd0826"
+  },
+  "sources": [
+    {
+      "path": "src/components/Footer.tsx",
+      "sha256": "c2d52db0c91d641fa33e330ab72ae97ea58061d9946a2ba23e2bde6ad3189430"
+    },
+    {
+      "path": "src/index.css",
+      "sha256": "ebee78b16eea0516d95ffb476f1ef82a60beb91306e928621b6586ac2aec8821"
+    }
+  ],
+  "existingPlayAabUnchanged": true
+}

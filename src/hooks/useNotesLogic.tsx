@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import {
   addDoc,
   collection,
-  deleteDoc,
   doc,
   getFirestore,
   serverTimestamp,
   updateDoc,
-  writeBatch,
 } from "firebase/firestore";
 import {
   collectTags,
@@ -23,6 +21,8 @@ import { findUidByEmail, getProfile } from "../utils/profiles";
 import type { Note } from "../types/note";
 import type { AppUser } from "../types/user";
 import type { PublicProfile } from "../types/profile";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../firebase";
 
 export type NotesTab = "mine" | "shared";
 
@@ -139,23 +139,19 @@ const useNotesLogic = ({ currentUser }: NotesProps) => {
 
   const deleteNote = useCallback(
     async (noteId: string) => {
+      await httpsCallable(functions, "deleteNote")({ noteId });
       setOwnNotes((prev) => prev.filter((n) => n.id !== noteId));
       setSelectedNotes((prev) => prev.filter((id) => id !== noteId));
-      await deleteDoc(doc(db, "notes", noteId));
     },
-    [db]
+    []
   );
 
   const deleteNotes = useCallback(
     async (ids: string[]) => {
       if (ids.length === 0) return;
-      setOwnNotes((prev) => prev.filter((n) => !ids.includes(n.id)));
-      setSelectedNotes([]);
-      const batch = writeBatch(db);
-      ids.forEach((id) => batch.delete(doc(db, "notes", id)));
-      await batch.commit();
+      for (const noteId of ids) await deleteNote(noteId);
     },
-    [db]
+    [deleteNote]
   );
 
   const toggleSelected = useCallback((noteId: string) => {

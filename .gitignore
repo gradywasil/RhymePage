@@ -10,7 +10,18 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+dist-android
+/.bundle/
+/vendor/bundle/
+/fastlane/report.xml
+*.jks
+*.keystore
+*.p12
 *.local
+
+# Downloaded, self-hosted assets used only by the browser-alignment runtime prototype.
+public/models/
+public/transformers-wasm/
 
 # Firebase CLI's local deploy cache, not project config
 .firebase
@@ -25,3 +36,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Sherpa speech-model prototype binaries (>100 MB each; over GitHub's file limit).
+public/sherpa-alignment-prototype/bundle.tar.bz2
+public/sherpa-alignment-prototype/*/sherpa-onnx-wasm-main-asr.data
+public/sherpa-alignment-prototype/*/sherpa-onnx-wasm-main-asr.wasm

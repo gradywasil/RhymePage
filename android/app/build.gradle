@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+
+def uploadEnvironment = ['RHYMEPAGE_UPLOAD_KEYSTORE', 'RHYMEPAGE_UPLOAD_STORE_PASSWORD', 'RHYMEPAGE_UPLOAD_KEY_ALIAS', 'RHYMEPAGE_UPLOAD_KEY_PASSWORD']
+def uploadSigningReady = uploadEnvironment.every { System.getenv(it) }
+def usingEmulators = providers.gradleProperty('RHYMEPAGE_EMULATOR').getOrElse('false') == 'true'
+
+android {
+    namespace = "com.rhymepage.app"
+    compileSdk = rootProject.ext.compileSdkVersion
+    defaultConfig {
+        applicationId "com.rhymepage.app"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode providers.environmentVariable('RHYMEPAGE_VERSION_CODE').getOrElse('1').toInteger()
+        versionName providers.environmentVariable('RHYMEPAGE_VERSION_NAME').getOrElse('0.1.0')
+        manifestPlaceholders = [allowEmulatorTraffic: 'false']
+        def googleClientId = providers.gradleProperty('RHYMEPAGE_GOOGLE_WEB_CLIENT_ID').orElse(providers.environmentVariable('RHYMEPAGE_GOOGLE_WEB_CLIENT_ID')).getOrElse('')
+        if (googleClientId && !(googleClientId ==~ /[a-zA-Z0-9._-]+\.apps\.googleusercontent\.com/)) {
+            throw new GradleException('RHYMEPAGE_GOOGLE_WEB_CLIENT_ID must be a Google web OAuth client ID')
+        }
+        buildConfigField 'String', 'GOOGLE_WEB_CLIENT_ID', '"' + googleClientId + '"'
+        aaptOptions {
+             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
+             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+            ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+        }
+    }
+    signingConfigs {
+        if (uploadSigningReady) {
+            release {
+                storeFile file(System.getenv('RHYMEPAGE_UPLOAD_KEYSTORE'))
+                storePassword System.getenv('RHYMEPAGE_UPLOAD_STORE_PASSWORD')
+                keyAlias System.getenv('RHYMEPAGE_UPLOAD_KEY_ALIAS')
+                keyPassword System.getenv('RHYMEPAGE_UPLOAD_KEY_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            if (usingEmulators) {
+                applicationIdSuffix '.emulatortest'
+                manifestPlaceholders.allowEmulatorTraffic = 'true'
+            }
+        }
+        release {
+            if (uploadSigningReady) signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildFeatures { buildConfig = true }
+    if (providers.environmentVariable('VITE_ANDROID_ALIGNMENT').getOrElse('') == 'experimental') {
+        sourceSets.debug.manifest.srcFile 'src/voice/AndroidManifest.xml'
+    }
+}
+
+gradle.taskGraph.whenReady { graph ->
+    if (graph.allTasks.any { it.name in ['bundleRelease', 'assembleRelease'] } && !uploadSigningReady) {
+        throw new GradleException('Configure the four RHYMEPAGE_UPLOAD_* environment variables before a release build. Never commit signing keys or passwords.')
+    }
+}
+
+repositories {
+    flatDir{
+        dirs '../capacitor-cordova-android-plugins/src/main/libs', 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
+    implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
+    implementation project(':capacitor-android')
+    implementation project(':capacitor-cordova-android-plugins')
+    implementation 'androidx.credentials:credentials:1.3.0'
+    implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
+    implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
+}
+
+apply from: 'capacitor.build.gradle'
+
+try {
+    def servicesJSON = file('google-services.json')
+    if (servicesJSON.text && !usingEmulators) {
+        apply plugin: 'com.google.gms.google-services'
+    }
+} catch(Exception e) {
+    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+}

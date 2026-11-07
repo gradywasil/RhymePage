@@ -100,12 +100,3 @@ export async function getFollowCounts(uid: string): Promise<FollowCounts> {
     following: following.data().count,
   };
 }
-
-/** Remove the public traces of an account. Used by the delete-account flow. */
-export async function removeProfile(user: AppUser): Promise<void> {
-  const db = getFirestore();
-  const batch = writeBatch(db);
-  batch.delete(doc(db, "publicProfiles", user.uid));
-  if (user.email) batch.delete(doc(db, "emailIndex", emailKey(user.email)));
-  await batch.commit();
-}

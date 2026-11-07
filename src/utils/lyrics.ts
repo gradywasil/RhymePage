@@ -31,6 +31,12 @@ export function getLastWord(text: string): string {
   return normalizeWord(words[words.length - 1]);
 }
 
+/** Input events cover mobile keyboards, dictation, and paste as well as typing. */
+export function getCompletedWord(text: string, caret: number): string {
+  const beforeCaret = text.slice(0, caret);
+  return /\s$/.test(beforeCaret) ? getLastWord(beforeCaret) : "";
+}
+
 /**
  * Datamuse accepts at most five comma-separated topics. The themes field lets
  * people type them separated by spaces or commas, so accept both.

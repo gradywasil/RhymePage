@@ -75,6 +75,7 @@ const WordSyncEditor = ({ line, audioRef, onWordsChange, onClose }: WordSyncEdit
       audioEl.removeEventListener("timeupdate", onTimeUpdate);
       audioEl.removeEventListener("play", onPlay);
       audioEl.removeEventListener("pause", onPause);
+      audioEl.pause();
     };
   }, [audioRef, line.start, line.end]);
 
@@ -141,7 +142,7 @@ const WordSyncEditor = ({ line, audioRef, onWordsChange, onClose }: WordSyncEdit
     const audioEl = audioRef.current;
     if (!audioEl) return;
     if (isPlaying) audioEl.pause();
-    else void audioEl.play();
+    else void audioEl.play().catch(() => setIsPlaying(false));
   };
 
   return (

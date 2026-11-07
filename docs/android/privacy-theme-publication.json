@@ -1,0 +1,171 @@
+{
+  "publishedAt": "2026-10-27T04:17:50.931Z",
+  "version": "sites/rhymepage-6b98b/versions/0047486e3acc8ed3",
+  "previousVersion": "projects/rhymepage-6b98b/sites/rhymepage-6b98b/versions/8e44f8bd1ee3aee6",
+  "release": "projects/826172871931/sites/rhymepage-6b98b/channels/live/releases/1793074670931000",
+  "scope": "Replace only legal HTML; preserve 34 other files and Hosting configuration",
+  "verification": {
+    "checkedAt": "2026-10-27T04:17:59.991Z",
+    "checks": [
+      {
+        "url": "https://rhymepage.com/privacy/",
+        "status": 200,
+        "sha256": "6ebe8ba063b2e987f31ee10c571bc2f1773cd7fb116236dae7850537f57461df",
+        "expected": "6ebe8ba063b2e987f31ee10c571bc2f1773cd7fb116236dae7850537f57461df",
+        "matches": true
+      },
+      {
+        "url": "https://rhymepage.com/delete-account/",
+        "status": 200,
+        "sha256": "4b958da0b275966d9c2ce3e7f3df52638f66040cbc57f62767681c56253f74c5",
+        "expected": "4b958da0b275966d9c2ce3e7f3df52638f66040cbc57f62767681c56253f74c5",
+        "matches": true
+      },
+      {
+        "url": "https://rhymepage.com/",
+        "status": 200,
+        "sha256": "73522d6acbcdf5e43eb7b0fa2c1d24686ff1aa4c4498b8914861cd20776dcb54",
+        "expected": "73522d6acbcdf5e43eb7b0fa2c1d24686ff1aa4c4498b8914861cd20776dcb54",
+        "matches": true
+      }
+    ],
+    "version": "sites/rhymepage-6b98b/versions/0047486e3acc8ed3",
+    "preservedFiles": 34,
+    "configUnchanged": true
+  },
+  "browser": {
+    "checks": [
+      {
+        "route": "/privacy",
+        "theme": "pastel",
+        "stored": "pastel",
+        "background": "oklch(1 0 0)",
+        "expected": "oklch(1 0 0)",
+        "width": 390,
+        "scrollWidth": 390,
+        "text": 4571
+      },
+      {
+        "route": "/delete-account",
+        "theme": "pastel",
+        "stored": "pastel",
+        "background": "oklch(1 0 0)",
+        "expected": "oklch(1 0 0)",
+        "width": 1280,
+        "scrollWidth": 1270,
+        "text": 1580
+      },
+      {
+        "route": "/privacy",
+        "theme": "corporate",
+        "stored": "corporate",
+        "background": "oklch(1 0 0)",
+        "expected": "oklch(1 0 0)",
+        "width": 390,
+        "scrollWidth": 390,
+        "text": 4571
+      },
+      {
+        "route": "/delete-account",
+        "theme": "corporate",
+        "stored": "corporate",
+        "background": "oklch(1 0 0)",
+        "expected": "oklch(1 0 0)",
+        "width": 1280,
+        "scrollWidth": 1270,
+        "text": 1580
+      },
+      {
+        "route": "/privacy",
+        "theme": "retro",
+        "stored": "retro",
+        "background": "oklch(0.91637 0.034 90.515)",
+        "expected": "oklch(0.91637 0.034 90.515)",
+        "width": 390,
+        "scrollWidth": 390,
+        "text": 4571
+      },
+      {
+        "route": "/delete-account",
+        "theme": "retro",
+        "stored": "retro",
+        "background": "oklch(0.91637 0.034 90.515)",
+        "expected": "oklch(0.91637 0.034 90.515)",
+        "width": 1280,
+        "scrollWidth": 1270,
+        "text": 1580
+      },
+      {
+        "route": "/privacy",
+        "theme": "winter",
+        "stored": "winter",
+        "background": "oklch(1 0 0)",
+        "expected": "oklch(1 0 0)",
+        "width": 390,
+        "scrollWidth": 390,
+        "text": 4571
+      },
+      {
+        "route": "/delete-account",
+        "theme": "winter",
+        "stored": "winter",
+        "background": "oklch(1 0 0)",
+        "expected": "oklch(1 0 0)",
+        "width": 1280,
+        "scrollWidth": 1270,
+        "text": 1580
+      },
+      {
+        "route": "/privacy",
+        "theme": "forest",
+        "stored": "forest",
+        "background": "oklch(0.2084 0.008 17.911)",
+        "expected": "oklch(0.2084 0.008 17.911)",
+        "width": 390,
+        "scrollWidth": 390,
+        "text": 4571
+      },
+      {
+        "route": "/delete-account",
+        "theme": "forest",
+        "stored": "forest",
+        "background": "oklch(0.2084 0.008 17.911)",
+        "expected": "oklch(0.2084 0.008 17.911)",
+        "width": 1280,
+        "scrollWidth": 1270,
+        "text": 1580
+      },
+      {
+        "route": "/privacy",
+        "theme": "business",
+        "stored": "business",
+        "background": "oklch(0.24353 0 0)",
+        "expected": "oklch(0.24353 0 0)",
+        "width": 390,
+        "scrollWidth": 390,
+        "text": 4571
+      },
+      {
+        "route": "/delete-account",
+        "theme": "business",
+        "stored": "business",
+        "background": "oklch(0.24353 0 0)",
+        "expected": "oklch(0.24353 0 0)",
+        "width": 1280,
+        "scrollWidth": 1270,
+        "text": 1580
+      }
+    ],
+    "invalidThemeFallback": true,
+    "blockedStorageFallback": true,
+    "storageRefresh": true,
+    "liveAppRoundTrip": true,
+    "javascriptDisabledReadable": true,
+    "browserExceptions": []
+  },
+  "sourceHashes": {
+    "scripts/build-legal-pages.mjs": "246dcbf6353158440f012a32cbdc7a5eb9d16e6185ea7733466a42f34d9b42fe",
+    "public/privacy/index.html": "6ebe8ba063b2e987f31ee10c571bc2f1773cd7fb116236dae7850537f57461df",
+    "public/delete-account/index.html": "4b958da0b275966d9c2ce3e7f3df52638f66040cbc57f62767681c56253f74c5"
+  }
+}

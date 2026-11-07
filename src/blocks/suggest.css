@@ -16,7 +16,8 @@
   transition: height 0.26s cubic-bezier(0.32, 0.72, 0, 1);
 }
 .suggest[data-state="peek"] { height: 5.5rem; }
-.suggest[data-state="half"] { height: 16rem; }
+/* Leave writing room when the keyboard reduces the phone's viewport. */
+.suggest[data-state="half"] { height: min(16rem, 30dvh); }
 .suggest[data-state="full"] { height: 60svh; }
 
 /* Half and full wrap into a scrollable board... */

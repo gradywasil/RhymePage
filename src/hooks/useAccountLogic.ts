@@ -1,17 +1,20 @@
 import { useCallback, useState } from "react";
 import {
   EmailAuthProvider,
-  deleteUser,
+  signOut,
   reauthenticateWithCredential,
-  reauthenticateWithPopup,
   updatePassword,
   updateProfile,
   verifyBeforeUpdateEmail,
 } from "firebase/auth";
 import { doc, getFirestore, setDoc } from "firebase/firestore";
-import { auth, provider } from "../firebase";
-import { publishProfile, removeProfile } from "../utils/profiles";
-import { deleteNotesOwnedBy } from "../utils/notesApi";
+import { auth, functions } from "../firebase";
+import { httpsCallable } from "firebase/functions";
+import { androidAuthError, reauthenticateWithGoogle } from "../utils/googleAuth";
+import { publishProfile } from "../utils/profiles";
+import { clearAccountDrafts } from "../utils/noteDraft";
+import { getRecoveryStorage } from "../utils/recoveryStorage";
+import { clearNativeGoogleSession } from "../utils/nativeApp";
 import { toAppUser, type AppUser } from "../types/user";
 
 export type ActionState =
@@ -24,6 +27,8 @@ const IDLE: ActionState = { status: "idle" };
 
 /** Firebase error codes surfaced as something a person can act on. */
 function readableError(error: unknown): string {
+  const androidError = androidAuthError(error);
+  if (androidError) return androidError;
   const code =
     typeof error === "object" && error !== null && "code" in error
       ? String((error as { code: unknown }).code)
@@ -45,6 +50,13 @@ function readableError(error: unknown): string {
       return "Too many attempts. Wait a minute and try again.";
     case "auth/popup-closed-by-user":
       return "The Google window closed before finishing.";
+    case "functions/not-found":
+    case "functions/unavailable":
+      return "Account deletion is temporarily unavailable. No completed deletion was confirmed. Please retry later.";
+    case "functions/internal":
+      return "Deletion did not finish. Keep signed in, confirm your account, and retry to finish removing your data.";
+    case "functions/failed-precondition":
+      return "Confirm your account again, then retry deletion.";
     default:
       return "Something went wrong. Try again.";
   }
@@ -91,7 +103,7 @@ const useAccountLogic = ({ setCurrentUser }: UseAccountLogicArgs) => {
         EmailAuthProvider.credential(user.email, currentPassword)
       );
     } else {
-      await reauthenticateWithPopup(user, provider);
+      await reauthenticateWithGoogle(user);
     }
   }, []);
 
@@ -179,17 +191,20 @@ const useAccountLogic = ({ setCurrentUser }: UseAccountLogicArgs) => {
       setDeleteState({ status: "working" });
       try {
         await reauthenticate(currentPassword);
-        const appUser = toAppUser(user);
-        await deleteNotesOwnedBy(appUser.uid);
-        await removeProfile(appUser);
-        await deleteUser(user);
+        await httpsCallable(functions, "deleteAccount")();
+        const recovery = getRecoveryStorage();
+        clearAccountDrafts(recovery, user.uid);
+        await recovery.flush?.();
+        await signOut(auth);
+        await clearNativeGoogleSession();
+        setCurrentUser(null);
         return true;
       } catch (error) {
         setDeleteState({ status: "error", message: readableError(error) });
         return false;
       }
     },
-    [reauthenticate]
+    [reauthenticate, setCurrentUser]
   );
 
   return {

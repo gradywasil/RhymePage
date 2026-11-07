@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rhymepage — Vocal-guide timing prototype</title>
+    <style>
+      :root { color-scheme: dark; --paper:#f6f1e6; --ink:#f8f5ee; --muted:#c8c1b4; --ground:#161619; --surface:#252426; --edge:#4d4949; --accent:#e48a55; --accent-ink:#29150a; --good:#a4d19d; --focus:#ffd1b6; }
+      * { box-sizing:border-box; } body { margin:0; min-width:320px; background:linear-gradient(135deg,#211a19,#161619 58%); color:var(--ink); font:16px/1.5 Raleway,ui-sans-serif,system-ui,sans-serif; }
+      main { width:min(100%,680px); margin:auto; padding:clamp(32px,8vw,78px) 22px; } h1 { max-width:12ch; margin:0; font:800 clamp(2.25rem,8vw,4.8rem)/.98 Georgia,serif; letter-spacing:-.04em; } h2 { margin:0; font:800 1.5rem/1.3 Georgia,serif; } p { color:var(--muted); } button { cursor:pointer; min-height:48px; border:0; border-radius:12px; padding:12px 18px; color:var(--ink); background:transparent; font:700 1rem/1.2 Raleway,ui-sans-serif,sans-serif; } button:focus-visible, input:focus-visible { outline:3px solid var(--focus); outline-offset:3px; } button.primary { width:100%; margin-top:18px; background:var(--accent); color:var(--accent-ink); } button.primary:hover { background:#f39c69; } button.subtle { min-height:auto; padding:6px 0; color:var(--muted); text-decoration:underline; text-underline-offset:3px; } button:disabled { cursor:not-allowed; opacity:.4; }
+      .lead { max-width:47ch; margin:22px 0 30px; font-size:1.25rem; } .privacy { display:flex; gap:10px; margin:20px 0 0; color:var(--muted); font-size:1rem; } .privacy svg { flex:none; margin-top:3px; stroke:var(--good); } .panel { margin-top:34px; padding:clamp(22px,5vw,34px); border-radius:16px; background:var(--surface); box-shadow:0 18px 38px rgba(0,0,0,.24); } .progress { display:flex; gap:7px; margin:0 0 28px; } .progress span { height:5px; flex:1; border-radius:999px; background:#514c4b; } .progress span.active { background:var(--accent); } .step-label { margin:0 0 8px; color:var(--accent); font-size:1rem; font-weight:800; letter-spacing:.07em; text-transform:uppercase; } .choice { display:flex; align-items:flex-start; gap:12px; margin:22px 0 2px; padding:14px 0; border-top:1px solid var(--edge); border-bottom:1px solid var(--edge); color:var(--paper); } .choice input { width:20px; height:20px; margin:2px 0 0; accent-color:var(--accent); } .detail { margin:12px 0 0; font-size:1rem; } .recording { display:flex; align-items:center; gap:14px; margin:26px 0 10px; } .recording-marker { width:4px; height:18px; border-radius:99px; background:#f27b73; } .wave { display:flex; align-items:center; gap:3px; height:52px; margin:21px 0; } .wave i { display:block; width:5px; border-radius:99px; background:var(--accent); animation:wave .9s ease-in-out infinite alternate; } .wave i:nth-child(2n) { animation-delay:.2s; } .wave i:nth-child(3n) { animation-delay:.4s; } @keyframes wave { from { height:8px; } to { height:42px; } } .timing { margin:22px 0 0; padding:0; list-style:none; } .timing li { display:flex; justify-content:space-between; gap:14px; padding:13px 0; border-top:1px solid var(--edge); } .timing li span:last-child { flex:none; color:var(--good); font-size:1rem; font-weight:800; } .done { color:var(--good); font-weight:800; } .prototype { margin-top:25px; font-size:1rem; color:#aaa298; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Match your lyrics to your voice.</h1>
+      <p class="lead">Play your track through headphones, then sing or speak along. Rhymepage will suggest timing for your lyrics—right on your device.</p>
+      <div class="privacy"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Your voice recording and lyric timing stay in this browser. Nothing is sent away for transcription.</span></div>
+      <section class="panel" aria-live="polite">
+        <div class="progress" aria-label="Setup progress"><span id="bar1" class="active"></span><span id="bar2"></span><span id="bar3"></span></div>
+        <div id="content"></div>
+      </section>
+      <p class="prototype">Prototype only. It demonstrates the intended end-user flow; it does not use your microphone, download a model, or save timing.</p>
+    </main>
+    <script>
+      // Throwaway flow model. It has no persistence, microphone, model, or lyric-sync integration.
+      const initial = () => ({ phase: 'intro', headphones: false, applied: false });
+      function reduce(state, action) {
+        switch (action.type) {
+          case 'OPEN': return { ...state, phase: 'setup' };
+          case 'HEADPHONES': return { ...state, headphones: action.checked };
+          case 'DOWNLOAD': return state.headphones ? { ...state, phase: 'downloading' } : state;
+          case 'READY': return { ...state, phase: 'ready' };
+          case 'RECORD': return { ...state, phase: 'recording' };
+          case 'STOP': return { ...state, phase: 'processing' };
+          case 'REVIEW': return { ...state, phase: 'review' };
+          case 'APPLY': return { ...state, phase: 'done', applied: true };
+          case 'AGAIN': return { ...state, phase: 'ready' };
+          case 'RESET': return initial();
+          default: return state;
+        }
+      }
+      let state = initial();
+      const content = document.querySelector('#content');
+      function dispatch(type, extra = {}) {
+        state = reduce(state, { type, ...extra }); render();
+        if (type === 'DOWNLOAD') setTimeout(() => dispatch('READY'), 1250);
+        if (type === 'STOP') setTimeout(() => dispatch('REVIEW'), 1250);
+      }
+      function view() {
+        if (state.phase === 'intro') return `<p class="step-label">Optional voice timing</p><h2>Let’s set up your first take.</h2><p>First, Rhymepage will prepare a small voice model on this device. You can remove it later in settings.</p><button class="primary" data-action="OPEN">Set up voice timing</button>`;
+        if (state.phase === 'setup') return `<p class="step-label">Before you begin</p><h2>Use headphones for the backing track.</h2><p>This keeps the music out of your vocal guide so the timing stays accurate.</p><label class="choice"><input type="checkbox" id="headphones" ${state.headphones ? 'checked' : ''}/><span>I’m wearing headphones and can hear my backing track.</span></label><button class="primary" data-action="DOWNLOAD" ${state.headphones ? '' : 'disabled'}>Download voice timing · one time</button><p class="detail">This optional download stays in this browser and starts only after you choose it.</p>`;
+        if (state.phase === 'downloading') return `<p class="step-label">Preparing voice timing</p><h2>Getting things ready on this device.</h2><p>The first setup can take a moment. Future takes will be ready right away.</p><div class="wave" aria-label="Preparing"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>`;
+        if (state.phase === 'ready') return `<p class="step-label">Ready when you are</p><h2>Sing or speak along with your lyrics.</h2><p>When you start, your browser will ask to use your microphone. Keep listening to the backing track in your headphones.</p><button class="primary" data-action="RECORD">Start vocal guide</button>`;
+        if (state.phase === 'recording') return `<p class="step-label">Recording</p><h2>Keep going—we’re listening for your lyric timing.</h2><div class="recording"><span class="recording-marker"></span><span>Vocal guide is recording</span></div><div class="wave" aria-label="Recording"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><button class="primary" data-action="STOP">Finish recording</button>`;
+        if (state.phase === 'processing') return `<p class="step-label">Finding your timing</p><h2>Matching your voice to your lyrics.</h2><p>This happens locally in your browser.</p><div class="wave" aria-label="Matching timing"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>`;
+        if (state.phase === 'review') return `<p class="step-label">Timing proposal</p><h2>Your lyric timing is ready to review.</h2><p>We found a strong match. You can adjust any line in the usual timing editor after applying it.</p><ul class="timing"><li><span>“Writing through the night”</span><span>Ready</span></li><li><span>“Until the morning light”</span><span>Ready</span></li></ul><button class="primary" data-action="APPLY">Apply lyric timing</button><button class="subtle" data-action="AGAIN">Record another take instead</button>`;
+        return `<p class="step-label">Timing applied</p><h2>Ready for the finishing touches.</h2><p class="done">Your suggested timing is now in the lyric-sync editor.</p><p>You can fine-tune any line or word there, just as you do today.</p><button class="subtle" data-action="RESET">Restart this demo</button>`;
+      }
+      function render() {
+        content.innerHTML = view();
+        const index = ['intro','setup','downloading','ready','recording','processing','review','done'].indexOf(state.phase);
+        document.querySelector('#bar1').className = index >= 0 ? 'active' : '';
+        document.querySelector('#bar2').className = index >= 3 ? 'active' : '';
+        document.querySelector('#bar3').className = index >= 6 ? 'active' : '';
+        content.querySelectorAll('[data-action]').forEach(button => button.onclick = () => dispatch(button.dataset.action));
+        const checkbox = document.querySelector('#headphones');
+        if (checkbox) checkbox.onchange = () => dispatch('HEADPHONES', { checked: checkbox.checked });
+      }
+      render();
+    </script>
+  </body>
+</html>

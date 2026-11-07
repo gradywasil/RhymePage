@@ -1,0 +1,27 @@
+default_platform(:android)
+
+platform :android do
+  desc "Check credentials and read the internal testing track"
+  lane :check do
+    validate_play_store_json_key(json_key: ENV.fetch("PLAY_JSON_KEY"))
+    codes = google_play_track_version_codes(track: "internal", json_key: ENV.fetch("PLAY_JSON_KEY"))
+    UI.success("Internal testing version codes: #{codes.join(', ')}")
+  end
+
+  desc "Upload an internal test; defaults to draft, publish:true delivers it to testers"
+  lane :internal do |options|
+    UI.user_error!("Pass aab:path/to/signed.aab") unless options[:aab]
+    upload_to_play_store(
+      aab: options[:aab],
+      json_key: ENV.fetch("PLAY_JSON_KEY"),
+      track: "internal",
+      release_status: options[:publish].to_s == "true" ? "completed" : "draft",
+      version_name: options[:name],
+      metadata_path: "fastlane/metadata/android",
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+end

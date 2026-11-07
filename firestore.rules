@@ -4,7 +4,9 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     function isSignedIn() {
-      return request.auth != null;
+      return request.auth != null
+        && (!exists(/databases/$(database)/documents/accountDeletionLocks/$(request.auth.uid))
+            || request.time >= get(/databases/$(database)/documents/accountDeletionLocks/$(request.auth.uid)).data.expiresAt);
     }
 
     function isOwner(userId) {
@@ -37,9 +39,11 @@ service cloud.firestore {
     // Private. Suggestion preferences and anything else personal live here and
     // are readable only by their owner.
     match /users/{userId} {
-      allow read, write: if isOwner(userId);
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId)
+        && (request.method == 'delete' || !request.resource.data.keys().hasAny(['deleting']));
 
-      match /{subdocument=**} {
+      match /{collectionId}/{documentId}/{subdocument=**} {
         allow read, write: if isOwner(userId);
       }
     }
@@ -73,22 +77,27 @@ service cloud.firestore {
     match /emailIndex/{emailLower} {
       allow get: if isSignedIn();
       allow list: if false;
-      allow write: if isSignedIn()
-        && request.auth.uid == request.resource.data.uid;
+      allow create, update: if isSignedIn()
+        && request.auth.uid == request.resource.data.uid
+        && emailLower == request.auth.token.get('email', '').lower();
       allow delete: if isSignedIn() && request.auth.uid == resource.data.uid;
     }
 
     match /notes/{noteId} {
+      // A create transaction must be able to verify that its newly allocated ID is unused.
+      allow get: if isSignedIn() && !exists(/databases/$(database)/documents/notes/$(noteId));
       allow read: if ownsExisting() || isCollaborator();
-      allow delete: if ownsExisting();
 
       // On create there is no `resource` yet, so the incoming document is the
       // only thing to check.
-      allow create: if ownsIncoming();
+      allow create: if ownsIncoming() && !request.resource.data.keys().hasAny(['deleting']);
 
       // The owner can change anything; a collaborator can only change content.
-      allow update: if ownsExisting()
-        || (isCollaborator() && keepsNoteOwnership());
+      allow update: if !resource.data.get('deleting', false)
+        && request.resource.data.get('deleting', false) == resource.data.get('deleting', false)
+        && ((ownsExisting() && request.resource.data.userId == resource.data.userId)
+            || (isCollaborator() && keepsNoteOwnership()
+                && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['title', 'lyrics', 'themes', 'lastEditedAt'])));
 
       // Line-timing sync data for this note. It carries no userId/sharedWith
       // of its own -- access is entirely derived from the parent note, and a
@@ -100,6 +109,7 @@ service cloud.firestore {
         }
         function canAccessParentNote() {
           return isSignedIn()
+            && !parentNote().get('deleting', false)
             && (request.auth.uid == parentNote().userId
                 || request.auth.uid in parentNote().get('sharedWith', []));
         }

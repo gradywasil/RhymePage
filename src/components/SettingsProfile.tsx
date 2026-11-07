@@ -38,10 +38,10 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
   const passwordsMatch = newPassword === confirmPassword;
   const canDelete = deletePhrase.trim().toLowerCase() === CONFIRM_PHRASE;
 
-  /** Google-only accounts re-authenticate through a popup, not a password box. */
+  /** Google-only accounts confirm their identity through the platform's Google flow. */
   const reauthHint = hasPassword
     ? undefined
-    : "You signed in with Google, so this opens a Google window to confirm.";
+    : "Confirm with the same Google account you use for RhymePage.";
 
   const handleDelete = async () => {
     const gone = await deleteAccount(deletePassword);
@@ -199,7 +199,7 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
 
       <SettingsSection
         title="Delete account"
-        description="Removes your notes, your profile and your sign-in. This cannot be undone."
+        description="Removes your notes, audio, lyric timing, profile, sharing/follow relationships, and sign-in. This cannot be undone."
         danger
       >
         <Field

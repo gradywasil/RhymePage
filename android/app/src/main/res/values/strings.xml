@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">RhymePage</string>
+    <string name="title_activity_main">RhymePage</string>
+    <string name="package_name">com.rhymepage.app</string>
+    <string name="custom_url_scheme">com.rhymepage.app</string>
+</resources>

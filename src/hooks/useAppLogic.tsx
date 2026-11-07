@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
+import { clearNativeGoogleSession } from "../utils/nativeApp";
 import { toAppUser, type AppUser } from "../types/user";
 
 const CACHE_KEY = "currentUser";
@@ -18,6 +19,7 @@ function cachedUser(): AppUser | null {
 
 const useAppLogic = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [authReady, setAuthReady] = useState(false);
   const [currentUser, setCurrentUserState] = useState<AppUser | null>(cachedUser);
   const [theme, setTheme] = useState<string>(
     localStorage.getItem("theme") || "pastel"
@@ -51,6 +53,7 @@ const useAppLogic = () => {
    */
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
+      setAuthReady(true);
       if (!user) {
         commitUser(null);
         return;
@@ -80,7 +83,8 @@ const useAppLogic = () => {
   const handleLogout = () => {
     setIsLoading(true);
     signOut(auth)
-      .then(() => {
+      .then(async () => {
+        await clearNativeGoogleSession();
         commitUser(null);
         navigate("/");
       })
@@ -92,6 +96,7 @@ const useAppLogic = () => {
 
   return {
     isLoading,
+    authReady,
     loggedIn,
     currentUser,
     theme,

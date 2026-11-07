@@ -1,0 +1,6 @@
+RhymePage 0.1.1
+
+- Smaller footer that extends behind Android's gesture bar.
+- Tighter mobile spacing and themed scrollbars.
+- More writing space when the keyboard is open.
+- Improved keyboard layout and system icon contrast.
