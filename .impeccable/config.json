@@ -119,6 +119,15 @@
         ],
         "createdAt": "2026-11-07T17:00:20.328Z",
         "reason": "agent decision: gitignored decision-round sketch exploring alternate worlds before DESIGN.md existed; not shipping UI"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/r1-pick.html"
+        ],
+        "createdAt": "2026-11-07T18:22:22.532Z",
+        "reason": "agent decision: gitignored decision-round sketch of the retired inner-sleeve direction; not shipping UI"
       }
     ]
   }
