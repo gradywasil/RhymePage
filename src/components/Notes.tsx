@@ -117,7 +117,7 @@ const Notes = ({ currentUser }: NotesProps) => {
           )}
         </div>
       ) : (
-        <ol className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+        <ol className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {visibleNotes.map((note) => (
             <NoteCard
               key={note.id}

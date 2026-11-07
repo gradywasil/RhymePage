@@ -58,7 +58,7 @@ const NoteCard = ({ note, owned, onTogglePin, onManage, onDelete, owner }: NoteC
   }, [menuOpen]);
 
   return (
-    <li className="rp-card group relative flex min-h-[88px] items-start gap-3.5 p-3.5 transition-shadow hover:shadow-[0_10px_28px_rgb(var(--shadow)/0.14)]">
+    <li className="rp-card group relative flex min-h-[80px] min-w-0 items-start gap-3.5 p-3.5 transition-shadow hover:shadow-[0_10px_28px_rgb(var(--shadow)/0.14)]">
       <Link
         to={`/notes/${note.id}`}
         aria-label={`Open ${title}`}
