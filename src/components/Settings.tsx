@@ -30,7 +30,7 @@ function initials(name: string | null | undefined): string {
 
 /* ---------- Appearance ---------- */
 
-const HARBOR = THEMES.find((t) => t.id === "harbor")!.swatch;
+const DAY = THEMES.find((t) => t.id === "coral")!.swatch;
 const NIGHT = THEMES.find((t) => t.id === "night")!.swatch;
 
 interface ThemeOption {
@@ -50,25 +50,25 @@ const THEME_OPTIONS: ThemeOption[] = [
   })),
 ];
 
-/** A 40px printing of the theme: sleeve ground, "Aa" in its ink, an accent bar along the foot. */
+/** A 44px chip of the theme: its ground, "Aa" in its ink, and its accent along the foot. */
 const Swatch = ({ option, selected }: { option: ThemeOption; selected: boolean }) => {
   const frame = [
-    "relative h-10 w-10 flex-none overflow-hidden border border-rule",
-    selected ? "outline-[1.5px] outline-offset-2 outline-ink" : "",
+    "relative h-11 w-11 flex-none overflow-hidden rounded-2xl border border-rule",
+    selected ? "outline-2 outline-offset-2 outline-accent-text" : "",
   ].join(" ");
 
   if (!option.theme) {
-    // Auto: Harbor by day, Night after dark, split on the diagonal.
+    // Auto: Coral by day, Night after dark, split on the diagonal.
     return (
       <span aria-hidden className={frame} style={{ background: NIGHT[0] }}>
         <span
           className="absolute inset-0"
-          style={{ background: HARBOR[0], clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
+          style={{ background: DAY[0], clipPath: "polygon(0 0, 100% 0, 0 100%)" }}
         />
-        <span className="absolute top-0.5 left-1 text-[14px] font-bold" style={{ color: HARBOR[1] }}>A</span>
+        <span className="absolute top-0.5 left-1 text-[14px] font-bold" style={{ color: DAY[1] }}>A</span>
         <span className="absolute right-1 bottom-1.5 text-[14px] font-bold" style={{ color: NIGHT[1] }}>a</span>
-        <span className="absolute inset-x-0 bottom-0 flex h-1">
-          <span className="flex-1" style={{ background: HARBOR[2] }} />
+        <span className="absolute inset-x-0 bottom-0 flex h-2">
+          <span className="flex-1" style={{ background: DAY[2] }} />
           <span className="flex-1" style={{ background: NIGHT[2] }} />
         </span>
       </span>
@@ -79,12 +79,12 @@ const Swatch = ({ option, selected }: { option: ThemeOption; selected: boolean }
   return (
     <span aria-hidden className={frame} style={{ background: sleeve }}>
       <span
-        className="absolute inset-x-0 top-0 bottom-1 flex items-center justify-center text-[15px] font-bold"
+        className="absolute inset-x-0 top-0 bottom-2 flex items-center justify-center text-[15px] font-bold"
         style={{ color: ink }}
       >
         Aa
       </span>
-      <span className="absolute inset-x-0 bottom-0 h-1" style={{ background: accent }} />
+      <span className="absolute inset-x-0 bottom-0 h-2" style={{ background: accent }} />
     </span>
   );
 };
@@ -124,7 +124,7 @@ const ThemePicker = () => {
     <div
       role="radiogroup"
       aria-label="Theme"
-      className="grid grid-cols-2 gap-x-4 border-y border-rule py-2 md:grid-cols-4"
+      className="grid grid-cols-2 gap-2 md:grid-cols-4"
     >
       {THEME_OPTIONS.map((option, index) => {
         const selected = choice === option.id;
@@ -140,7 +140,7 @@ const ThemePicker = () => {
             tabIndex={selected ? 0 : -1}
             onClick={() => setChoice(option.id)}
             onKeyDown={(event) => onKeyDown(event, index)}
-            className="flex min-h-16 items-center gap-3 px-1 py-2 text-left transition-colors hover:bg-sleeve-2"
+            className="flex min-h-16 items-center gap-3 rounded-2xl px-2 py-2 text-left transition-colors hover:bg-sleeve-2"
           >
             <Swatch option={option} selected={selected} />
             <span className="min-w-0 flex-1">
@@ -158,7 +158,7 @@ const ThemePicker = () => {
 /* ---------- Page ---------- */
 
 const Section = ({ id, title, children }: { id: (typeof SECTION_IDS)[number]; title: string; children: ReactNode }) => (
-  <section id={`settings-${id}`} aria-labelledby={`settings-${id}-title`} className="mt-12 scroll-mt-4 border-t-[1.5px] border-ink pt-4 first-of-type:mt-8">
+  <section id={`settings-${id}`} aria-labelledby={`settings-${id}-title`} className="rp-card mt-5 scroll-mt-4 p-5 first-of-type:mt-8 md:p-6">
     <h2 id={`settings-${id}-title`} className="rp-title text-2xl">{title}</h2>
     <div className="mt-4">{children}</div>
   </section>
@@ -243,9 +243,9 @@ const Settings = ({ currentUser, setCurrentUser, onLogout }: SettingsProps) => {
       <Section id="profile" title="Profile">
         <Link
           to="/profile"
-          className="group -mx-1 flex min-h-16 items-center gap-4 px-1 py-2 transition-colors hover:bg-sleeve-2"
+          className="group -mx-2 flex min-h-16 items-center gap-4 rounded-2xl px-2 py-2 transition-colors hover:bg-sleeve-2"
         >
-          <span className="flex h-12 w-12 flex-none items-center justify-center overflow-hidden bg-sleeve-2 text-[15px] font-bold">
+          <span className="flex h-12 w-12 flex-none items-center justify-center overflow-hidden rounded-full bg-accent text-[15px] font-bold text-on-accent">
             {currentUser.photoURL ? (
               <img src={currentUser.photoURL} alt="" className="h-full w-full object-cover" />
             ) : (

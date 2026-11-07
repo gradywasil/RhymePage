@@ -98,7 +98,7 @@ const NoteManageDialog = ({
       aria-labelledby="manage-title"
       className="rp-dialog sm:!w-[min(32rem,calc(100vw-2rem))]"
     >
-      <div className="flex items-center justify-between gap-3 border-b-[1.5px] border-ink py-2 pr-2 pl-5">
+      <div className="flex items-center justify-between gap-3 border-b border-rule py-2 pr-2 pl-5">
         <h2 id="manage-title" className="rp-title truncate text-xl">
           {note.title || "Untitled"}
         </h2>

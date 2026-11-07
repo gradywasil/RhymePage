@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Capacitor } from "@capacitor/core";
+import type { RelationKey } from "../utils/rhymeApi";
 import { TxtAnime } from "txtanime.js";
 
 interface LandingProps {
@@ -21,6 +22,8 @@ const PHRASES = [
 
 interface Column {
   label: string;
+  /** Suggestion category, which sets the column heading's colour. */
+  category: RelationKey;
   /** The four secondary categories only appear once there is room for six. */
   secondary: boolean;
   /** One sample per phrase, in the same order, eight words apiece. */
@@ -64,6 +67,7 @@ const REVEAL_DELAY_MS = 450;
 const COLUMNS: Column[] = [
   {
     label: "Rhymes",
+    category: "rhyme",
     secondary: false,
     samples: [
       "exciting inviting moonlighting highlighting reciting biting slighting flyting",
@@ -73,6 +77,7 @@ const COLUMNS: Column[] = [
   },
   {
     label: "Sound-Alikes",
+    category: "soundAlike",
     secondary: true,
     samples: [
       "enticing striking enlightened writhing abiding frightened providing enlighten",
@@ -82,6 +87,7 @@ const COLUMNS: Column[] = [
   },
   {
     label: "Synonyms",
+    category: "synonym",
     secondary: true,
     samples: [
       "composition authorship penning script prose text lettering longhand",
@@ -91,6 +97,7 @@ const COLUMNS: Column[] = [
   },
   {
     label: "Related Words",
+    category: "relatedWord",
     secondary: true,
     samples: [
       "verbal math directing exam poetry screenplay script essays",
@@ -100,6 +107,7 @@ const COLUMNS: Column[] = [
   },
   {
     label: "Adjectives",
+    category: "adjective",
     secondary: false,
     samples: [
       "creative own good historical much automatic academic fine",
@@ -109,6 +117,7 @@ const COLUMNS: Column[] = [
   },
   {
     label: "Nouns",
+    category: "noun",
     secondary: false,
     samples: [
       "table desk campaign paper room master process case",
@@ -267,59 +276,57 @@ const Landing = ({ loggedIn }: LandingProps) => {
         )}
       </header>
 
-      {/* ---- The pitch, set like a track heading ---- */}
-      <section className="mx-auto w-full max-w-6xl px-4 pt-8 pb-10 md:px-10 md:pt-16 md:pb-14">
-        <div className="flex items-start gap-3 md:gap-6">
-        <span aria-hidden className="rp-numeral pt-1 text-[42px] md:text-[76px]">01</span>
-        <div className="min-w-0">
-        <h1 className="rp-title max-w-[15ch] text-[42px] md:text-[76px]">
-          Finish a word. The next one is waiting.
-        </h1>
-        <p className="mt-3 text-sm text-ink-2 md:text-base">Words: you · Suggestions: Datamuse</p>
-        <p className="rp-muted mt-5 max-w-[42ch] text-lg leading-relaxed md:text-xl">
-          RhymePage is a lyric notebook. Every word you finish brings back rhymes, sound-alikes and related words, ready to tap into the line.
-        </p>
-        <div className="mt-7 flex flex-wrap items-center gap-2">
-          {loggedIn ? (
-            <button type="button" className="rp-btn rp-btn--ink" onClick={() => navigate("/notes/new")}>
-              Start writing
-            </button>
-          ) : (
-            <>
-              <button type="button" className="rp-btn rp-btn--ink" onClick={() => navigate("/notes/new")}>
-                Try the editor
+      {/* ---- The pitch, in a song-header card ---- */}
+      <section className="mx-auto w-full max-w-6xl px-3 md:px-10">
+        <div className="rounded-[32px] bg-accent px-6 pt-8 pb-8 text-on-accent md:px-12 md:pt-14 md:pb-14">
+          <h1 className="rp-title max-w-[15ch] text-[40px] md:text-[72px]">
+            Finish a word. The next one is waiting.
+          </h1>
+          <p className="mt-4 max-w-[42ch] text-lg font-medium leading-relaxed md:text-xl">
+            RhymePage is a lyric notebook. Every word you finish brings back rhymes, sound-alikes and related words, ready to tap into the line.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center gap-2">
+            {loggedIn ? (
+              <button type="button" className="rp-btn bg-on-accent text-accent" onClick={() => navigate("/notes/new")}>
+                Start writing
               </button>
-              <button type="button" className="rp-btn rp-btn--line" onClick={() => navigate("/register")}>
-                Create an account
-              </button>
-            </>
-          )}
-        </div>
-        </div>
+            ) : (
+              <>
+                <button type="button" className="rp-btn bg-on-accent text-accent" onClick={() => navigate("/notes/new")}>
+                  Try the editor
+                </button>
+                <button type="button" className="rp-btn border-on-accent/60 text-on-accent hover:bg-white/10" onClick={() => navigate("/register")}>
+                  Create an account
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </section>
 
-      {/* ---- Live demo: the typed line and the panel that answers it ---- */}
-      <section aria-label="How suggestions work" className="mx-auto w-full max-w-6xl px-4 md:px-10">
-        <div className="border-t-[1.5px] border-ink pt-5 pb-6 md:pt-7 md:pb-8">
-          <p className="typing min-h-[1.15em] text-[34px] font-extrabold leading-[1.15] tracking-[-0.015em] md:text-[64px]" />
-        </div>
-
-        <div className="panel">
-          <div className="flex items-baseline gap-3 px-4 pt-4 md:px-6 md:pt-5">
-            <p className="text-landing text-[22px] font-extrabold md:text-[28px]">{headword}</p>
-            <p className="rp-muted ml-auto text-xs">Real results for the last word</p>
+      {/* ---- Live demo: the typed line and the words that answer it ---- */}
+      <section aria-label="How suggestions work" className="mx-auto w-full max-w-6xl px-3 pt-4 md:px-10 md:pt-6">
+        <div className="rp-card px-5 pt-6 pb-6 md:px-10 md:pt-9 md:pb-9">
+          <p className="typing min-h-[1.15em] text-[32px] font-extrabold leading-[1.15] tracking-[-0.02em] md:text-[56px]" />
+          <div className="mt-5 flex items-baseline gap-3">
+            <p className="text-landing text-xl font-extrabold">{headword}</p>
+            <p className="rp-muted text-sm">Real results for the last word</p>
           </div>
-          <div className="mt-3 grid grid-cols-3 gap-x-4 border-t border-panel-rule px-4 pt-3 pb-5 md:gap-x-6 md:px-6 md:pb-7 lg:grid-cols-6">
-            {COLUMNS.map(({ label, secondary, samples }) => (
+          <div className="mt-4 grid grid-cols-3 gap-x-3 md:gap-x-6 lg:grid-cols-6">
+            {COLUMNS.map(({ label, category, secondary, samples }) => (
               <div key={label} className={secondary ? "hidden lg:block" : ""}>
-                <h3 className="rp-label truncate">{label}</h3>
-                <p className="text-landing landing-sample mt-2 text-[15px] md:text-base">
+                <h3
+                  className="inline-flex max-w-full truncate rounded-full px-3 py-1 text-[13px] font-bold text-white"
+                  style={{ background: `var(--cat-${category})` }}
+                >
+                  {label}
+                </h3>
+                <p className="text-landing landing-sample mt-3 text-[15px] md:text-base">
                   {samples[phraseIndex]
                     .split(" ")
                     .slice(0, WORDS_PER_SAMPLE)
                     .map((word, i) => (
-                      <span key={word} className={i < 3 ? "font-semibold" : i < 6 ? "" : "text-on-panel-2"}>{word}</span>
+                      <span key={word} className={i < 3 ? "font-bold" : i < 6 ? "font-medium" : "text-ink-2"}>{word}</span>
                     ))}
                 </p>
               </div>
@@ -329,11 +336,11 @@ const Landing = ({ loggedIn }: LandingProps) => {
       </section>
 
       {/* ---- What else lives in the notebook ---- */}
-      <section aria-label="What RhymePage keeps together" className="mx-auto w-full max-w-6xl px-4 pt-14 pb-16 md:px-10 md:pt-20 md:pb-24">
-        <h2 className="rp-title text-[28px] md:text-[36px]">One place for the whole song</h2>
-        <dl className="mt-6 border-t-[1.5px] border-ink">
+      <section aria-label="What RhymePage keeps together" className="mx-auto w-full max-w-6xl px-3 pt-14 pb-16 md:px-10 md:pt-20 md:pb-24">
+        <h2 className="rp-title px-2 text-[28px] md:px-0 md:text-[40px]">One place for the whole song</h2>
+        <dl className="rp-card mt-6 divide-y divide-rule px-5 md:px-8">
           {FEATURES.map(({ title, body }) => (
-            <div key={title} className="grid gap-1 border-b border-rule py-5 md:grid-cols-[18rem_1fr] md:gap-8">
+            <div key={title} className="grid gap-1 py-5 md:grid-cols-[18rem_1fr] md:gap-8 md:py-6">
               <dt className="text-lg font-bold">{title}</dt>
               <dd className="rp-muted max-w-[60ch] text-[16px] leading-relaxed">{body}</dd>
             </div>
@@ -346,7 +353,7 @@ const Landing = ({ loggedIn }: LandingProps) => {
           <p className="mr-auto font-extrabold">RhymePage</p>
           <Link className="rp-link" to="/privacy">Privacy</Link>
           <Link className="rp-link" to="/delete-account">Delete account</Link>
-          <p className="rp-muted w-full text-xs md:w-auto">© {new Date().getFullYear()} RhymePage.com</p>
+          <p className="rp-muted w-full text-xs md:w-auto">© {new Date().getFullYear()} RhymePage.com · Suggestions from Datamuse</p>
         </div>
       </footer>
     </div>

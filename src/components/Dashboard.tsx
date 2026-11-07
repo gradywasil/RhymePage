@@ -8,7 +8,6 @@ import PlayPanel from "./PlayPanel";
 import type { AppUser } from "../types/user";
 import ConfirmDialog from "./ConfirmDialog";
 import { unsignedDeviceDraft } from "../utils/noteDraft";
-import { trackNumberFor } from "../utils/trackNumbers";
 
 interface DashboardProps {
   currentUser: AppUser | null;
@@ -68,10 +67,6 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
     importDeviceDraft,
   } = useDashboardLogic({ currentUser, existingNoteId });
 
-  // The song's place in the writer's notebook, which stays with the song.
-  const track = trackNumberFor(currentUser?.uid ?? null, noteId || existingNoteId);
-  const trackLabel = track ? String(track).padStart(2, "0") : "—";
-
   /*
    * The full draft message is long and mostly reassurance, so the masthead
    * shows a mark in a fixed cell instead: hollow while the writing is only on
@@ -88,51 +83,72 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
     : { label: "On this device", filled: false, tone: "plain" };
   const fullMessage = draftState.storageError || draftState.message || "Writing is kept on this device as you type.";
   const mustAct = !!draftState.storageError || draftState.saveFailed || !draftState.ready && /could not/i.test(draftState.message);
-  const markTone = mark.tone === "danger" ? "text-danger" : mark.tone === "accent" ? "text-accent" : "text-ink-2";
 
   return (
     <div className="flex h-full min-h-0 w-full flex-col md:flex-row">
       <div className="flex min-h-0 min-w-0 flex-1 flex-col">
-        {/* ---- Masthead: way back, save mark, save ---- */}
-        <div className="flex h-12 flex-none items-center gap-2 px-2 md:h-14 md:px-6">
-          {currentUser ? (
-            <Link to="/notes" className="rp-btn rp-btn--quiet rp-btn--sm -ml-1 gap-1 md:hidden">
-              <LuChevronLeft aria-hidden /> Notebook
-            </Link>
-          ) : null}
-          <p className={`ml-auto flex items-center gap-2 whitespace-nowrap text-xs font-bold uppercase tracking-[0.08em] ${markTone}`} title={fullMessage}>
-            <span aria-hidden className={`h-[11px] w-[11px] flex-none border-[1.5px] border-current ${mark.filled ? "bg-current" : ""}`} />
-            <span className="sr-only" role={draftState.storageError ? "alert" : "status"}>{fullMessage}</span>
-            <span aria-hidden>{mark.label}</span>
-          </p>
-          {!currentUser ? (
-            <Link to="/login" className="rp-btn rp-btn--line rp-btn--sm">Sign in to save</Link>
-          ) : !draftState.cloudExists && (
+        {/* ---- Song header: a card in the theme colour holding title, themes and save state ---- */}
+        <section className="mx-3 mt-2 flex-none rounded-[24px] bg-accent px-4 pt-1 pb-4 text-on-accent md:mx-6 md:mt-5 md:px-6 md:pb-5">
+          <div className="flex h-11 items-center gap-1">
+            {currentUser ? (
+              <Link to="/notes" className="-ml-2 inline-flex min-h-11 items-center gap-1 rounded-full px-2 text-sm font-semibold hover:bg-white/15 md:hidden">
+                <LuChevronLeft aria-hidden className="h-[18px] w-[18px]" /> Notebook
+              </Link>
+            ) : null}
+            <p className="ml-auto flex items-center gap-2 whitespace-nowrap text-[13px] font-semibold" title={fullMessage}>
+              <span aria-hidden className={`h-2.5 w-2.5 flex-none rounded-full border-2 border-current ${mark.filled ? "bg-current" : ""}`} />
+              <span className="sr-only" role={draftState.storageError ? "alert" : "status"}>{fullMessage}</span>
+              <span aria-hidden>{mark.label}</span>
+            </p>
+            {!currentUser ? (
+              <Link to="/login" className="ml-2 inline-flex min-h-9 items-center rounded-full bg-on-accent px-4 text-sm font-bold text-accent">Sign in to save</Link>
+            ) : !draftState.cloudExists && (
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={!draftState.ready || draftState.recovery || draftState.saving}
+                title="Save to your notebook. It autosaves from then on."
+                className="ml-2 inline-flex min-h-9 items-center rounded-full bg-on-accent px-4 text-sm font-bold text-accent disabled:opacity-60"
+              >
+                {draftState.saving ? "Saving…" : "Save"}
+              </button>
+            )}
             <button
               type="button"
-              onClick={handleSave}
-              disabled={!draftState.ready || draftState.recovery || draftState.saving}
-              title="Save to your notebook. It autosaves from then on."
-              className="rp-btn rp-btn--ink rp-btn--sm"
+              onClick={() => setResetting(true)}
+              disabled={draftState.saving}
+              aria-label="Start a new draft"
+              title="Start a new draft"
+              className="rp-icon-btn -mr-2 hover:!bg-white/15"
             >
-              {draftState.saving ? "Saving…" : "Save"}
+              <LuRotateCcw aria-hidden />
             </button>
-          )}
-          <button
-            type="button"
-            onClick={() => setResetting(true)}
-            disabled={draftState.saving}
-            aria-label="Start a new draft"
-            title="Start a new draft"
-            className="rp-icon-btn"
-          >
-            <LuRotateCcw aria-hidden />
-          </button>
-        </div>
+          </div>
+          <input
+            type="text"
+            aria-label="Title"
+            placeholder="Untitled"
+            className="rp-bare rp-title mt-2 text-[30px] md:text-[38px]"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <div className="mt-1 flex items-baseline gap-2 text-[14px] font-medium">
+            {currentUser?.displayName && <span className="flex-none">by {currentUser.displayName} ·</span>}
+            <label htmlFor="note-themes" className="flex-none">Themes:</label>
+            <input
+              id="note-themes"
+              type="text"
+              placeholder="add a few to steer suggestions"
+              className="rp-bare min-w-0 flex-1 text-[14px] font-medium"
+              value={themes}
+              onChange={(e) => setThemes(e.target.value)}
+            />
+          </div>
+        </section>
 
         {/* ---- Things the writer has to decide, only when they exist ---- */}
         {(mustAct || !draftState.ready || (unsignedDraft && !draftState.dirty && !draftState.cloudExists) || (draftState.recovery && draftState.cloud)) && (
-          <div className="flex-none px-4 pb-3 md:px-6">
+          <div className="flex-none px-3 pt-3 md:px-6">
             <div className={`rp-notice flex-col ${mustAct ? "rp-notice--danger" : ""}`}>
               <p className="flex gap-2">{mustAct && <LuCircleAlert className="mt-0.5 h-[18px] w-[18px] flex-none" aria-hidden />}{fullMessage}</p>
               <div className="flex flex-wrap gap-2">
@@ -159,37 +175,9 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
           </div>
         )}
 
-        {/* ---- Track heading: title and credit line ---- */}
-        <header className="flex flex-none items-start gap-3 px-4 md:gap-4 md:px-6">
-          <span aria-hidden className="rp-numeral w-10 flex-none pt-0.5 text-right text-[34px] md:w-12 md:pt-1 md:text-[42px]">
-            {trackLabel}
-          </span>
-          <div className="min-w-0 flex-1">
-          <input
-            type="text"
-            aria-label="Title"
-            placeholder="Untitled"
-            className="rp-bare rp-title text-[28px] md:text-[34px]"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <div className="mt-1 flex items-baseline gap-2 text-[13px] text-ink-2">
-            {currentUser?.displayName && <span className="flex-none">Words: {currentUser.displayName} ·</span>}
-            <label htmlFor="note-themes" className="flex-none">Themes:</label>
-            <input
-              id="note-themes"
-              type="text"
-              placeholder="add a few to steer suggestions"
-              className="rp-bare min-w-0 flex-1 text-[13px]"
-              value={themes}
-              onChange={(e) => setThemes(e.target.value)}
-            />
-          </div>
-          </div>
-        </header>
 
         {/* ---- Write / Sync / Play ---- */}
-        <div role="tablist" aria-label="Song view" className="rp-tabs mx-4 mt-3 flex-none md:mx-6">
+        <div role="tablist" aria-label="Song view" className="rp-tabs mx-3 mt-3 flex-none md:mx-6">
           {MODES.map(({ id, label }) => (
             <button
               key={id}
@@ -209,7 +197,7 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
             ref={lyricsRef}
             aria-label="Lyrics"
             placeholder="Start writing. Finish a word and the suggestions follow."
-            className="rp-bare min-h-0 w-full max-w-[48rem] flex-1 resize-none py-3 pr-4 pl-[68px] text-lg leading-[1.8] md:py-5 md:pr-6 md:pl-[88px] md:text-[19px]"
+            className="rp-bare min-h-0 w-full max-w-[48rem] flex-1 resize-none px-5 py-3 text-lg leading-[1.85] md:px-8 md:py-5 md:text-[19px]"
             value={lyrics}
             onChange={(e) => handleLyricsChange(
               e.currentTarget.value,

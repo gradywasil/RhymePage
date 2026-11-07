@@ -49,7 +49,7 @@ const SettingsDashboard = ({
         title="Categories"
         description={`Which suggestion tabs appear while you write. ${enabledCount} of ${RELATION_KEYS.length} on.`}
       >
-        <ul className="flex flex-col divide-y divide-rule border-y border-rule">
+        <ul className="flex flex-col divide-y divide-rule">
           {RELATION_KEYS.map((key) => (
             <li key={key}>
               <label className="flex min-h-14 cursor-pointer items-center gap-4 py-3">

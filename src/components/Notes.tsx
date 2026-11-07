@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { LuPlus } from "react-icons/lu";
 import useNotesLogic from "../hooks/useNotesLogic";
@@ -8,7 +8,6 @@ import ConfirmDialog from "./ConfirmDialog";
 import Loading from "./Loading";
 import type { Note } from "../types/note";
 import type { AppUser } from "../types/user";
-import { cacheTrackNumbers, trackNumbersFor } from "../utils/trackNumbers";
 
 interface NotesProps {
   currentUser: AppUser | null;
@@ -33,12 +32,6 @@ const Notes = ({ currentUser }: NotesProps) => {
     shareWithEmail,
     removeCollaborator,
   } = useNotesLogic({ currentUser });
-
-  // Track numbers follow creation order, so pinning or editing never renumbers a song.
-  const trackNumbers = useMemo(() => trackNumbersFor(ownNotes), [ownNotes]);
-  useEffect(() => {
-    if (currentUser && !loading) cacheTrackNumbers(currentUser.uid, trackNumbers);
-  }, [currentUser, loading, trackNumbers]);
 
   const [managing, setManaging] = useState<Note | null>(null);
   const [pendingDelete, setPendingDelete] = useState<Note | null>(null);
@@ -124,13 +117,11 @@ const Notes = ({ currentUser }: NotesProps) => {
           )}
         </div>
       ) : (
-        // A sleeve's tracklist: one column on a phone, two sides on a wide screen.
-        <ol className="mt-4 gap-x-12 border-t-[1.5px] border-ink lg:columns-2">
-          {visibleNotes.map((note, index) => (
+        <ol className="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          {visibleNotes.map((note) => (
             <NoteCard
               key={note.id}
               note={note}
-              number={tab === "mine" ? trackNumbers[note.id] ?? index + 1 : index + 1}
               owned={tab === "mine"}
               onTogglePin={togglePin}
               onManage={setManaging}

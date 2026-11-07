@@ -146,7 +146,7 @@ const Profile = ({ currentUser }: ProfileProps) => {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 pt-5 pb-10 md:px-10 md:pt-10">
       <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
-        <div className="flex h-24 w-24 flex-none items-center justify-center overflow-hidden bg-sleeve-2 md:h-28 md:w-28">
+        <div className="flex h-24 w-24 flex-none items-center justify-center overflow-hidden rounded-full bg-accent text-on-accent md:h-28 md:w-28">
           {profile.photoURL ? (
             <img
               src={profile.photoURL}
@@ -189,7 +189,7 @@ const Profile = ({ currentUser }: ProfileProps) => {
         )}
       </div>
 
-      <dl className="mt-8 border-t-[1.5px] border-ink">
+      <dl className="rp-card mt-8 px-5">
         <Stat label="Followers" value={counts.followers} />
         <Stat label="Following" value={counts.following} />
         <Stat label="Notes" value={noteCount ?? "-"} />

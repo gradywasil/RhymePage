@@ -176,7 +176,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
       <div className="flex flex-none flex-col gap-2">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className={`flex items-center gap-2 text-xs font-bold tracking-[0.08em] uppercase ${complete ? "text-ok" : "text-ink-2"}`}>
-            <span aria-hidden className={`h-[11px] w-[11px] flex-none border-[1.5px] border-current ${complete ? "bg-current" : ""}`} />
+            <span aria-hidden className={`h-[11px] w-[11px] flex-none rounded-full border-[1.5px] border-current ${complete ? "bg-current" : ""}`} />
             {complete ? "Complete" : "Draft"}
           </p>
           <button
@@ -277,7 +277,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
 
       {view === "fast" && !localAlignmentAvailable() && <p className="rp-hint flex-none">{ANDROID_ALIGNMENT_MESSAGE}</p>}
       {view === "fast" && localAlignmentAvailable() && (
-        <section className="flex flex-none flex-col gap-3 border-y border-rule py-4" aria-label="Local vocal-guide timing">
+        <section className="rp-card flex flex-none flex-col gap-3 px-4 py-4" aria-label="Local vocal-guide timing">
           {alignment.phase === "idle" && (
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="min-w-0 flex-1 basis-60">
@@ -450,7 +450,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
               if (armedLineId) void mark();
               else if (needsFinish) void finish();
             }}
-            className="no-bar flex min-h-60 flex-1 cursor-pointer flex-col overflow-y-auto border-t-[1.5px] border-ink"
+            className="no-bar flex min-h-60 flex-1 cursor-pointer flex-col overflow-y-auto rounded-3xl bg-surface p-1.5"
           >
             {syncDoc.lineOrder.map((lineId) => {
               const line = syncDoc.lines[lineId];
@@ -462,7 +462,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
                   key={lineId}
                   className={[
                     "flex flex-none items-center border-b border-rule transition-colors duration-150 ease-out motion-reduce:transition-none",
-                    isArmed ? "bg-ink text-sleeve" : "",
+                    isArmed ? "rounded-2xl bg-ink text-sleeve" : "",
                   ].join(" ")}
                 >
                   <button
@@ -473,13 +473,13 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
                     }}
                     className={[
                       "flex min-h-12 min-w-0 flex-1 items-center gap-3 py-1.5 pr-2 pl-1 text-left text-[15px]",
-                      isArmed ? "" : "hover:bg-sleeve-2",
+                      isArmed ? "" : "rounded-2xl hover:bg-sleeve-2",
                     ].join(" ")}
                   >
                     <span
                       className={[
                         "w-[4.75rem] flex-none text-[13px] leading-tight font-semibold tabular-nums",
-                        isArmed ? "text-sleeve" : line.start !== null ? "text-accent" : "text-ink-2",
+                        isArmed ? "text-sleeve" : line.start !== null ? "text-accent-text" : "text-ink-2",
                       ].join(" ")}
                     >
                       <span className="block">{formatTimestamp(line.start)}</span>
@@ -506,7 +506,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
                       }}
                       className={[
                         "rp-btn rp-btn--sm mr-1 flex-none",
-                        isArmed ? "text-sleeve hover:bg-ink-2" : "text-ink-2 hover:bg-sleeve-2 hover:text-ink",
+                        isArmed ? "rounded-full text-sleeve hover:bg-ink-2" : "rounded-full text-ink-2 hover:bg-sleeve-2 hover:text-ink",
                       ].join(" ")}
                     >
                       Words

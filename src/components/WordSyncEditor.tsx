@@ -159,7 +159,7 @@ const WordSyncEditor = ({ line, audioRef, onWordsChange, onClose }: WordSyncEdit
       </div>
 
       <div className="rp-dialog-body flex flex-col gap-3">
-        <div className="no-bar mt-2 flex max-h-64 flex-col overflow-y-auto border-t-[1.5px] border-ink">
+        <div className="no-bar mt-2 flex max-h-64 flex-col overflow-y-auto rounded-2xl bg-sleeve p-1">
           {words.map((word, index) => {
             const isArmed = index === armedIndex;
             return (
@@ -169,13 +169,13 @@ const WordSyncEditor = ({ line, audioRef, onWordsChange, onClose }: WordSyncEdit
                 onClick={() => resumeFrom(index)}
                 className={[
                   "flex min-h-11 flex-none items-center gap-3 border-b border-rule py-1.5 pr-2 pl-1 text-left text-[15px] transition-colors duration-150 ease-out motion-reduce:transition-none",
-                  isArmed ? "bg-ink text-sleeve" : "hover:bg-sleeve-2",
+                  isArmed ? "rounded-xl bg-ink text-sleeve" : "rounded-xl hover:bg-sleeve-2",
                 ].join(" ")}
               >
                 <span
                   className={[
                     "w-[7.5rem] flex-none text-[13px] font-semibold tabular-nums",
-                    isArmed ? "text-sleeve" : word.start !== null ? "text-accent" : "text-ink-2",
+                    isArmed ? "text-sleeve" : word.start !== null ? "text-accent-text" : "text-ink-2",
                   ].join(" ")}
                 >
                   {formatSeconds(word.start)}

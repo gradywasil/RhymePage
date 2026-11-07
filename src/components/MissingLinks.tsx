@@ -13,11 +13,11 @@ const MissingLinks = ({ links }: { links: MissingLink[] }) => {
   const navigate = useNavigate();
 
   return (
-    <ul className="border-t-[1.5px] border-ink">
+    <ul className="rp-card overflow-hidden">
       {links.map((link) => (
         <li
           key={link.href}
-          className="relative flex min-h-16 items-center gap-4 border-b border-rule py-3 transition-colors hover:bg-sleeve-2"
+          className="relative flex min-h-16 items-center gap-4 border-b border-rule px-5 py-3 transition-colors last:border-b-0 hover:bg-sleeve-2"
         >
           <link.icon className="h-5 w-5 flex-none text-ink-2" aria-hidden="true" />
           <div className="min-w-0 flex-auto">

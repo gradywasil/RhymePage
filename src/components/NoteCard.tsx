@@ -6,8 +6,6 @@ import type { PublicProfile } from "../types/profile";
 
 interface NoteCardProps {
   note: Note;
-  /** The song's track number: its place in creation order, 1-based. */
-  number: number;
   /** Shared notes are read-mostly: no pin, share or delete for a collaborator. */
   owned: boolean;
   onTogglePin: (noteId: string, isPinned: boolean) => void;
@@ -17,16 +15,28 @@ interface NoteCardProps {
   owner?: PublicProfile;
 }
 
+/** Song tiles borrow the suggestion-category colours, chosen stably from the note id. */
+const TILE_COLOURS = ["rhyme", "synonym", "antonym", "adjective", "noun", "relatedWord", "soundAlike", "frequentFollower"] as const;
+function colourFor(id: string): (typeof TILE_COLOURS)[number] {
+  let hash = 0;
+  for (const char of id) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return TILE_COLOURS[hash % TILE_COLOURS.length];
+}
+
+function initialOf(title: string): string {
+  return title.trim().charAt(0).toUpperCase();
+}
+
 function firstLine(lyrics: string): string {
   const line = lyrics.split("\n").map((l) => l.trim()).find(Boolean);
   return line ?? "Nothing written yet.";
 }
 
 /**
- * One track in the notebook's tracklist: number, title, first line, tags.
- * The row opens the note; pin and the overflow menu sit above that target.
+ * One song in the notebook: a colour tile, title, first line, tags. The card
+ * opens the note; pin and the overflow menu sit above that target.
  */
-const NoteCard = ({ note, number, owned, onTogglePin, onManage, onDelete, owner }: NoteCardProps) => {
+const NoteCard = ({ note, owned, onTogglePin, onManage, onDelete, owner }: NoteCardProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const shareCount = note.sharedWith?.length ?? 0;
@@ -48,14 +58,18 @@ const NoteCard = ({ note, number, owned, onTogglePin, onManage, onDelete, owner 
   }, [menuOpen]);
 
   return (
-    <li className="group relative flex min-h-[76px] items-start gap-4 border-b border-rule py-3 pr-1 break-inside-avoid">
+    <li className="rp-card group relative flex min-h-[88px] items-start gap-3.5 p-3.5 transition-shadow hover:shadow-[0_10px_28px_rgb(var(--shadow)/0.14)]">
       <Link
         to={`/notes/${note.id}`}
         aria-label={`Open ${title}`}
-        className="absolute inset-0 transition-colors hover:bg-sleeve-2/60"
+        className="absolute inset-0 rounded-[24px]"
       />
-      <span className="rp-numeral pointer-events-none relative w-9 flex-none pt-0.5 text-right text-[26px]" aria-hidden>
-        {String(number).padStart(2, "0")}
+      <span
+        aria-hidden
+        className="pointer-events-none relative flex h-12 w-12 flex-none items-center justify-center rounded-2xl text-xl font-extrabold text-white"
+        style={{ background: `var(--cat-${colourFor(note.id)})` }}
+      >
+        {initialOf(title)}
       </span>
 
       <div className="pointer-events-none relative min-w-0 flex-1">
@@ -64,7 +78,7 @@ const NoteCard = ({ note, number, owned, onTogglePin, onManage, onDelete, owner 
         <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-2">
           {owner && <span>Shared by {owner.displayName || "a RhymePage user"}</span>}
           {!owned && !owner && <span>Shared with you</span>}
-          {note.tags?.slice(0, 4).map((tag) => <span key={tag} className="font-semibold">#{tag}</span>)}
+          {note.tags?.slice(0, 4).map((tag) => <span key={tag} className="rounded-full bg-sleeve-2 px-2 py-0.5 font-semibold">#{tag}</span>)}
           {owned && shareCount > 0 && <span>Shared with {shareCount}</span>}
         </div>
       </div>
@@ -75,7 +89,7 @@ const NoteCard = ({ note, number, owned, onTogglePin, onManage, onDelete, owner 
             type="button"
             aria-label={note.isPinned ? `Unpin ${title}` : `Pin ${title}`}
             aria-pressed={note.isPinned ?? false}
-            className={`rp-icon-btn ${note.isPinned ? "text-accent" : "text-ink-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 [@media(pointer:coarse)]:opacity-100"}`}
+            className={`rp-icon-btn ${note.isPinned ? "text-accent-text" : "text-ink-2 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 [@media(pointer:coarse)]:opacity-100"}`}
             onClick={() => onTogglePin(note.id, note.isPinned ?? false)}
           >
             {note.isPinned ? <LuPin aria-hidden className="fill-current" /> : <LuPin aria-hidden />}

@@ -18,20 +18,20 @@ try {
   const stripTheme = css => css.replace(/@theme\s+inline\s*\{[\s\S]*?\n\}/, '');
   const tokensCss = stripTheme(await readFile('src/styles/tokens.css', 'utf8'));
   const kitCss = await readFile('src/styles/components.css', 'utf8');
-  if (!tokensCss.includes('[data-theme="harbor"]') || !kitCss.includes('.rp-title')) {
+  if (!tokensCss.includes('[data-theme="coral"]') || !kitCss.includes('.rp-title')) {
     throw new Error('Could not read the design tokens or component kit.');
   }
 
   // Mirrors readThemeChoice/resolveTheme in src/theme/themes.ts, including the
   // daisyUI theme names saved by earlier versions.
   const ids = THEMES.map(theme => theme.id);
-  const legacy = { pastel: 'lilac', winter: 'harbor', retro: 'newsprint', corporate: 'newsprint', business: 'night', forest: 'forest' };
-  const themeScript = `(()=>{const ids=${JSON.stringify(ids)},legacy=${JSON.stringify(legacy)},dark=matchMedia('(prefers-color-scheme: dark)');const apply=()=>{let choice='auto';try{const saved=localStorage.getItem('theme');if(saved)choice=saved==='auto'||ids.includes(saved)?saved:(legacy[saved]||'auto');}catch{}document.documentElement.dataset.theme=choice==='auto'?(dark.matches?'night':'harbor'):choice;};apply();addEventListener('pageshow',apply);addEventListener('storage',event=>{if(event.key==='theme'||event.key===null)apply();});dark.addEventListener?.('change',apply);})();`;
+  const legacy = { pastel: 'grape', winter: 'sky', retro: 'lemon', corporate: 'sky', business: 'night', forest: 'mint', harbor: 'sky', lilac: 'grape', newsprint: 'lemon' };
+  const themeScript = `(()=>{const ids=${JSON.stringify(ids)},legacy=${JSON.stringify(legacy)},dark=matchMedia('(prefers-color-scheme: dark)');const apply=()=>{let choice='auto';try{const saved=localStorage.getItem('theme');if(saved)choice=saved==='auto'||ids.includes(saved)?saved:(legacy[saved]||'auto');}catch{}document.documentElement.dataset.theme=choice==='auto'?(dark.matches?'night':'coral'):choice;};apply();addEventListener('pageshow',apply);addEventListener('storage',event=>{if(event.key==='theme'||event.key===null)apply();});dark.addEventListener?.('change',apply);})();`;
 
   const css = `
-@font-face{font-family:"Archivo Variable";src:url('/legal/archivo.woff2') format('woff2-variations');font-weight:100 900;font-display:swap}
+@font-face{font-family:"Raleway Variable";src:url('/legal/raleway.woff2') format('woff2-variations');font-weight:100 900;font-display:swap}
 ${tokensCss}
-:root{--font-sans:"Archivo Variable",Archivo,system-ui,sans-serif}
+:root{--font-sans:"Raleway Variable",Raleway,system-ui,sans-serif}
 ${kitCss}
 *,::before,::after{box-sizing:border-box}
 body{margin:0}
@@ -54,10 +54,10 @@ footer a:hover{color:var(--accent)}
 @media(max-width:640px){header,footer{padding-left:1rem;padding-right:1rem}.legal{padding:1.25rem 1rem 3rem}.legal h1{font-size:34px}}
 `;
   await mkdir('public/legal', { recursive: true });
-  await copyFile('node_modules/@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2', 'public/legal/archivo.woff2');
+  await copyFile('node_modules/@fontsource-variable/raleway/files/raleway-latin-wght-normal.woff2', 'public/legal/raleway.woff2');
   for (const [route, page, title] of [['privacy', 'privacy', 'RhymePage privacy policy'], ['delete-account', 'deletion', 'Delete your RhymePage account']]) {
     const body = renderToStaticMarkup(createElement(StaticRouter, { location: `/${route}` }, createElement(LegalPages, { page, signedIn: false })));
-    const html = `<!doctype html><html lang="en" data-theme="harbor"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${title}</title><link rel="canonical" href="https://rhymepage.com/${route}"><script>${themeScript}</script><style>${css}</style></head><body><header><a href="/">RhymePage</a></header><main>${body}</main><footer><a href="/privacy">Privacy policy</a><a href="/delete-account">Delete account</a><a href="/">Open RhymePage</a></footer></body></html>`;
+    const html = `<!doctype html><html lang="en" data-theme="coral"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${title}</title><link rel="canonical" href="https://rhymepage.com/${route}"><script>${themeScript}</script><style>${css}</style></head><body><header><a href="/">RhymePage</a></header><main>${body}</main><footer><a href="/privacy">Privacy policy</a><a href="/delete-account">Delete account</a><a href="/">Open RhymePage</a></footer></body></html>`;
     await mkdir(`public/${route}`, { recursive: true });
     await writeFile(`public/${route}/index.html`, html);
   }

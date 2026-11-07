@@ -62,7 +62,7 @@ function useTyping(): boolean {
 }
 
 const Avatar = ({ user }: { user: AppUser }) => (
-  <span className="flex h-9 w-9 flex-none items-center justify-center overflow-hidden bg-panel-2 text-[13px] font-bold text-on-panel">
+  <span className="flex h-9 w-9 flex-none items-center justify-center overflow-hidden rounded-full bg-accent text-[13px] font-bold text-on-accent">
     {user.photoURL ? <img src={user.photoURL} alt="" className="h-full w-full object-cover" /> : initials(user.displayName)}
   </span>
 );
@@ -88,7 +88,7 @@ const AppShell = ({ currentUser, onLogout, children }: AppShellProps) => {
                   to={to}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "flex min-h-11 items-center gap-3 px-3 text-[15px] font-semibold transition-colors",
+                    "flex min-h-11 items-center gap-3 rounded-2xl px-3 text-[15px] font-semibold transition-colors",
                     active ? "bg-panel-2 text-on-panel" : "text-on-panel-2 hover:bg-panel-2 hover:text-on-panel",
                   ].join(" ")}
                 >
@@ -144,11 +144,13 @@ const AppShell = ({ currentUser, onLogout, children }: AppShellProps) => {
                   to={to}
                   aria-current={active ? "page" : undefined}
                   className={[
-                    "flex h-[58px] flex-col items-center justify-center gap-1 text-xs font-semibold",
+                    "flex h-[62px] flex-col items-center justify-center gap-1 text-xs font-semibold",
                     active ? "text-on-panel" : "text-on-panel-2",
                   ].join(" ")}
                 >
-                  <Icon className={["h-[22px] w-[22px]", active ? "text-panel-accent" : ""].join(" ")} aria-hidden />
+                  <span className={["flex h-8 w-14 items-center justify-center rounded-full transition-colors", active ? "bg-panel-2 text-panel-accent" : ""].join(" ")}>
+                    <Icon className="h-[22px] w-[22px]" aria-hidden />
+                  </span>
                   {label}
                 </NavLink>
               </li>

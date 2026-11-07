@@ -85,7 +85,7 @@ const KaraokeLine = ({ line, currentTime }: { line: LineTiming; currentTime: num
           key={index}
           className={[
             "transition-colors duration-150 ease-out motion-reduce:transition-none",
-            sung ? "text-ink" : current ? "text-accent" : "text-ink-2",
+            sung ? "text-ink" : current ? "text-accent-text" : "text-ink-2",
           ].join(" ")}
         >
           {index > 0 ? " " : ""}
@@ -100,7 +100,7 @@ const KaraokeLine = ({ line, currentTime }: { line: LineTiming; currentTime: num
 const segmentClass = (on: boolean) =>
   [
     "rp-btn rp-btn--sm",
-    on ? "bg-ink text-sleeve" : "text-ink-2 hover:bg-sleeve-2 hover:text-ink",
+    on ? "rounded-full bg-ink text-sleeve" : "rounded-full text-ink-2 hover:bg-surface hover:text-ink",
   ].join(" ");
 
 /** Simple/karaoke/teleprompter presentation modes over the same synced-lyric data. */
@@ -185,7 +185,7 @@ const PlayPanel = ({ currentUser, noteId }: PlayPanelProps) => {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <div role="group" aria-label="Gap" className="flex items-center gap-3">
             <span className="rp-label" aria-hidden>Gap</span>
-            <div className="flex border-[1.5px] border-ink">
+            <div className="flex rounded-full bg-sleeve-2 p-1">
               {GAP_BEHAVIORS.map(({ id, label }) => (
                 <button
                   key={id}
@@ -200,7 +200,7 @@ const PlayPanel = ({ currentUser, noteId }: PlayPanelProps) => {
             </div>
           </div>
           {teleprompter && (
-            <div className="flex border-[1.5px] border-ink">
+            <div className="flex rounded-full bg-sleeve-2 p-1">
               <button
                 type="button"
                 aria-pressed={mirrored}
@@ -245,7 +245,7 @@ const PlayPanel = ({ currentUser, noteId }: PlayPanelProps) => {
       </div>
 
       {/* ---- Transport ---- */}
-      <div className="flex flex-none flex-col gap-2 border-t-[1.5px] border-ink px-4 pt-2 pb-4 md:px-6">
+      <div className="flex flex-none flex-col gap-2 border-t border-rule bg-surface px-4 pt-2 pb-4 md:px-6">
         {duration !== null && (
           <input
             type="range"
@@ -259,7 +259,7 @@ const PlayPanel = ({ currentUser, noteId }: PlayPanelProps) => {
           />
         )}
         <div className="flex items-center justify-center gap-3">
-          <span className="w-14 flex-none text-right text-[13px] font-semibold tabular-nums text-accent">
+          <span className="w-14 flex-none text-right text-[13px] font-semibold tabular-nums text-accent-text">
             {formatTimestamp(currentTime)}
           </span>
           <button type="button" className="rp-icon-btn" aria-label="Reset" title="Back to the start" onClick={reset}>
@@ -268,7 +268,7 @@ const PlayPanel = ({ currentUser, noteId }: PlayPanelProps) => {
           <button
             type="button"
             aria-label={isPlaying ? "Pause" : "Play"}
-            className="inline-flex h-14 w-14 flex-none items-center justify-center bg-ink text-sleeve transition-colors duration-150 ease-out hover:bg-ink-2 motion-reduce:transition-none"
+            className="inline-flex h-14 w-14 flex-none items-center justify-center rounded-full bg-ink text-sleeve transition-colors duration-150 ease-out hover:bg-ink-2 motion-reduce:transition-none"
             onClick={() => (isPlaying ? pause() : play())}
           >
             {isPlaying ? <LuPause aria-hidden className="h-6 w-6" /> : <LuPlay aria-hidden className="h-6 w-6" />}

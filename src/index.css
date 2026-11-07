@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource-variable/raleway/wght.css";
 @import "./styles/tokens.css";
 /* Layered so Tailwind utilities can still refine a kit class (e.g. rp-icon-btn text-ink-2). */
 @import "./styles/components.css" layer(components);

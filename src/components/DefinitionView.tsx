@@ -18,14 +18,14 @@ const DefinitionView = ({ word, entry, state, onClose }: DefinitionViewProps) =>
     </div>
 
     <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 text-[15px] leading-relaxed" aria-live="polite">
-      {state === "loading" && <span className="rp-loading mt-3 !bg-panel-rule" aria-label="Looking it up" />}
+      {state === "loading" && <span className="rp-loading mt-3" aria-label="Looking it up" />}
       {state === "empty" && <p className="rp-muted">No dictionary entry for &ldquo;{word}&rdquo;.</p>}
       {state === "error" && <p className="rp-muted">The dictionary isn't answering. Try again in a moment.</p>}
       {state === "ready" &&
         entry?.meanings?.map((meaning, i) => (
           <section key={`${meaning.partOfSpeech}-${i}`} className="mt-3">
             <p className="rp-label mb-1.5">{meaning.partOfSpeech}</p>
-            <ol className="flex list-decimal flex-col gap-2 pl-5 marker:text-on-panel-2">
+            <ol className="flex list-decimal flex-col gap-2 pl-5 marker:text-ink-2">
               {meaning.definitions.slice(0, 4).map((sense, j) => (
                 <li key={j}>
                   {sense.definition}

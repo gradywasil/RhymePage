@@ -36,7 +36,7 @@ function readThemeColors(): { waveColor?: string; progressColor?: string; cursor
   const read = (name: string) => styles.getPropertyValue(name).trim() || undefined;
   return {
     waveColor: read("--ink-2"),
-    progressColor: read("--accent"),
+    progressColor: read("--accent-text"),
     cursorColor: read("--ink"),
   };
 }
@@ -182,12 +182,12 @@ const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEdito
 
       <div
         ref={containerRef}
-        className="w-full flex-none border-y-[1.5px] border-ink bg-sleeve-2"
+        className="w-full flex-none overflow-hidden rounded-3xl bg-surface px-2"
       />
 
       {selectedLine && (
         <p className="flex items-baseline gap-3 text-[15px]">
-          <span className="flex-none text-[13px] font-semibold tabular-nums text-accent">
+          <span className="flex-none text-[13px] font-semibold tabular-nums text-accent-text">
             {formatSeconds(selectedLine.start ?? 0)}
             <span className="font-normal text-ink-2"> to {formatSeconds(selectedLine.end ?? 0)}</span>
           </span>
@@ -199,13 +199,13 @@ const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEdito
         <button
           type="button"
           aria-label={isPlaying ? "Pause" : "Play"}
-          className="inline-flex h-12 w-12 flex-none items-center justify-center bg-ink text-sleeve transition-colors duration-150 ease-out hover:bg-ink-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none"
+          className="inline-flex h-12 w-12 flex-none items-center justify-center rounded-full bg-ink text-sleeve transition-colors duration-150 ease-out hover:bg-ink-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none"
           disabled={!ready}
           onClick={() => void wavesurferRef.current?.playPause().catch(() => setLoadError(true))}
         >
           {isPlaying ? <LuPause aria-hidden className="h-5 w-5" /> : <LuPlay aria-hidden className="h-5 w-5" />}
         </button>
-        <span className="w-16 flex-none text-[13px] font-semibold tabular-nums text-accent">
+        <span className="w-16 flex-none text-[13px] font-semibold tabular-nums text-accent-text">
           {formatSeconds(currentTime)}
         </span>
         <label className="flex min-w-0 flex-1 items-center gap-3">

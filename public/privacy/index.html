@@ -1,143 +1,183 @@
-<!doctype html><html lang="en" data-theme="harbor"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>RhymePage privacy policy</title><link rel="canonical" href="https://rhymepage.com/privacy"><script>(()=>{const ids=["harbor","lilac","mint","newsprint","night","forest"],legacy={"pastel":"lilac","winter":"harbor","retro":"newsprint","corporate":"newsprint","business":"night","forest":"forest"},dark=matchMedia('(prefers-color-scheme: dark)');const apply=()=>{let choice='auto';try{const saved=localStorage.getItem('theme');if(saved)choice=saved==='auto'||ids.includes(saved)?saved:(legacy[saved]||'auto');}catch{}document.documentElement.dataset.theme=choice==='auto'?(dark.matches?'night':'harbor'):choice;};apply();addEventListener('pageshow',apply);addEventListener('storage',event=>{if(event.key==='theme'||event.key===null)apply();});dark.addEventListener?.('change',apply);})();</script><style>
-@font-face{font-family:"Archivo Variable";src:url('/legal/archivo.woff2') format('woff2-variations');font-weight:100 900;font-display:swap}
+<!doctype html><html lang="en" data-theme="coral"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>RhymePage privacy policy</title><link rel="canonical" href="https://rhymepage.com/privacy"><script>(()=>{const ids=["coral","lemon","sky","mint","grape","night"],legacy={"pastel":"grape","winter":"sky","retro":"lemon","corporate":"sky","business":"night","forest":"mint","harbor":"sky","lilac":"grape","newsprint":"lemon"},dark=matchMedia('(prefers-color-scheme: dark)');const apply=()=>{let choice='auto';try{const saved=localStorage.getItem('theme');if(saved)choice=saved==='auto'||ids.includes(saved)?saved:(legacy[saved]||'auto');}catch{}document.documentElement.dataset.theme=choice==='auto'?(dark.matches?'night':'coral'):choice;};apply();addEventListener('pageshow',apply);addEventListener('storage',event=>{if(event.key==='theme'||event.key===null)apply();});dark.addEventListener?.('change',apply);})();</script><style>
+@font-face{font-family:"Raleway Variable";src:url('/legal/raleway.woff2') format('woff2-variations');font-weight:100 900;font-display:swap}
 /*
- * RhymePage design tokens.
+ * RhymePage design tokens: Colour Pop.
  *
- * Every theme is a printing of the same inner sleeve: a flat sleeve ground,
- * sleeve ink, one printed accent for active marks, and a solid ink panel
- * (suggestions, tab bar) reversed out in sleeve colour. Components only ever
- * read these semantic roles, so a theme is nothing but this block of values.
+ * Every theme is a tinted ground, white (or deep) surfaces for writing and
+ * suggestions, one bold accent that colours each song's header, and a dark
+ * nav. Suggestion categories keep their own colours across themes so a writer
+ * learns "coral is rhymes" once. Components only read these semantic roles.
  *
- * Contrast is checked per theme: ink, ink-2 and accent against sleeve, and
- * on-panel, on-panel-2 and panel-accent against panel, all >= 4.5:1.
+ * Contrast is checked per theme (scripted): ink, ink-2 and accent-text on
+ * ground/surface; on-accent on accent; on-panel(-2) and panel-accent on panel;
+ * white on every category colour, all >= 4.5:1.
  */
 
 :root,
-[data-theme="harbor"] {
+[data-theme="coral"] {
   color-scheme: light;
-  --sleeve: #d3e4ee;
-  --sleeve-2: #c3d8e5;
-  --ink: #10243a;
-  --ink-2: #3c5268;
-  --rule: #9db7c9;
-  --accent: #a8321c;
+  --sleeve: #fff4ee;
+  --sleeve-2: #ffe9e0;
+  --surface: #ffffff;
+  --ink: #2b1b17;
+  --ink-2: #6b4c44;
+  --rule: #f0d8ce;
+  --accent: #c93d2a;
   --on-accent: #ffffff;
-  --panel: #10243a;
-  --panel-2: #1a3049;
-  --on-panel: #e3eef4;
-  --on-panel-2: #a9c0d0;
-  --panel-rule: #2a4058;
-  --panel-accent: #f08a6e;
-  --danger: #a8281a;
-  --ok: #1d6b45;
+  --accent-soft: #ffe1d9;
+  --accent-text: #c03a28;
+  --panel: #2b1b17;
+  --panel-2: #3a2823;
+  --on-panel: #fff4ee;
+  --on-panel-2: #cdb5ad;
+  --panel-rule: #45302a;
+  --panel-accent: #ff8a75;
+  --danger: #b3261e;
+  --ok: #1e7a4a;
+  --shadow: 120 50 30;
 }
 
-[data-theme="lilac"] {
+[data-theme="lemon"] {
   color-scheme: light;
-  --sleeve: #e6dff3;
-  --sleeve-2: #d9cfec;
-  --ink: #1e1631;
-  --ink-2: #4c4262;
-  --rule: #b9acd3;
-  --accent: #9b2c5a;
+  --sleeve: #fffae8;
+  --sleeve-2: #fff1c4;
+  --surface: #ffffff;
+  --ink: #2a2410;
+  --ink-2: #66592b;
+  --rule: #f0e3b5;
+  --accent: #f2c12e;
+  --on-accent: #2a2410;
+  --accent-soft: #fff0bf;
+  --accent-text: #806000;
+  --panel: #2a2410;
+  --panel-2: #3a3218;
+  --on-panel: #fffae8;
+  --on-panel-2: #d1c59a;
+  --panel-rule: #463c1f;
+  --panel-accent: #f2c12e;
+  --danger: #b3261e;
+  --ok: #1e7a4a;
+  --shadow: 110 90 20;
+}
+
+[data-theme="sky"] {
+  color-scheme: light;
+  --sleeve: #eef5ff;
+  --sleeve-2: #ddebff;
+  --surface: #ffffff;
+  --ink: #12233d;
+  --ink-2: #4a5d78;
+  --rule: #d3e2f5;
+  --accent: #1f67c9;
   --on-accent: #ffffff;
-  --panel: #1e1631;
-  --panel-2: #2a2140;
-  --on-panel: #ede7f7;
-  --on-panel-2: #beb2d6;
-  --panel-rule: #362b4e;
-  --panel-accent: #f59ab9;
-  --danger: #a3242c;
-  --ok: #1d6b45;
+  --accent-soft: #dceaff;
+  --accent-text: #1f62bf;
+  --panel: #12233d;
+  --panel-2: #1d3150;
+  --on-panel: #eef5ff;
+  --on-panel-2: #a9beda;
+  --panel-rule: #2a3f5e;
+  --panel-accent: #7fb2ff;
+  --danger: #b3261e;
+  --ok: #1e7a4a;
+  --shadow: 30 60 110;
 }
 
 [data-theme="mint"] {
   color-scheme: light;
-  --sleeve: #d3ece2;
-  --sleeve-2: #c1e2d5;
-  --ink: #0e2a21;
-  --ink-2: #355247;
-  --rule: #98c3b2;
-  --accent: #a63a16;
+  --sleeve: #ecf8f3;
+  --sleeve-2: #d8f1e6;
+  --surface: #ffffff;
+  --ink: #10291f;
+  --ink-2: #45604f;
+  --rule: #cde8db;
+  --accent: #0f7a6a;
   --on-accent: #ffffff;
-  --panel: #0e2a21;
-  --panel-2: #17372c;
-  --on-panel: #e2f2eb;
-  --on-panel-2: #a3c9ba;
-  --panel-rule: #24453a;
-  --panel-accent: #f6a178;
-  --danger: #a3241c;
+  --accent-soft: #d2f0e6;
+  --accent-text: #0d6e60;
+  --panel: #10291f;
+  --panel-2: #1a3a2d;
+  --on-panel: #ecf8f3;
+  --on-panel-2: #a5c9b8;
+  --panel-rule: #24473a;
+  --panel-accent: #6fd6b5;
+  --danger: #b3261e;
   --ok: #17643f;
+  --shadow: 20 80 60;
 }
 
-[data-theme="newsprint"] {
-  color-scheme: light;
-  --sleeve: #eaeae6;
-  --sleeve-2: #dededa;
-  --ink: #161616;
-  --ink-2: #4a4a47;
-  --rule: #bdbdb7;
-  --accent: #b0261c;
-  --on-accent: #ffffff;
-  --panel: #161616;
-  --panel-2: #222221;
-  --on-panel: #ededea;
-  --on-panel-2: #b3b3ae;
-  --panel-rule: #2e2e2c;
-  --panel-accent: #ff8a70;
-  --danger: #a8231a;
-  --ok: #1d6b45;
+[data-theme="grape"] {
+  color-scheme: dark;
+  --sleeve: #1d1830;
+  --sleeve-2: #2a2344;
+  --surface: #262040;
+  --ink: #f1ecff;
+  --ink-2: #bdb2de;
+  --rule: #3a3158;
+  --accent: #a78bff;
+  --on-accent: #1d1830;
+  --accent-soft: #3a2f66;
+  --accent-text: #c3aeff;
+  --panel: #120f1f;
+  --panel-2: #1e1933;
+  --on-panel: #f1ecff;
+  --on-panel-2: #ada2cf;
+  --panel-rule: #2b2445;
+  --panel-accent: #c3aeff;
+  --danger: #ff9a8f;
+  --ok: #7fd6a4;
+  --shadow: 0 0 0;
 }
 
 [data-theme="night"] {
   color-scheme: dark;
-  --sleeve: #1c1a17;
-  --sleeve-2: #26231f;
-  --ink: #ede6da;
-  --ink-2: #b5ac9e;
-  --rule: #3d3832;
-  --accent: #f0875f;
-  --on-accent: #1c1a17;
-  --panel: #0f0e0c;
-  --panel-2: #1a1815;
-  --on-panel: #ede6da;
-  --on-panel-2: #ada496;
-  --panel-rule: #2a2723;
-  --panel-accent: #f0875f;
-  --danger: #ff8f7d;
-  --ok: #7fd1a3;
+  --sleeve: #1e1917;
+  --sleeve-2: #2b2421;
+  --surface: #28211e;
+  --ink: #f7eeea;
+  --ink-2: #c4b4ad;
+  --rule: #3d332f;
+  --accent: #ff7a62;
+  --on-accent: #1e1917;
+  --accent-soft: #4a2a23;
+  --accent-text: #ff9480;
+  --panel: #120f0e;
+  --panel-2: #1e1917;
+  --on-panel: #f7eeea;
+  --on-panel-2: #b8a8a1;
+  --panel-rule: #2b2421;
+  --panel-accent: #ff9480;
+  --danger: #ff9a8f;
+  --ok: #7fd6a4;
+  --shadow: 0 0 0;
 }
 
-[data-theme="forest"] {
-  color-scheme: dark;
-  --sleeve: #17251e;
-  --sleeve-2: #1f3128;
-  --ink: #e6efe8;
-  --ink-2: #a8bdb0;
-  --rule: #33493d;
-  --accent: #e9b44c;
-  --on-accent: #17251e;
-  --panel: #0d1712;
-  --panel-2: #15221b;
-  --on-panel: #e6efe8;
-  --on-panel-2: #9db3a6;
-  --panel-rule: #24362c;
-  --panel-accent: #e9b44c;
-  --danger: #ff9a86;
-  --ok: #8fd4a8;
+/*
+ * Suggestion categories: one colour each, the same in every theme, all dark
+ * enough to carry white text. Word chips tint toward the surface from these.
+ */
+:root {
+  --cat-rhyme: #c93d2a;
+  --cat-soundAlike: #a35a00;
+  --cat-synonym: #0e7c74;
+  --cat-antonym: #6a4bd0;
+  --cat-adjective: #b8336f;
+  --cat-noun: #2a64c2;
+  --cat-relatedWord: #2c7a3a;
+  --cat-frequentFollower: #8c5300;
 }
 
 /* Tailwind reads the live variables, so utilities follow the active theme. */
 
 
-:root{--font-sans:"Archivo Variable",Archivo,system-ui,sans-serif}
+:root{--font-sans:"Raleway Variable",Raleway,system-ui,sans-serif}
 /*
- * RhymePage component kit.
+ * RhymePage component kit: Colour Pop.
  *
- * Inner-sleeve printing: rules instead of boxes, square corners, uppercase
- * tracked labels for anything that tells you what to do, and reversal (ink
- * block, sleeve text) for the selected or primary thing. No pills, glows or
- * gradients. Everything reads the semantic roles in tokens.css.
+ * Rounded and friendly: pill buttons and tabs, soft-filled fields, white
+ * cards that float on the tinted ground with a soft shadow, sentence-case
+ * labels. Colour comes from the theme accent (each song's header) and the
+ * fixed category colours (suggestions). Everything reads tokens.css roles.
  */
 
 /* ---------- Ground, type, and the browser surfaces we did not draw ---------- */
@@ -154,30 +194,29 @@ body {
   background: var(--sleeve);
   color: var(--ink);
   font-size: 16px;
+  font-weight: 450;
   line-height: 1.5;
+  font-variant-numeric: lining-nums;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: var(--accent);
-  color: var(--on-accent);
+  background: var(--accent-soft);
+  color: var(--ink);
 }
 
 input,
 textarea,
 select {
-  caret-color: var(--accent);
+  caret-color: var(--accent-text);
   font: inherit;
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-text);
   outline-offset: 2px;
 }
-
-.panel :focus-visible {
-  outline-color: var(--panel-accent);
-}
+.panel :focus-visible { outline-color: var(--panel-accent); }
 
 * {
   scrollbar-width: thin;
@@ -186,7 +225,7 @@ select {
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-corner { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--rule); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ink-2); }
 .panel { scrollbar-color: var(--panel-rule) transparent; }
 
@@ -195,36 +234,34 @@ select {
   ::-webkit-scrollbar-thumb { background: CanvasText; }
 }
 
-/* The reversed ink slab: suggestion panel, tab bar, menus. */
+/* The dark nav: desktop rail and phone tab bar. */
 .panel {
   background: var(--panel);
   color: var(--on-panel);
 }
 
+/* A white (or deep, in dark themes) card floating on the tinted ground. */
+.rp-card {
+  background: var(--surface);
+  border-radius: 24px;
+  box-shadow: 0 8px 24px rgb(var(--shadow) / 0.08), 0 1px 2px rgb(var(--shadow) / 0.06);
+}
+
 /* ---------- Type roles ---------- */
 
 .rp-label {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.3;
-  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.35;
   color: var(--ink-2);
 }
 .panel .rp-label { color: var(--on-panel-2); }
 
 .rp-title {
   font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.05;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
   text-wrap: balance;
-}
-
-.rp-numeral {
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-  color: var(--accent);
 }
 
 .rp-muted { color: var(--ink-2); }
@@ -232,11 +269,13 @@ select {
 
 .rp-link {
   color: inherit;
+  font-weight: 600;
   text-decoration: underline;
-  text-decoration-thickness: 1.5px;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--accent-text);
   text-underline-offset: 3px;
 }
-.rp-link:hover { color: var(--accent); }
+.rp-link:hover { color: var(--accent-text); }
 
 /* ---------- Buttons ---------- */
 
@@ -246,19 +285,18 @@ select {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 0 18px;
+  padding: 0 20px;
   border: 1.5px solid transparent;
-  border-radius: 0;
-  font-size: 13px;
+  border-radius: 999px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 0.07em;
   line-height: 1;
-  text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color 120ms ease-out, color 120ms ease-out, border-color 120ms ease-out;
+  transition: background-color 140ms ease-out, color 140ms ease-out, border-color 140ms ease-out, transform 140ms ease-out;
   user-select: none;
 }
+.rp-btn:not(:disabled):active { transform: scale(0.97); }
 .rp-btn:disabled { cursor: not-allowed; opacity: 0.45; }
 .rp-btn > svg { width: 18px; height: 18px; flex: none; }
 
@@ -266,23 +304,23 @@ select {
 .rp-btn--ink:not(:disabled):hover { background: var(--ink-2); }
 
 .rp-btn--accent { background: var(--accent); color: var(--on-accent); }
-.rp-btn--accent:not(:disabled):hover { background: var(--ink); color: var(--sleeve); }
+.rp-btn--accent:not(:disabled):hover { filter: brightness(1.06); }
 
-.rp-btn--line { border-color: var(--ink); color: var(--ink); }
-.rp-btn--line:not(:disabled):hover { background: var(--sleeve-2); }
+.rp-btn--line { border-color: var(--rule); background: var(--surface); color: var(--ink); }
+.rp-btn--line:not(:disabled):hover { border-color: var(--ink-2); }
 
-.rp-btn--quiet { color: var(--ink); padding: 0 12px; }
+.rp-btn--quiet { color: var(--ink); padding: 0 14px; }
 .rp-btn--quiet:not(:disabled):hover { background: var(--sleeve-2); }
 
-.rp-btn--danger { border-color: var(--danger); color: var(--danger); }
-.rp-btn--danger:not(:disabled):hover { background: var(--danger); color: var(--sleeve); }
+.rp-btn--danger { background: var(--surface); border-color: var(--danger); color: var(--danger); }
+.rp-btn--danger:not(:disabled):hover { background: var(--danger); color: var(--surface); }
 
-.rp-btn--sm { min-height: 36px; padding: 0 12px; font-size: 12px; }
+.rp-btn--sm { min-height: 36px; padding: 0 14px; font-size: 14px; }
 .rp-btn--block { width: 100%; }
 
 .panel .rp-btn--quiet { color: var(--on-panel); }
 .panel .rp-btn--quiet:not(:disabled):hover { background: var(--panel-2); }
-.panel .rp-btn--line { border-color: var(--on-panel); color: var(--on-panel); }
+.panel .rp-btn--line { border-color: var(--panel-rule); background: transparent; color: var(--on-panel); }
 .panel .rp-btn--line:not(:disabled):hover { background: var(--panel-2); }
 
 .rp-icon-btn {
@@ -292,9 +330,10 @@ select {
   flex: none;
   align-items: center;
   justify-content: center;
+  border-radius: 999px;
   color: inherit;
   cursor: pointer;
-  transition: background-color 120ms ease-out;
+  transition: background-color 140ms ease-out;
 }
 .rp-icon-btn > svg { width: 20px; height: 20px; }
 .rp-icon-btn:not(:disabled):hover { background: var(--sleeve-2); }
@@ -310,33 +349,32 @@ select {
 .rp-textarea,
 .rp-select {
   width: 100%;
-  min-height: 44px;
-  padding: 10px 12px;
-  border: 0;
-  border-bottom: 1.5px solid var(--ink);
-  border-radius: 0;
-  background: var(--sleeve-2);
+  min-height: 48px;
+  padding: 11px 16px;
+  border: 1.5px solid var(--rule);
+  border-radius: 14px;
+  background: var(--surface);
   color: var(--ink);
   /* 16px stops iOS from zooming the page on focus. */
   font-size: 16px;
   line-height: 1.4;
   outline: none;
-  transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
+  transition: border-color 140ms ease-out, box-shadow 140ms ease-out;
 }
 .rp-input::placeholder,
 .rp-textarea::placeholder { color: var(--ink-2); opacity: 1; }
 .rp-input:focus,
 .rp-textarea:focus,
 .rp-select:focus {
-  border-bottom-color: var(--accent);
-  box-shadow: inset 0 -1.5px 0 var(--accent);
+  border-color: var(--accent-text);
+  box-shadow: 0 0 0 4px var(--accent-soft);
 }
-.rp-input[aria-invalid="true"] { border-bottom-color: var(--danger); }
+.rp-input[aria-invalid="true"] { border-color: var(--danger); }
 .rp-input:disabled,
 .rp-textarea:disabled,
 .rp-select:disabled { cursor: not-allowed; opacity: 0.55; }
 .rp-textarea { resize: vertical; }
-.rp-select { appearance: none; padding-right: 36px; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+.rp-select { appearance: none; padding-right: 40px; background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%); background-position: calc(100% - 22px) 50%, calc(100% - 17px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
 
 /* Bare inputs that sit directly on the page (editor title, lyrics). */
 .rp-bare {
@@ -346,45 +384,45 @@ select {
   color: inherit;
   outline: none;
 }
-.rp-bare::placeholder { color: var(--ink-2); opacity: 1; }
+.rp-bare::placeholder { color: inherit; opacity: 0.62; }
 
-/* Checkbox and radio: a mark in a fixed cell; filled holds, hollow does not. */
 .rp-check,
 .rp-radio {
   appearance: none;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   flex: none;
   margin: 0;
-  border: 1.5px solid var(--ink);
-  background: transparent;
+  border: 2px solid var(--ink-2);
+  border-radius: 7px;
+  background: var(--surface);
   cursor: pointer;
-  transition: background-color 120ms ease-out, box-shadow 120ms ease-out;
+  transition: background-color 140ms ease-out, border-color 140ms ease-out, box-shadow 140ms ease-out;
 }
 .rp-radio { border-radius: 50%; }
 .rp-check:checked,
 .rp-radio:checked {
-  background: var(--ink);
-  box-shadow: inset 0 0 0 3px var(--sleeve);
+  border-color: var(--accent-text);
+  background: var(--accent-text);
+  box-shadow: inset 0 0 0 4px var(--surface);
 }
 .rp-check:disabled,
 .rp-radio:disabled { cursor: not-allowed; opacity: 0.45; }
 
 .rp-switch {
   appearance: none;
-  width: 44px;
-  height: 26px;
+  width: 48px;
+  height: 28px;
   flex: none;
   margin: 0;
-  border: 1.5px solid var(--ink);
-  background: transparent linear-gradient(var(--ink), var(--ink)) no-repeat 3px 50% / 17px 17px;
+  border-radius: 999px;
+  background: var(--rule) radial-gradient(circle at center, var(--surface) 10px, transparent 10.5px) no-repeat 2px 50% / 24px 24px;
   cursor: pointer;
-  transition: background-position 160ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 160ms ease-out;
+  transition: background-position 180ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 180ms ease-out;
 }
 .rp-switch:checked {
-  background-color: var(--ink);
-  background-image: linear-gradient(var(--sleeve), var(--sleeve));
-  background-position: calc(100% - 3px) 50%;
+  background-color: var(--accent-text);
+  background-position: calc(100% - 2px) 50%;
 }
 .rp-switch:disabled { cursor: not-allowed; opacity: 0.45; }
 
@@ -395,25 +433,26 @@ select {
   background: transparent;
   cursor: pointer;
 }
-.rp-range::-webkit-slider-runnable-track { height: 2px; background: var(--ink); }
-.rp-range::-moz-range-track { height: 2px; background: var(--ink); }
+.rp-range::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: var(--sleeve-2); }
+.rp-range::-moz-range-track { height: 6px; border-radius: 999px; background: var(--sleeve-2); }
 .rp-range::-webkit-slider-thumb {
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  height: 22px;
   margin-top: -8px;
-  border: 0;
-  background: var(--accent);
+  border: 3px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent-text);
+  box-shadow: 0 1px 4px rgb(var(--shadow) / 0.25);
 }
-.rp-range::-moz-range-thumb { width: 18px; height: 18px; border: 0; border-radius: 0; background: var(--accent); }
+.rp-range::-moz-range-thumb { width: 18px; height: 18px; border: 3px solid var(--surface); border-radius: 50%; background: var(--accent-text); }
 .rp-range:disabled { cursor: not-allowed; opacity: 0.45; }
 
-/* ---------- Tabs ---------- */
+/* ---------- Tabs: pills ---------- */
 
 .rp-tabs {
   display: flex;
-  gap: 20px;
-  border-bottom: 1.5px solid var(--ink);
+  gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -421,80 +460,83 @@ select {
 
 .rp-tab {
   display: inline-flex;
-  min-height: 44px;
+  min-height: 40px;
   flex: none;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--sleeve-2);
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
   color: var(--ink-2);
   cursor: pointer;
-  transition: color 120ms ease-out, box-shadow 120ms ease-out;
+  transition: background-color 140ms ease-out, color 140ms ease-out;
 }
 .rp-tab:hover { color: var(--ink); }
-.rp-tab[aria-selected="true"] {
-  color: var(--ink);
-  box-shadow: inset 0 -3px 0 var(--accent);
-}
-.rp-tab:disabled { cursor: not-allowed; opacity: 0.4; }
-.rp-tab .rp-count { font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.rp-tab[aria-selected="true"] { background: var(--ink); color: var(--sleeve); }
+.rp-tab:disabled { cursor: not-allowed; opacity: 0.45; }
+.rp-tab .rp-count { font-weight: 600; opacity: 0.85; font-variant-numeric: tabular-nums; }
 
-.panel .rp-tabs { border-bottom-color: var(--panel-rule); }
-.panel .rp-tab { color: var(--on-panel-2); }
+.panel .rp-tab { background: var(--panel-2); color: var(--on-panel-2); }
 .panel .rp-tab:hover { color: var(--on-panel); }
-.panel .rp-tab[aria-selected="true"] { color: var(--on-panel); box-shadow: inset 0 -3px 0 var(--panel-accent); }
+.panel .rp-tab[aria-selected="true"] { background: var(--on-panel); color: var(--panel); }
 
 /* ---------- Tags, notices, loading ---------- */
 
 .rp-tag {
   display: inline-flex;
-  height: 26px;
+  height: 30px;
   align-items: center;
-  padding: 0 8px;
-  border: 1px solid currentColor;
-  font-size: 12px;
-  font-weight: 600;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: var(--sleeve-2);
+  font-size: 13px;
+  font-weight: 650;
   color: var(--ink-2);
   white-space: nowrap;
 }
 button.rp-tag { cursor: pointer; }
-.rp-tag[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--sleeve); }
+button.rp-tag:hover { color: var(--ink); }
+.rp-tag[aria-pressed="true"] { background: var(--ink); color: var(--sleeve); }
 
 .rp-notice {
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 12px 14px;
-  background: var(--sleeve-2);
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: var(--surface);
   color: var(--ink);
   font-size: 14px;
   line-height: 1.45;
+  box-shadow: 0 1px 2px rgb(var(--shadow) / 0.06);
 }
 .rp-notice > svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
 .rp-notice--danger { color: var(--danger); }
 .rp-notice--ok { color: var(--ok); }
 
-.rp-message { font-size: 14px; line-height: 1.45; }
+.rp-message { font-size: 14px; font-weight: 550; line-height: 1.45; }
 .rp-message--danger { color: var(--danger); }
 .rp-message--ok { color: var(--ok); }
 
-/* Indeterminate progress: a short ink segment running along a rule. */
+/* Indeterminate progress: a short accent pill running along a soft track. */
 .rp-loading {
   position: relative;
   display: block;
   width: 120px;
-  height: 2px;
+  height: 4px;
   overflow: hidden;
-  background: var(--rule);
+  border-radius: 999px;
+  background: var(--sleeve-2);
 }
 .rp-loading::after {
   content: "";
   position: absolute;
   inset: 0 auto 0 0;
   width: 40%;
-  background: var(--ink);
+  border-radius: 999px;
+  background: var(--accent-text);
   animation: rp-run 1.1s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 @keyframes rp-run {
@@ -509,39 +551,41 @@ button.rp-tag { cursor: pointer; }
   max-height: calc(100dvh - 2rem);
   margin: auto;
   padding: 0;
-  border: 1.5px solid var(--ink);
-  background: var(--sleeve);
+  border: 0;
+  border-radius: 24px;
+  background: var(--surface);
   color: var(--ink);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 0.25);
 }
-.rp-dialog::backdrop { background: rgb(0 0 0 / 0.45); }
-.rp-dialog-head { padding: 18px 20px 4px; }
-.rp-dialog-body { padding: 4px 20px 18px; }
+.rp-dialog::backdrop { background: rgb(0 0 0 / 0.4); }
+.rp-dialog-head { padding: 22px 22px 4px; }
+.rp-dialog-body { padding: 4px 22px 18px; }
 .rp-dialog-foot {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
-  padding: 12px 20px;
-  border-top: 1px solid var(--rule);
+  padding: 4px 22px 20px;
 }
 
-/* On a phone the dialog is a sheet pinned to the bottom edge. */
+/* On a phone the dialog is a sheet that rises from the bottom edge. */
 @media (max-width: 639px) {
   .rp-dialog {
     width: 100%;
     max-width: none;
     margin: auto 0 0;
-    border-width: 1.5px 0 0;
+    border-radius: 24px 24px 0 0;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 }
 
 .rp-menu {
   min-width: 13rem;
-  padding: 6px 0;
-  background: var(--panel);
-  color: var(--on-panel);
-  box-shadow: 0 10px 28px rgb(0 0 0 / 0.28);
+  padding: 6px;
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 12px 32px rgb(var(--shadow) / 0.18), 0 0 0 1px var(--rule);
 }
 .rp-menu-item {
   display: flex;
@@ -549,21 +593,25 @@ button.rp-tag { cursor: pointer; }
   min-height: 44px;
   align-items: center;
   gap: 12px;
-  padding: 0 16px;
+  padding: 0 12px;
+  border-radius: 10px;
   font-size: 15px;
+  font-weight: 550;
   text-align: left;
-  color: var(--on-panel);
+  color: var(--ink);
   cursor: pointer;
 }
-.rp-menu-item > svg { width: 18px; height: 18px; flex: none; color: var(--on-panel-2); }
-.rp-menu-item:hover { background: var(--panel-2); }
-.rp-menu-item--danger { color: var(--panel-accent); }
+.rp-menu-item > svg { width: 18px; height: 18px; flex: none; color: var(--ink-2); }
+.rp-menu-item:hover { background: var(--sleeve-2); }
+.rp-menu-item--danger,
+.rp-menu-item--danger > svg { color: var(--danger); }
 
 .rp-rule { border: 0; border-top: 1px solid var(--rule); }
 
 @media (prefers-reduced-motion: reduce) {
   .rp-loading::after { animation: none; width: 100%; opacity: 0.5; }
   .rp-btn, .rp-tab, .rp-switch, .rp-check, .rp-radio { transition: none; }
+  .rp-btn:not(:disabled):active { transform: none; }
 }
 
 *,::before,::after{box-sizing:border-box}

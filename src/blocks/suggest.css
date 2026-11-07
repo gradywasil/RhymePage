@@ -1,13 +1,15 @@
 /*
  * Suggestion panel.
  *
- * One component, two shapes. On a phone it is a bottom sheet that snaps
+ * One component, two shapes. On a phone it is a white sheet that snaps
  * between peek (one sideways row of words), half and full. From `md` up the
- * same markup is an ink column docked to the right of the editor and the
- * sheet states stop applying.
+ * same markup is a white card docked to the right of the editor and the sheet
+ * states stop applying.
  *
- * The word grid keeps fixed columns: when a new word is finished only the
- * words change, never the layout under the writer's thumb.
+ * Every category carries its own colour (--cat, set per tab and per word from
+ * the --cat-* tokens): the selected tab is the solid colour, words are chips
+ * tinted toward the surface, stronger for better matches. Text stays in ink so
+ * it reads on every theme.
  */
 
 /*
@@ -18,64 +20,63 @@
 .suggest {
   transition: height 0.26s cubic-bezier(0.32, 0.72, 0, 1);
 }
-.suggest[data-state="peek"] { height: 8.5rem; }
+.suggest[data-state="peek"] { height: 9rem; }
 /* Leave writing room when the keyboard reduces the phone's viewport. */
-.suggest[data-state="half"] { height: min(19rem, 36dvh); }
+.suggest[data-state="half"] { height: min(19rem, 38dvh); }
 .suggest[data-state="full"] { height: 64svh; }
 
 .suggest .suggest-words {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 8px;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
 /* Peek is a single sideways row so the editor keeps the screen. */
 .suggest[data-state="peek"] .suggest-words {
-  display: flex;
+  flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
-}
-.suggest[data-state="peek"] .suggest-words > * { width: auto; flex: none; }
-
-@media (max-width: 359px) {
-  .suggest .suggest-words { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (min-width: 768px) {
   /* Matches the [data-state] specificity above so the dock isn't stuck at a sheet height. */
   .suggest[data-state] {
-    height: 100%;
+    height: auto;
     transition: none;
   }
   .suggest[data-state] .suggest-words {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    flex-wrap: wrap;
     overflow-x: hidden;
     overflow-y: auto;
   }
-  .suggest[data-state] .suggest-words > * { width: 100%; }
-  /* Tablet-width dock: one sideways row, faded at the edge so more reads as more. */
-  .suggest .rp-tabs { mask-image: linear-gradient(to right, #000 82%, transparent); }
+  /* The dock has room, so every category stays in view. */
+  .suggest .rp-tabs { flex-wrap: wrap; overflow: visible; }
 }
 
-/*
- * Desktop dock: the categories set as a two-column index, like sleeve credits.
- * Every tab keeps a fixed cell, so only the words change between lookups.
- */
-@media (min-width: 1024px) {
-  .suggest .rp-tabs {
-    display: grid;
-    grid-template-columns: auto auto;
-    justify-content: start;
-    gap: 0 24px;
-    overflow: visible;
-    mask-image: none;
-  }
-  /* Sized to the label, not the cell, so the accent underline matches the phone's. */
-  .suggest .rp-tab { min-height: 34px; font-size: 12px; justify-self: start; }
+/* ---------- Category colour ---------- */
+
+.cat-tab {
+  background: color-mix(in srgb, var(--cat) 14%, var(--surface));
+  color: var(--ink);
 }
+.cat-tab:hover { background: color-mix(in srgb, var(--cat) 22%, var(--surface)); }
+.cat-tab[aria-selected="true"] { background: var(--cat); color: #ffffff; }
+.cat-tab[aria-selected="true"]:hover { background: var(--cat); }
+
+.cat-chip {
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--cat) 20%, var(--surface));
+  color: var(--ink);
+  font-weight: 650;
+  transition: background-color 120ms ease-out, transform 120ms ease-out;
+}
+.cat-chip[data-strength="1"] { background: color-mix(in srgb, var(--cat) 12%, var(--surface)); font-weight: 600; }
+.cat-chip[data-strength="2"] { background: color-mix(in srgb, var(--cat) 6%, var(--surface)); font-weight: 500; }
+.cat-chip:hover { background: color-mix(in srgb, var(--cat) 30%, var(--surface)); }
+.cat-chip:active { transform: scale(0.96); }
 
 /* The headword lifts into place as each new word is finished. */
 .suggest-headword {
@@ -90,6 +91,8 @@
 @media (prefers-reduced-motion: reduce) {
   .suggest { transition: none; }
   .suggest-headword { animation: none; }
+  .cat-chip { transition: none; }
+  .cat-chip:active { transform: none; }
 }
 
 /* Horizontal strips shouldn't show a scrollbar on desktop trackpads. */

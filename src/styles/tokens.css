@@ -1,139 +1,182 @@
 /*
- * RhymePage design tokens.
+ * RhymePage design tokens: Colour Pop.
  *
- * Every theme is a printing of the same inner sleeve: a flat sleeve ground,
- * sleeve ink, one printed accent for active marks, and a solid ink panel
- * (suggestions, tab bar) reversed out in sleeve colour. Components only ever
- * read these semantic roles, so a theme is nothing but this block of values.
+ * Every theme is a tinted ground, white (or deep) surfaces for writing and
+ * suggestions, one bold accent that colours each song's header, and a dark
+ * nav. Suggestion categories keep their own colours across themes so a writer
+ * learns "coral is rhymes" once. Components only read these semantic roles.
  *
- * Contrast is checked per theme: ink, ink-2 and accent against sleeve, and
- * on-panel, on-panel-2 and panel-accent against panel, all >= 4.5:1.
+ * Contrast is checked per theme (scripted): ink, ink-2 and accent-text on
+ * ground/surface; on-accent on accent; on-panel(-2) and panel-accent on panel;
+ * white on every category colour, all >= 4.5:1.
  */
 
 :root,
-[data-theme="harbor"] {
+[data-theme="coral"] {
   color-scheme: light;
-  --sleeve: #d3e4ee;
-  --sleeve-2: #c3d8e5;
-  --ink: #10243a;
-  --ink-2: #3c5268;
-  --rule: #9db7c9;
-  --accent: #a8321c;
+  --sleeve: #fff4ee;
+  --sleeve-2: #ffe9e0;
+  --surface: #ffffff;
+  --ink: #2b1b17;
+  --ink-2: #6b4c44;
+  --rule: #f0d8ce;
+  --accent: #c93d2a;
   --on-accent: #ffffff;
-  --panel: #10243a;
-  --panel-2: #1a3049;
-  --on-panel: #e3eef4;
-  --on-panel-2: #a9c0d0;
-  --panel-rule: #2a4058;
-  --panel-accent: #f08a6e;
-  --danger: #a8281a;
-  --ok: #1d6b45;
+  --accent-soft: #ffe1d9;
+  --accent-text: #c03a28;
+  --panel: #2b1b17;
+  --panel-2: #3a2823;
+  --on-panel: #fff4ee;
+  --on-panel-2: #cdb5ad;
+  --panel-rule: #45302a;
+  --panel-accent: #ff8a75;
+  --danger: #b3261e;
+  --ok: #1e7a4a;
+  --shadow: 120 50 30;
 }
 
-[data-theme="lilac"] {
+[data-theme="lemon"] {
   color-scheme: light;
-  --sleeve: #e6dff3;
-  --sleeve-2: #d9cfec;
-  --ink: #1e1631;
-  --ink-2: #4c4262;
-  --rule: #b9acd3;
-  --accent: #9b2c5a;
+  --sleeve: #fffae8;
+  --sleeve-2: #fff1c4;
+  --surface: #ffffff;
+  --ink: #2a2410;
+  --ink-2: #66592b;
+  --rule: #f0e3b5;
+  --accent: #f2c12e;
+  --on-accent: #2a2410;
+  --accent-soft: #fff0bf;
+  --accent-text: #806000;
+  --panel: #2a2410;
+  --panel-2: #3a3218;
+  --on-panel: #fffae8;
+  --on-panel-2: #d1c59a;
+  --panel-rule: #463c1f;
+  --panel-accent: #f2c12e;
+  --danger: #b3261e;
+  --ok: #1e7a4a;
+  --shadow: 110 90 20;
+}
+
+[data-theme="sky"] {
+  color-scheme: light;
+  --sleeve: #eef5ff;
+  --sleeve-2: #ddebff;
+  --surface: #ffffff;
+  --ink: #12233d;
+  --ink-2: #4a5d78;
+  --rule: #d3e2f5;
+  --accent: #1f67c9;
   --on-accent: #ffffff;
-  --panel: #1e1631;
-  --panel-2: #2a2140;
-  --on-panel: #ede7f7;
-  --on-panel-2: #beb2d6;
-  --panel-rule: #362b4e;
-  --panel-accent: #f59ab9;
-  --danger: #a3242c;
-  --ok: #1d6b45;
+  --accent-soft: #dceaff;
+  --accent-text: #1f62bf;
+  --panel: #12233d;
+  --panel-2: #1d3150;
+  --on-panel: #eef5ff;
+  --on-panel-2: #a9beda;
+  --panel-rule: #2a3f5e;
+  --panel-accent: #7fb2ff;
+  --danger: #b3261e;
+  --ok: #1e7a4a;
+  --shadow: 30 60 110;
 }
 
 [data-theme="mint"] {
   color-scheme: light;
-  --sleeve: #d3ece2;
-  --sleeve-2: #c1e2d5;
-  --ink: #0e2a21;
-  --ink-2: #355247;
-  --rule: #98c3b2;
-  --accent: #a63a16;
+  --sleeve: #ecf8f3;
+  --sleeve-2: #d8f1e6;
+  --surface: #ffffff;
+  --ink: #10291f;
+  --ink-2: #45604f;
+  --rule: #cde8db;
+  --accent: #0f7a6a;
   --on-accent: #ffffff;
-  --panel: #0e2a21;
-  --panel-2: #17372c;
-  --on-panel: #e2f2eb;
-  --on-panel-2: #a3c9ba;
-  --panel-rule: #24453a;
-  --panel-accent: #f6a178;
-  --danger: #a3241c;
+  --accent-soft: #d2f0e6;
+  --accent-text: #0d6e60;
+  --panel: #10291f;
+  --panel-2: #1a3a2d;
+  --on-panel: #ecf8f3;
+  --on-panel-2: #a5c9b8;
+  --panel-rule: #24473a;
+  --panel-accent: #6fd6b5;
+  --danger: #b3261e;
   --ok: #17643f;
+  --shadow: 20 80 60;
 }
 
-[data-theme="newsprint"] {
-  color-scheme: light;
-  --sleeve: #eaeae6;
-  --sleeve-2: #dededa;
-  --ink: #161616;
-  --ink-2: #4a4a47;
-  --rule: #bdbdb7;
-  --accent: #b0261c;
-  --on-accent: #ffffff;
-  --panel: #161616;
-  --panel-2: #222221;
-  --on-panel: #ededea;
-  --on-panel-2: #b3b3ae;
-  --panel-rule: #2e2e2c;
-  --panel-accent: #ff8a70;
-  --danger: #a8231a;
-  --ok: #1d6b45;
+[data-theme="grape"] {
+  color-scheme: dark;
+  --sleeve: #1d1830;
+  --sleeve-2: #2a2344;
+  --surface: #262040;
+  --ink: #f1ecff;
+  --ink-2: #bdb2de;
+  --rule: #3a3158;
+  --accent: #a78bff;
+  --on-accent: #1d1830;
+  --accent-soft: #3a2f66;
+  --accent-text: #c3aeff;
+  --panel: #120f1f;
+  --panel-2: #1e1933;
+  --on-panel: #f1ecff;
+  --on-panel-2: #ada2cf;
+  --panel-rule: #2b2445;
+  --panel-accent: #c3aeff;
+  --danger: #ff9a8f;
+  --ok: #7fd6a4;
+  --shadow: 0 0 0;
 }
 
 [data-theme="night"] {
   color-scheme: dark;
-  --sleeve: #1c1a17;
-  --sleeve-2: #26231f;
-  --ink: #ede6da;
-  --ink-2: #b5ac9e;
-  --rule: #3d3832;
-  --accent: #f0875f;
-  --on-accent: #1c1a17;
-  --panel: #0f0e0c;
-  --panel-2: #1a1815;
-  --on-panel: #ede6da;
-  --on-panel-2: #ada496;
-  --panel-rule: #2a2723;
-  --panel-accent: #f0875f;
-  --danger: #ff8f7d;
-  --ok: #7fd1a3;
+  --sleeve: #1e1917;
+  --sleeve-2: #2b2421;
+  --surface: #28211e;
+  --ink: #f7eeea;
+  --ink-2: #c4b4ad;
+  --rule: #3d332f;
+  --accent: #ff7a62;
+  --on-accent: #1e1917;
+  --accent-soft: #4a2a23;
+  --accent-text: #ff9480;
+  --panel: #120f0e;
+  --panel-2: #1e1917;
+  --on-panel: #f7eeea;
+  --on-panel-2: #b8a8a1;
+  --panel-rule: #2b2421;
+  --panel-accent: #ff9480;
+  --danger: #ff9a8f;
+  --ok: #7fd6a4;
+  --shadow: 0 0 0;
 }
 
-[data-theme="forest"] {
-  color-scheme: dark;
-  --sleeve: #17251e;
-  --sleeve-2: #1f3128;
-  --ink: #e6efe8;
-  --ink-2: #a8bdb0;
-  --rule: #33493d;
-  --accent: #e9b44c;
-  --on-accent: #17251e;
-  --panel: #0d1712;
-  --panel-2: #15221b;
-  --on-panel: #e6efe8;
-  --on-panel-2: #9db3a6;
-  --panel-rule: #24362c;
-  --panel-accent: #e9b44c;
-  --danger: #ff9a86;
-  --ok: #8fd4a8;
+/*
+ * Suggestion categories: one colour each, the same in every theme, all dark
+ * enough to carry white text. Word chips tint toward the surface from these.
+ */
+:root {
+  --cat-rhyme: #c93d2a;
+  --cat-soundAlike: #a35a00;
+  --cat-synonym: #0e7c74;
+  --cat-antonym: #6a4bd0;
+  --cat-adjective: #b8336f;
+  --cat-noun: #2a64c2;
+  --cat-relatedWord: #2c7a3a;
+  --cat-frequentFollower: #8c5300;
 }
 
 /* Tailwind reads the live variables, so utilities follow the active theme. */
 @theme inline {
   --color-sleeve: var(--sleeve);
   --color-sleeve-2: var(--sleeve-2);
+  --color-surface: var(--surface);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);
   --color-rule: var(--rule);
   --color-accent: var(--accent);
   --color-on-accent: var(--on-accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-text: var(--accent-text);
   --color-panel: var(--panel);
   --color-panel-2: var(--panel-2);
   --color-on-panel: var(--on-panel);
@@ -142,5 +185,5 @@
   --color-panel-accent: var(--panel-accent);
   --color-danger: var(--danger);
   --color-ok: var(--ok);
-  --font-sans: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-sans: "Raleway Variable", "Raleway", system-ui, sans-serif;
 }

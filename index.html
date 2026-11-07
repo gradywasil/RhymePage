@@ -8,18 +8,18 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#d3e4ee" />
+    <meta name="theme-color" content="#fff4ee" />
     <title>RhymePage</title>
     <script>
-      /* Paint the saved theme before React mounts so the sleeve never flashes. */
+      /* Paint the saved theme before React mounts so the wrong colours never flash. */
       (function () {
-        var legacy = { pastel: "lilac", winter: "harbor", retro: "newsprint", corporate: "newsprint", business: "night", forest: "forest" };
-        var known = ["harbor", "lilac", "mint", "newsprint", "night", "forest"];
+        var legacy = { pastel: "grape", winter: "sky", retro: "lemon", corporate: "sky", business: "night", forest: "mint", harbor: "sky", lilac: "grape", newsprint: "lemon" };
+        var known = ["coral", "lemon", "sky", "mint", "grape", "night"];
         var saved = null;
         try { saved = localStorage.getItem("theme"); } catch (e) {}
         if (saved && known.indexOf(saved) < 0) saved = legacy[saved] || null;
         if (!saved || saved === "auto") {
-          saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "harbor";
+          saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "coral";
         }
         document.documentElement.setAttribute("data-theme", saved);
       })();

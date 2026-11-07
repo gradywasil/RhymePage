@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import DefinitionView from "./DefinitionView";
 import WordChip from "./WordChip";
@@ -70,15 +71,15 @@ const SuggestionPanel = ({
 
   return (
     <aside
-      className="suggest panel z-20 flex w-full flex-none flex-col
-                 md:h-full md:w-80 md:flex-none lg:w-[26rem]"
+      className="suggest z-20 flex w-full flex-none flex-col rounded-t-[26px] bg-surface shadow-[0_-8px_28px_rgb(var(--shadow)/0.12)]
+                 md:my-3 md:mr-3 md:w-80 md:flex-none md:rounded-[24px] md:shadow-[0_8px_24px_rgb(var(--shadow)/0.08)] lg:w-[26rem]"
       data-state={sheetState}
       aria-label="Word suggestions"
     >
       {/* Headword row. On a phone the whole row also cycles the sheet height. */}
-      <div className="flex h-11 flex-none items-center gap-3 pl-4 md:h-14">
+      <div className="flex h-12 flex-none items-center gap-3 pt-1 pl-5 md:h-16 md:pt-0">
         {lastWord ? (
-          <p key={lastWord} className="suggest-headword min-w-0 truncate text-[22px] font-extrabold tracking-[-0.01em]">
+          <p key={lastWord} className="suggest-headword min-w-0 truncate text-[24px] font-extrabold tracking-[-0.02em]">
             {lastWord}
           </p>
         ) : (
@@ -99,7 +100,7 @@ const SuggestionPanel = ({
       </div>
 
       {/* Category tabs hold their positions; each carries its result count. */}
-      <div role="tablist" aria-label="Suggestion categories" className="rp-tabs flex-none px-4">
+      <div role="tablist" aria-label="Suggestion categories" className="rp-tabs no-bar flex-none px-4 pb-3">
         {categories.map((key) => {
           const count = suggestions[key].length;
           return (
@@ -110,7 +111,8 @@ const SuggestionPanel = ({
               aria-selected={key === shown}
               disabled={count === 0}
               onClick={() => onCategoryChange(key)}
-              className="rp-tab"
+              className="rp-tab cat-tab !min-h-9 !px-3.5 !text-[13px]"
+              style={{ "--cat": `var(--cat-${key})` } as CSSProperties}
             >
               {RELATIONS[key].label}
               <span className="rp-count">{count}</span>
@@ -127,11 +129,12 @@ const SuggestionPanel = ({
           onClose={onCloseDefinition}
         />
       ) : words.length > 0 ? (
-        <div className="suggest-words no-bar min-h-0 flex-1 py-1">
+        <div className="suggest-words no-bar min-h-0 flex-1 px-4 pb-4">
           {words.map(({ word }, index) => (
             <WordChip
               key={`${shown}-${word}`}
               word={word}
+              category={shown}
               strength={strengthAt(index, words.length)}
               onSelect={onSelect}
               onInspect={onInspect}
@@ -139,7 +142,7 @@ const SuggestionPanel = ({
           ))}
         </div>
       ) : (
-        <p className="rp-muted px-4 py-3 text-[15px]">
+        <p className="rp-muted px-5 pb-4 text-[15px]">
           {error || (lastWord
             ? `Nothing came back for "${lastWord}". Try the next word.`
             : "Finish a word and its rhymes and relatives land here.")}
