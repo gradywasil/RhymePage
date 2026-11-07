@@ -1,10 +1,13 @@
 /*
  * Suggestion panel.
  *
- * One component, two shapes. On a phone it is a bottom sheet that drags between
- * a single-row rail, a half board and a full board. From `md` up the same markup
- * becomes a column docked to the right of the editor and the sheet states stop
- * applying.
+ * One component, two shapes. On a phone it is a bottom sheet that snaps
+ * between peek (one sideways row of words), half and full. From `md` up the
+ * same markup is an ink column docked to the right of the editor and the
+ * sheet states stop applying.
+ *
+ * The word grid keeps fixed columns: when a new word is finished only the
+ * words change, never the layout under the writer's thumb.
  */
 
 /*
@@ -15,41 +18,61 @@
 .suggest {
   transition: height 0.26s cubic-bezier(0.32, 0.72, 0, 1);
 }
-.suggest[data-state="peek"] { height: 5.5rem; }
+.suggest[data-state="peek"] { height: 8.5rem; }
 /* Leave writing room when the keyboard reduces the phone's viewport. */
-.suggest[data-state="half"] { height: min(16rem, 30dvh); }
-.suggest[data-state="full"] { height: 60svh; }
+.suggest[data-state="half"] { height: min(19rem, 36dvh); }
+.suggest[data-state="full"] { height: 64svh; }
 
-/* Half and full wrap into a scrollable board... */
-.suggest .suggest-chips {
-  flex-wrap: wrap;
+.suggest .suggest-words {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
   overflow-x: hidden;
   overflow-y: auto;
 }
 
-/* ...while peek is Option B's rail: one row, scrolled sideways. */
-.suggest[data-state="peek"] .suggest-chips {
-  flex-wrap: nowrap;
+/* Peek is a single sideways row so the editor keeps the screen. */
+.suggest[data-state="peek"] .suggest-words {
+  display: flex;
   overflow-x: auto;
   overflow-y: hidden;
 }
+.suggest[data-state="peek"] .suggest-words > * { width: auto; flex: none; }
+
+@media (max-width: 359px) {
+  .suggest .suggest-words { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 @media (min-width: 768px) {
-  /* Matches the [data-state] specificity above so the dock isn't stuck at a
-     sheet height. */
+  /* Matches the [data-state] specificity above so the dock isn't stuck at a sheet height. */
   .suggest[data-state] {
     height: 100%;
     transition: none;
   }
-  .suggest[data-state="peek"] .suggest-chips {
-    flex-wrap: wrap;
+  .suggest[data-state] .suggest-words {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     overflow-x: hidden;
     overflow-y: auto;
   }
+  .suggest[data-state] .suggest-words > * { width: 100%; }
+  /* The dock is narrow and has no swipe affordance, so every category stays in view. */
+  .suggest .rp-tabs { flex-wrap: wrap; column-gap: 18px; overflow: visible; }
+}
+
+/* The headword lifts into place as each new word is finished. */
+.suggest-headword {
+  animation: suggest-headword-in 260ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Starts already readable, so a paused timeline never hides the word. */
+@keyframes suggest-headword-in {
+  from { opacity: 0.45; transform: translateY(0.3em); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .suggest { transition: none; }
+  .suggest-headword { animation: none; }
 }
 
 /* Horizontal strips shouldn't show a scrollbar on desktop trackpads. */

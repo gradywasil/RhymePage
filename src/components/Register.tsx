@@ -25,13 +25,13 @@ const Register = ({ setCurrentUser, loggedIn }: RegisterProps) => {
   } = useRegisterLogic({ setCurrentUser, loggedIn });
 
   return (
-    <div className="mx-auto w-full max-w-sm px-4 py-8 md:py-12">
-      <h1 className="text-2xl font-bold">Create an account</h1>
-      <p className="mt-1 text-sm opacity-65">
+    <div className="mx-auto w-full max-w-md px-4 pt-8 pb-12 md:px-6 md:pt-16">
+      <h1 className="rp-title text-[34px] md:text-[44px]">Create an account</h1>
+      <p className="rp-muted mt-3 text-[17px]">
         Save your lyrics and pick up where you left off.
       </p>
 
-      <form className="mt-6 flex flex-col gap-3" onSubmit={handleRegister}>
+      <form className="mt-8 flex flex-col gap-5" onSubmit={handleRegister}>
         <Field
           label="Name"
           htmlFor="register-name"
@@ -77,31 +77,30 @@ const Register = ({ setCurrentUser, loggedIn }: RegisterProps) => {
 
         {error && <FormMessage tone="error">{error}</FormMessage>}
 
-        <button type="submit" className="btn btn-primary mt-1" disabled={loading}>
-          {loading && <span className="loading loading-spinner loading-sm" />}
-          {loading ? "Creating..." : "Create account"}
+        <button type="submit" className="rp-btn rp-btn--ink rp-btn--block mt-1" disabled={loading}>
+          {loading ? "Creating…" : "Create account"}
         </button>
       </form>
 
-      <div className="divider text-xs opacity-60">or</div>
+      <div className="rp-label my-6 flex items-center gap-3">
+        <span aria-hidden className="h-px flex-1 bg-rule" />
+        or
+        <span aria-hidden className="h-px flex-1 bg-rule" />
+      </div>
 
       <button
         type="button"
-        className="btn btn-outline w-full gap-2"
+        className="rp-btn rp-btn--line rp-btn--block"
         onClick={handleGoogleRegister}
         disabled={googleLoading}
       >
-        {googleLoading ? (
-          <span className="loading loading-spinner loading-sm" />
-        ) : (
-          <FcGoogle size="1.25rem" />
-        )}
-        {googleLoading ? "Creating..." : "Continue with Google"}
+        {!googleLoading && <FcGoogle aria-hidden />}
+        {googleLoading ? "Creating…" : "Continue with Google"}
       </button>
 
-      <p className="mt-6 text-center text-sm opacity-70">
+      <p className="rp-muted mt-8 text-center text-[15px]">
         Already have an account?{" "}
-        <Link to="/login" className="underline underline-offset-2">
+        <Link to="/login" className="rp-link text-ink">
           Sign in
         </Link>
       </p>

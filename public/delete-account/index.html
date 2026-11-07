@@ -1,206 +1,588 @@
-<!doctype html><html lang="en" data-theme="pastel"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Delete your RhymePage account</title><link rel="canonical" href="https://rhymepage.com/delete-account"><script>(()=>{const apply=()=>{let theme="pastel";try{const saved=localStorage.getItem('theme');if(["pastel","corporate","retro","winter","forest","business"].includes(saved))theme=saved;}catch{}document.documentElement.dataset.theme=theme;};apply();addEventListener('pageshow',apply);addEventListener('storage',event=>{if(event.key==='theme'||event.key===null)apply();});})();</script><style>
-:root:has(input.theme-controller[value=pastel]:checked),[data-theme="pastel"] {
-color-scheme: light;
---color-base-100: oklch(100% 0 0);
---color-base-200: oklch(98.462% 0.001 247.838);
---color-base-300: oklch(92.462% 0.001 247.838);
---color-base-content: oklch(20% 0 0);
---color-primary: oklch(90% 0.063 306.703);
---color-primary-content: oklch(49% 0.265 301.924);
---color-secondary: oklch(89% 0.058 10.001);
---color-secondary-content: oklch(51% 0.222 16.935);
---color-accent: oklch(90% 0.093 164.15);
---color-accent-content: oklch(50% 0.118 165.612);
---color-neutral: oklch(55% 0.046 257.417);
---color-neutral-content: oklch(92% 0.013 255.508);
---color-info: oklch(86% 0.127 207.078);
---color-info-content: oklch(52% 0.105 223.128);
---color-success: oklch(87% 0.15 154.449);
---color-success-content: oklch(52% 0.154 150.069);
---color-warning: oklch(83% 0.128 66.29);
---color-warning-content: oklch(55% 0.195 38.402);
---color-error: oklch(80% 0.114 19.571);
---color-error-content: oklch(50% 0.213 27.518);
---radius-selector: 1rem;
---radius-field: 2rem;
---radius-box: 1rem;
---size-selector: 0.25rem;
---size-field: 0.25rem;
---border: 2px;
---depth: 0;
---noise: 0;
+<!doctype html><html lang="en" data-theme="harbor"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Delete your RhymePage account</title><link rel="canonical" href="https://rhymepage.com/delete-account"><script>(()=>{const ids=["harbor","lilac","mint","newsprint","night","forest"],legacy={"pastel":"lilac","winter":"harbor","retro":"newsprint","corporate":"newsprint","business":"night","forest":"forest"},dark=matchMedia('(prefers-color-scheme: dark)');const apply=()=>{let choice='auto';try{const saved=localStorage.getItem('theme');if(saved)choice=saved==='auto'||ids.includes(saved)?saved:(legacy[saved]||'auto');}catch{}document.documentElement.dataset.theme=choice==='auto'?(dark.matches?'night':'harbor'):choice;};apply();addEventListener('pageshow',apply);addEventListener('storage',event=>{if(event.key==='theme'||event.key===null)apply();});dark.addEventListener?.('change',apply);})();</script><style>
+@font-face{font-family:"Archivo Variable";src:url('/legal/archivo.woff2') format('woff2-variations');font-weight:100 900;font-display:swap}
+/*
+ * RhymePage design tokens.
+ *
+ * Every theme is a printing of the same inner sleeve: a flat sleeve ground,
+ * sleeve ink, one printed accent for active marks, and a solid ink panel
+ * (suggestions, tab bar) reversed out in sleeve colour. Components only ever
+ * read these semantic roles, so a theme is nothing but this block of values.
+ *
+ * Contrast is checked per theme: ink, ink-2 and accent against sleeve, and
+ * on-panel, on-panel-2 and panel-accent against panel, all >= 4.5:1.
+ */
+
+:root,
+[data-theme="harbor"] {
+  color-scheme: light;
+  --sleeve: #d3e4ee;
+  --sleeve-2: #c3d8e5;
+  --ink: #10243a;
+  --ink-2: #3c5268;
+  --rule: #9db7c9;
+  --accent: #a8321c;
+  --on-accent: #ffffff;
+  --panel: #10243a;
+  --panel-2: #1a3049;
+  --on-panel: #e3eef4;
+  --on-panel-2: #a9c0d0;
+  --panel-rule: #2a4058;
+  --panel-accent: #f08a6e;
+  --danger: #a8281a;
+  --ok: #1d6b45;
 }
 
-:root:has(input.theme-controller[value=corporate]:checked),[data-theme="corporate"] {
-color-scheme: light;
---color-base-100: oklch(100% 0 0);
---color-base-200: oklch(93% 0 0);
---color-base-300: oklch(86% 0 0);
---color-base-content: oklch(22.389% 0.031 278.072);
---color-primary: oklch(58% 0.158 241.966);
---color-primary-content: oklch(100% 0 0);
---color-secondary: oklch(55% 0.046 257.417);
---color-secondary-content: oklch(100% 0 0);
---color-accent: oklch(60% 0.118 184.704);
---color-accent-content: oklch(100% 0 0);
---color-neutral: oklch(0% 0 0);
---color-neutral-content: oklch(100% 0 0);
---color-info: oklch(60% 0.126 221.723);
---color-info-content: oklch(100% 0 0);
---color-success: oklch(62% 0.194 149.214);
---color-success-content: oklch(100% 0 0);
---color-warning: oklch(85% 0.199 91.936);
---color-warning-content: oklch(0% 0 0);
---color-error: oklch(70% 0.191 22.216);
---color-error-content: oklch(0% 0 0);
---radius-selector: 0.25rem;
---radius-field: 0.25rem;
---radius-box: 0.25rem;
---size-selector: 0.25rem;
---size-field: 0.25rem;
---border: 1px;
---depth: 0;
---noise: 0;
+[data-theme="lilac"] {
+  color-scheme: light;
+  --sleeve: #e6dff3;
+  --sleeve-2: #d9cfec;
+  --ink: #1e1631;
+  --ink-2: #4c4262;
+  --rule: #b9acd3;
+  --accent: #9b2c5a;
+  --on-accent: #ffffff;
+  --panel: #1e1631;
+  --panel-2: #2a2140;
+  --on-panel: #ede7f7;
+  --on-panel-2: #beb2d6;
+  --panel-rule: #362b4e;
+  --panel-accent: #f59ab9;
+  --danger: #a3242c;
+  --ok: #1d6b45;
 }
 
-:root:has(input.theme-controller[value=retro]:checked),[data-theme="retro"] {
-color-scheme: light;
---color-base-100: oklch(91.637% 0.034 90.515);
---color-base-200: oklch(88.272% 0.049 91.774);
---color-base-300: oklch(84.133% 0.065 90.856);
---color-base-content: oklch(41% 0.112 45.904);
---color-primary: oklch(80% 0.114 19.571);
---color-primary-content: oklch(39% 0.141 25.723);
---color-secondary: oklch(92% 0.084 155.995);
---color-secondary-content: oklch(44% 0.119 151.328);
---color-accent: oklch(68% 0.162 75.834);
---color-accent-content: oklch(41% 0.112 45.904);
---color-neutral: oklch(44% 0.011 73.639);
---color-neutral-content: oklch(86% 0.005 56.366);
---color-info: oklch(58% 0.158 241.966);
---color-info-content: oklch(96% 0.059 95.617);
---color-success: oklch(51% 0.096 186.391);
---color-success-content: oklch(96% 0.059 95.617);
---color-warning: oklch(64% 0.222 41.116);
---color-warning-content: oklch(96% 0.059 95.617);
---color-error: oklch(70% 0.191 22.216);
---color-error-content: oklch(40% 0.123 38.172);
---radius-selector: 0.25rem;
---radius-field: 0.25rem;
---radius-box: 0.5rem;
---size-selector: 0.25rem;
---size-field: 0.25rem;
---border: 1px;
---depth: 0;
---noise: 0;
+[data-theme="mint"] {
+  color-scheme: light;
+  --sleeve: #d3ece2;
+  --sleeve-2: #c1e2d5;
+  --ink: #0e2a21;
+  --ink-2: #355247;
+  --rule: #98c3b2;
+  --accent: #a63a16;
+  --on-accent: #ffffff;
+  --panel: #0e2a21;
+  --panel-2: #17372c;
+  --on-panel: #e2f2eb;
+  --on-panel-2: #a3c9ba;
+  --panel-rule: #24453a;
+  --panel-accent: #f6a178;
+  --danger: #a3241c;
+  --ok: #17643f;
 }
 
-:root:has(input.theme-controller[value=winter]:checked),[data-theme="winter"] {
-color-scheme: light;
---color-base-100: oklch(100% 0 0);
---color-base-200: oklch(97.466% 0.011 259.822);
---color-base-300: oklch(93.268% 0.016 262.751);
---color-base-content: oklch(41.886% 0.053 255.824);
---color-primary: oklch(56.86% 0.255 257.57);
---color-primary-content: oklch(91.372% 0.051 257.57);
---color-secondary: oklch(42.551% 0.161 282.339);
---color-secondary-content: oklch(88.51% 0.032 282.339);
---color-accent: oklch(59.939% 0.191 335.171);
---color-accent-content: oklch(11.988% 0.038 335.171);
---color-neutral: oklch(19.616% 0.063 257.651);
---color-neutral-content: oklch(83.923% 0.012 257.651);
---color-info: oklch(88.127% 0.085 214.515);
---color-info-content: oklch(17.625% 0.017 214.515);
---color-success: oklch(80.494% 0.077 197.823);
---color-success-content: oklch(16.098% 0.015 197.823);
---color-warning: oklch(89.172% 0.045 71.47);
---color-warning-content: oklch(17.834% 0.009 71.47);
---color-error: oklch(73.092% 0.11 20.076);
---color-error-content: oklch(14.618% 0.022 20.076);
---radius-selector: 1rem;
---radius-field: 0.5rem;
---radius-box: 1rem;
---size-selector: 0.25rem;
---size-field: 0.25rem;
---border: 1px;
---depth: 0;
---noise: 0;
+[data-theme="newsprint"] {
+  color-scheme: light;
+  --sleeve: #eaeae6;
+  --sleeve-2: #dededa;
+  --ink: #161616;
+  --ink-2: #4a4a47;
+  --rule: #bdbdb7;
+  --accent: #b0261c;
+  --on-accent: #ffffff;
+  --panel: #161616;
+  --panel-2: #222221;
+  --on-panel: #ededea;
+  --on-panel-2: #b3b3ae;
+  --panel-rule: #2e2e2c;
+  --panel-accent: #ff8a70;
+  --danger: #a8231a;
+  --ok: #1d6b45;
 }
 
-:root:has(input.theme-controller[value=forest]:checked),[data-theme="forest"] {
-color-scheme: dark;
---color-base-100: oklch(20.84% 0.008 17.911);
---color-base-200: oklch(18.522% 0.007 17.911);
---color-base-300: oklch(16.203% 0.007 17.911);
---color-base-content: oklch(83.768% 0.001 17.911);
---color-primary: oklch(68.628% 0.185 148.958);
---color-primary-content: oklch(0% 0 0);
---color-secondary: oklch(69.776% 0.135 168.327);
---color-secondary-content: oklch(13.955% 0.027 168.327);
---color-accent: oklch(70.628% 0.119 185.713);
---color-accent-content: oklch(14.125% 0.023 185.713);
---color-neutral: oklch(30.698% 0.039 171.364);
---color-neutral-content: oklch(86.139% 0.007 171.364);
---color-info: oklch(72.06% 0.191 231.6);
---color-info-content: oklch(0% 0 0);
---color-success: oklch(64.8% 0.15 160);
---color-success-content: oklch(0% 0 0);
---color-warning: oklch(84.71% 0.199 83.87);
---color-warning-content: oklch(0% 0 0);
---color-error: oklch(71.76% 0.221 22.18);
---color-error-content: oklch(0% 0 0);
---radius-selector: 1rem;
---radius-field: 2rem;
---radius-box: 1rem;
---size-selector: 0.25rem;
---size-field: 0.25rem;
---border: 1px;
---depth: 0;
---noise: 0;
+[data-theme="night"] {
+  color-scheme: dark;
+  --sleeve: #1c1a17;
+  --sleeve-2: #26231f;
+  --ink: #ede6da;
+  --ink-2: #b5ac9e;
+  --rule: #3d3832;
+  --accent: #f0875f;
+  --on-accent: #1c1a17;
+  --panel: #0f0e0c;
+  --panel-2: #1a1815;
+  --on-panel: #ede6da;
+  --on-panel-2: #ada496;
+  --panel-rule: #2a2723;
+  --panel-accent: #f0875f;
+  --danger: #ff8f7d;
+  --ok: #7fd1a3;
 }
 
-:root:has(input.theme-controller[value=business]:checked),[data-theme="business"] {
-color-scheme: dark;
---color-base-100: oklch(24.353% 0 0);
---color-base-200: oklch(22.648% 0 0);
---color-base-300: oklch(20.944% 0 0);
---color-base-content: oklch(84.87% 0 0);
---color-primary: oklch(41.703% 0.099 251.473);
---color-primary-content: oklch(88.34% 0.019 251.473);
---color-secondary: oklch(64.092% 0.027 229.389);
---color-secondary-content: oklch(12.818% 0.005 229.389);
---color-accent: oklch(67.271% 0.167 35.791);
---color-accent-content: oklch(13.454% 0.033 35.791);
---color-neutral: oklch(27.441% 0.013 253.041);
---color-neutral-content: oklch(85.488% 0.002 253.041);
---color-info: oklch(62.616% 0.143 240.033);
---color-info-content: oklch(12.523% 0.028 240.033);
---color-success: oklch(70.226% 0.094 156.596);
---color-success-content: oklch(14.045% 0.018 156.596);
---color-warning: oklch(77.482% 0.115 81.519);
---color-warning-content: oklch(15.496% 0.023 81.519);
---color-error: oklch(51.61% 0.146 29.674);
---color-error-content: oklch(90.322% 0.029 29.674);
---radius-selector: 0rem;
---radius-field: 0.25rem;
---radius-box: 0.25rem;
---size-selector: 0.25rem;
---size-field: 0.25rem;
---border: 1px;
---depth: 0;
---noise: 0;
+[data-theme="forest"] {
+  color-scheme: dark;
+  --sleeve: #17251e;
+  --sleeve-2: #1f3128;
+  --ink: #e6efe8;
+  --ink-2: #a8bdb0;
+  --rule: #33493d;
+  --accent: #e9b44c;
+  --on-accent: #17251e;
+  --panel: #0d1712;
+  --panel-2: #15221b;
+  --on-panel: #e6efe8;
+  --on-panel-2: #9db3a6;
+  --panel-rule: #24362c;
+  --panel-accent: #e9b44c;
+  --danger: #ff9a86;
+  --ok: #8fd4a8;
 }
 
-@font-face{font-family:Raleway;src:url('/legal/raleway-500.woff2') format('woff2');font-weight:500;font-display:swap}
-@font-face{font-family:Raleway;src:url('/legal/raleway-800.woff2') format('woff2');font-weight:800;font-display:swap}
-:root{--paper:var(--color-base-100);--ink:var(--color-base-content);--muted:color-mix(in srgb,var(--ink) 75%,var(--paper));--rule:var(--color-base-300);--link:var(--ink)}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:500 16px/1.7 Raleway,sans-serif}
-header,main,footer{max-width:48rem;margin:auto;padding:1.25rem 1.5rem}header{border-bottom:1px solid var(--rule)}
-header>a{font-size:1.25rem;font-weight:800;text-decoration:none}article{overflow-wrap:anywhere}h1,h2{font-weight:800;line-height:1.25;text-wrap:balance}
-h1{font-size:clamp(1.75rem,5vw,2.25rem);margin:.5rem 0 1rem}h2{font-size:1.15rem;margin:2rem 0 .75rem}p{margin:.9rem 0}ol{padding-left:1.5rem}li+li{margin-top:.5rem}
-a{color:var(--link);text-underline-offset:.2em}a:focus-visible{outline:2px solid currentColor;outline-offset:4px}article>p:nth-child(2){color:var(--muted);font-size:.875rem}article .flex{display:flex;flex-wrap:wrap;gap:1rem}
-footer{border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:1rem;padding-bottom:max(1.25rem,env(safe-area-inset-bottom));font-size:.875rem}
-*{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--color-primary) 40%,var(--ink)) transparent}
-@media(forced-colors:active){*{scrollbar-color:auto}}
-@media(max-width:420px){header,main,footer{padding-left:1rem;padding-right:1rem}}
-</style></head><body><header><a href="/">RhymePage</a></header><main><article class="mx-auto w-full max-w-2xl space-y-5 px-5 py-8 text-sm leading-relaxed"><h1 class="text-2xl font-bold">Delete your RhymePage account</h1><p>Last updated: October 26, 2026.</p><p>You can request account deletion from this website. You do not need the Android app installed.</p><p>Email <a class="underline" href="mailto:Help@arrangedgodly.com?subject=RhymePage%20account%20deletion">Help@arrangedgodly.com</a> with the subject &quot;RhymePage account deletion&quot; and identify the email address associated with your account. We may ask you to confirm ownership before processing the request. Do not send your password.</p><p>You can also request deletion from RhymePage&#x27;s account settings:</p><ol class="list-decimal space-y-2 pl-5"><li>Sign in with the RhymePage account you want to delete.</li><li>Open Settings, then Account, then Delete account.</li><li>Enter the confirmation phrase and confirm your password or the same Google account.</li></ol><a class="btn btn-error btn-sm" href="/login" data-discover="true">Sign in to request deletion</a><p>Deletion removes your owned notes, attached audio, lyric timing, private account data, profile, email lookup entries, and follow relationships. Your access to notes owned by other people is removed. Those other people&#x27;s notes and their collaborative content remain with their owners; references to your account in their timing metadata are anonymized.</p><p>Confirmation starts irreversible deletion. If an in-app request reports an error, keep signed in and retry, or contact us for help completing it. Limited security and deletion-processing records may remain after content deletion.</p><p>Account-scoped recovery drafts and playback positions on the device where you delete the account are cleared. Recovery copies on another browser or device remain local to that device until its app storage or site data is cleared. Exports and files you saved outside RhymePage are under your control.</p><p>Contact RhymePage: <a class="underline" href="mailto:Help@arrangedgodly.com">Help@arrangedgodly.com</a></p></article></main><footer><a href="/privacy">Privacy policy</a><a href="/delete-account">Delete account</a><a href="/">Open RhymePage</a></footer></body></html>
+/* Tailwind reads the live variables, so utilities follow the active theme. */
+
+
+:root{--font-sans:"Archivo Variable",Archivo,system-ui,sans-serif}
+/*
+ * RhymePage component kit.
+ *
+ * Inner-sleeve printing: rules instead of boxes, square corners, uppercase
+ * tracked labels for anything that tells you what to do, and reversal (ink
+ * block, sleeve text) for the selected or primary thing. No pills, glows or
+ * gradients. Everything reads the semantic roles in tokens.css.
+ */
+
+/* ---------- Ground, type, and the browser surfaces we did not draw ---------- */
+
+html {
+  background: var(--sleeve);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--sleeve);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+input,
+textarea,
+select {
+  caret-color: var(--accent);
+  font: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.panel :focus-visible {
+  outline-color: var(--panel-accent);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--rule); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-2); }
+.panel { scrollbar-color: var(--panel-rule) transparent; }
+
+@media (forced-colors: active) {
+  * { scrollbar-color: auto; }
+  ::-webkit-scrollbar-thumb { background: CanvasText; }
+}
+
+/* The reversed ink slab: suggestion panel, tab bar, menus. */
+.panel {
+  background: var(--panel);
+  color: var(--on-panel);
+}
+
+/* ---------- Type roles ---------- */
+
+.rp-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.panel .rp-label { color: var(--on-panel-2); }
+
+.rp-title {
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.rp-numeral {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.rp-muted { color: var(--ink-2); }
+.panel .rp-muted { color: var(--on-panel-2); }
+
+.rp-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+}
+.rp-link:hover { color: var(--accent); }
+
+/* ---------- Buttons ---------- */
+
+.rp-btn {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 18px;
+  border: 1.5px solid transparent;
+  border-radius: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease-out, color 120ms ease-out, border-color 120ms ease-out;
+  user-select: none;
+}
+.rp-btn:disabled { cursor: not-allowed; opacity: 0.45; }
+.rp-btn > svg { width: 18px; height: 18px; flex: none; }
+
+.rp-btn--ink { background: var(--ink); color: var(--sleeve); }
+.rp-btn--ink:not(:disabled):hover { background: var(--ink-2); }
+
+.rp-btn--accent { background: var(--accent); color: var(--on-accent); }
+.rp-btn--accent:not(:disabled):hover { background: var(--ink); color: var(--sleeve); }
+
+.rp-btn--line { border-color: var(--ink); color: var(--ink); }
+.rp-btn--line:not(:disabled):hover { background: var(--sleeve-2); }
+
+.rp-btn--quiet { color: var(--ink); padding: 0 12px; }
+.rp-btn--quiet:not(:disabled):hover { background: var(--sleeve-2); }
+
+.rp-btn--danger { border-color: var(--danger); color: var(--danger); }
+.rp-btn--danger:not(:disabled):hover { background: var(--danger); color: var(--sleeve); }
+
+.rp-btn--sm { min-height: 36px; padding: 0 12px; font-size: 12px; }
+.rp-btn--block { width: 100%; }
+
+.panel .rp-btn--quiet { color: var(--on-panel); }
+.panel .rp-btn--quiet:not(:disabled):hover { background: var(--panel-2); }
+.panel .rp-btn--line { border-color: var(--on-panel); color: var(--on-panel); }
+.panel .rp-btn--line:not(:disabled):hover { background: var(--panel-2); }
+
+.rp-icon-btn {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  cursor: pointer;
+  transition: background-color 120ms ease-out;
+}
+.rp-icon-btn > svg { width: 20px; height: 20px; }
+.rp-icon-btn:not(:disabled):hover { background: var(--sleeve-2); }
+.panel .rp-icon-btn:not(:disabled):hover { background: var(--panel-2); }
+.rp-icon-btn:disabled { cursor: not-allowed; opacity: 0.45; }
+
+/* ---------- Fields ---------- */
+
+.rp-field { display: flex; flex-direction: column; gap: 6px; }
+.rp-hint { font-size: 13px; line-height: 1.45; color: var(--ink-2); }
+
+.rp-input,
+.rp-textarea,
+.rp-select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 0;
+  border-bottom: 1.5px solid var(--ink);
+  border-radius: 0;
+  background: var(--sleeve-2);
+  color: var(--ink);
+  /* 16px stops iOS from zooming the page on focus. */
+  font-size: 16px;
+  line-height: 1.4;
+  outline: none;
+  transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
+}
+.rp-input::placeholder,
+.rp-textarea::placeholder { color: var(--ink-2); opacity: 1; }
+.rp-input:focus,
+.rp-textarea:focus,
+.rp-select:focus {
+  border-bottom-color: var(--accent);
+  box-shadow: inset 0 -1.5px 0 var(--accent);
+}
+.rp-input[aria-invalid="true"] { border-bottom-color: var(--danger); }
+.rp-input:disabled,
+.rp-textarea:disabled,
+.rp-select:disabled { cursor: not-allowed; opacity: 0.55; }
+.rp-textarea { resize: vertical; }
+.rp-select { appearance: none; padding-right: 36px; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; }
+
+/* Bare inputs that sit directly on the page (editor title, lyrics). */
+.rp-bare {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  outline: none;
+}
+.rp-bare::placeholder { color: var(--ink-2); opacity: 1; }
+
+/* Checkbox and radio: a mark in a fixed cell; filled holds, hollow does not. */
+.rp-check,
+.rp-radio {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  margin: 0;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 120ms ease-out, box-shadow 120ms ease-out;
+}
+.rp-radio { border-radius: 50%; }
+.rp-check:checked,
+.rp-radio:checked {
+  background: var(--ink);
+  box-shadow: inset 0 0 0 3px var(--sleeve);
+}
+.rp-check:disabled,
+.rp-radio:disabled { cursor: not-allowed; opacity: 0.45; }
+
+.rp-switch {
+  appearance: none;
+  width: 44px;
+  height: 26px;
+  flex: none;
+  margin: 0;
+  border: 1.5px solid var(--ink);
+  background: transparent linear-gradient(var(--ink), var(--ink)) no-repeat 3px 50% / 17px 17px;
+  cursor: pointer;
+  transition: background-position 160ms cubic-bezier(0.2, 0.8, 0.2, 1), background-color 160ms ease-out;
+}
+.rp-switch:checked {
+  background-color: var(--ink);
+  background-image: linear-gradient(var(--sleeve), var(--sleeve));
+  background-position: calc(100% - 3px) 50%;
+}
+.rp-switch:disabled { cursor: not-allowed; opacity: 0.45; }
+
+.rp-range {
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+.rp-range::-webkit-slider-runnable-track { height: 2px; background: var(--ink); }
+.rp-range::-moz-range-track { height: 2px; background: var(--ink); }
+.rp-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -8px;
+  border: 0;
+  background: var(--accent);
+}
+.rp-range::-moz-range-thumb { width: 18px; height: 18px; border: 0; border-radius: 0; background: var(--accent); }
+.rp-range:disabled { cursor: not-allowed; opacity: 0.45; }
+
+/* ---------- Tabs ---------- */
+
+.rp-tabs {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1.5px solid var(--ink);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.rp-tabs::-webkit-scrollbar { display: none; }
+
+.rp-tab {
+  display: inline-flex;
+  min-height: 44px;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: color 120ms ease-out, box-shadow 120ms ease-out;
+}
+.rp-tab:hover { color: var(--ink); }
+.rp-tab[aria-selected="true"] {
+  color: var(--ink);
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+.rp-tab:disabled { cursor: not-allowed; opacity: 0.4; }
+.rp-tab .rp-count { font-weight: 500; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+
+.panel .rp-tabs { border-bottom-color: var(--panel-rule); }
+.panel .rp-tab { color: var(--on-panel-2); }
+.panel .rp-tab:hover { color: var(--on-panel); }
+.panel .rp-tab[aria-selected="true"] { color: var(--on-panel); box-shadow: inset 0 -3px 0 var(--panel-accent); }
+
+/* ---------- Tags, notices, loading ---------- */
+
+.rp-tag {
+  display: inline-flex;
+  height: 26px;
+  align-items: center;
+  padding: 0 8px;
+  border: 1px solid currentColor;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+button.rp-tag { cursor: pointer; }
+.rp-tag[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--sleeve); }
+
+.rp-notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--sleeve-2);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.rp-notice > svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+.rp-notice--danger { color: var(--danger); }
+.rp-notice--ok { color: var(--ok); }
+
+.rp-message { font-size: 14px; line-height: 1.45; }
+.rp-message--danger { color: var(--danger); }
+.rp-message--ok { color: var(--ok); }
+
+/* Indeterminate progress: a short ink segment running along a rule. */
+.rp-loading {
+  position: relative;
+  display: block;
+  width: 120px;
+  height: 2px;
+  overflow: hidden;
+  background: var(--rule);
+}
+.rp-loading::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 40%;
+  background: var(--ink);
+  animation: rp-run 1.1s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+@keyframes rp-run {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(250%); }
+}
+
+/* ---------- Dialogs and menus ---------- */
+
+.rp-dialog {
+  width: min(28rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  padding: 0;
+  border: 1.5px solid var(--ink);
+  background: var(--sleeve);
+  color: var(--ink);
+}
+.rp-dialog::backdrop { background: rgb(0 0 0 / 0.45); }
+.rp-dialog-head { padding: 18px 20px 4px; }
+.rp-dialog-body { padding: 4px 20px 18px; }
+.rp-dialog-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px;
+  border-top: 1px solid var(--rule);
+}
+
+/* On a phone the dialog is a sheet pinned to the bottom edge. */
+@media (max-width: 639px) {
+  .rp-dialog {
+    width: 100%;
+    max-width: none;
+    margin: auto 0 0;
+    border-width: 1.5px 0 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+.rp-menu {
+  min-width: 13rem;
+  padding: 6px 0;
+  background: var(--panel);
+  color: var(--on-panel);
+  box-shadow: 0 10px 28px rgb(0 0 0 / 0.28);
+}
+.rp-menu-item {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+  font-size: 15px;
+  text-align: left;
+  color: var(--on-panel);
+  cursor: pointer;
+}
+.rp-menu-item > svg { width: 18px; height: 18px; flex: none; color: var(--on-panel-2); }
+.rp-menu-item:hover { background: var(--panel-2); }
+.rp-menu-item--danger { color: var(--panel-accent); }
+
+.rp-rule { border: 0; border-top: 1px solid var(--rule); }
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-loading::after { animation: none; width: 100%; opacity: 0.5; }
+  .rp-btn, .rp-tab, .rp-switch, .rp-check, .rp-radio { transition: none; }
+}
+
+*,::before,::after{box-sizing:border-box}
+body{margin:0}
+h1,h2,p,ol{margin:0}
+header,footer{max-width:calc(68ch + 5rem);margin:auto;padding:1rem 2.5rem}
+header{border-bottom:1.5px solid var(--ink)}
+header>a{font-size:22px;font-weight:800;letter-spacing:-.02em;color:inherit;text-decoration:none}
+.legal{max-width:calc(68ch + 5rem);margin:auto;padding:2.5rem 2.5rem 3rem;font-size:16px;line-height:1.625;overflow-wrap:anywhere}
+.legal>*+*{margin-top:1rem}
+.legal h1{font-size:44px;padding-bottom:.5rem}
+.legal h2{font-size:20px;line-height:1.75rem;margin-top:2.5rem}
+.legal>p:nth-of-type(1){color:var(--ink-2);font-size:14px}
+.legal ol{list-style:decimal;padding-left:1.5rem}
+.legal li+li{margin-top:.5rem}
+.legal .flex{display:flex;flex-wrap:wrap;column-gap:1.5rem;row-gap:.5rem}
+.legal .rp-btn{text-decoration:none}
+footer{border-top:1px solid var(--rule);display:flex;flex-wrap:wrap;gap:.5rem 1.5rem;padding-bottom:max(1.25rem,env(safe-area-inset-bottom));font-size:15px}
+footer a{color:inherit;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+footer a:hover{color:var(--accent)}
+@media(max-width:640px){header,footer{padding-left:1rem;padding-right:1rem}.legal{padding:1.25rem 1rem 3rem}.legal h1{font-size:34px}}
+</style></head><body><header><a href="/">RhymePage</a></header><main><article class="legal mx-auto w-full max-w-[calc(68ch+5rem)] space-y-4 px-4 pt-5 pb-12 text-[16px] leading-relaxed md:px-10 md:pt-10"><h1 class="rp-title pb-2 text-[34px] md:text-[44px]">Delete your RhymePage account</h1><p class="rp-muted text-[14px]">Last updated: October 26, 2026.</p><p>You can request account deletion from this website. You do not need the Android app installed.</p><p>Email <a class="rp-link" href="mailto:Help@arrangedgodly.com?subject=RhymePage%20account%20deletion">Help@arrangedgodly.com</a> with the subject &quot;RhymePage account deletion&quot; and identify the email address associated with your account. We may ask you to confirm ownership before processing the request. Do not send your password.</p><p>You can also request deletion from RhymePage&#x27;s account settings:</p><ol class="list-decimal space-y-2 pl-6"><li>Sign in with the RhymePage account you want to delete.</li><li>Open Settings, then Account, then Delete account.</li><li>Enter the confirmation phrase and confirm your password or the same Google account.</li></ol><a class="rp-btn rp-btn--danger" href="/login" data-discover="true">Sign in to request deletion</a><p>Deletion removes your owned notes, attached audio, lyric timing, private account data, profile, email lookup entries, and follow relationships. Your access to notes owned by other people is removed. Those other people&#x27;s notes and their collaborative content remain with their owners; references to your account in their timing metadata are anonymized.</p><p>Confirmation starts irreversible deletion. If an in-app request reports an error, keep signed in and retry, or contact us for help completing it. Limited security and deletion-processing records may remain after content deletion.</p><p>Account-scoped recovery drafts and playback positions on the device where you delete the account are cleared. Recovery copies on another browser or device remain local to that device until its app storage or site data is cleared. Exports and files you saved outside RhymePage are under your control.</p><p>Contact RhymePage: <a class="rp-link" href="mailto:Help@arrangedgodly.com">Help@arrangedgodly.com</a></p></article></main><footer><a href="/privacy">Privacy policy</a><a href="/delete-account">Delete account</a><a href="/">Open RhymePage</a></footer></body></html>

@@ -49,7 +49,7 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col">
       <SettingsSection
         title="Display name"
         description="Shown on your profile and to anyone you share a note with."
@@ -64,17 +64,17 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
             onChange={(e) => setDisplayName(e.target.value)}
           />
         </Field>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
-            className="btn btn-primary btn-sm"
+            className="rp-btn rp-btn--line"
             disabled={
               nameState.status === "working" ||
               displayName.trim() === (currentUser.displayName ?? "")
             }
             onClick={() => changeDisplayName(displayName)}
           >
-            {nameState.status === "working" ? "Saving..." : "Save name"}
+            {nameState.status === "working" ? "Saving…" : "Save name"}
           </button>
           <StatusNote state={nameState} />
         </div>
@@ -110,14 +110,14 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
             />
           </Field>
         )}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
-            className="btn btn-primary btn-sm"
+            className="rp-btn rp-btn--line"
             disabled={emailState.status === "working" || !newEmail.trim()}
             onClick={() => changeEmail(emailPassword, newEmail)}
           >
-            {emailState.status === "working" ? "Sending..." : "Send confirmation"}
+            {emailState.status === "working" ? "Sending…" : "Send confirmation"}
           </button>
           <StatusNote state={emailState} />
         </div>
@@ -171,10 +171,10 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </Field>
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <button
                 type="button"
-                className="btn btn-primary btn-sm"
+                className="rp-btn rp-btn--line"
                 disabled={
                   passwordState.status === "working" ||
                   !currentPassword ||
@@ -184,14 +184,14 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
                 onClick={() => changePassword(currentPassword, newPassword)}
               >
                 {passwordState.status === "working"
-                  ? "Changing..."
+                  ? "Changing…"
                   : "Change password"}
               </button>
               <StatusNote state={passwordState} />
             </div>
           </>
         ) : (
-          <p className="text-sm opacity-65">
+          <p className="rp-muted text-[15px]">
             Manage it from your Google account instead.
           </p>
         )}
@@ -231,10 +231,10 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
             />
           </Field>
         )}
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
-            className="btn btn-error btn-sm"
+            className="rp-btn rp-btn--danger"
             disabled={
               !canDelete ||
               deleteState.status === "working" ||
@@ -243,7 +243,7 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
             onClick={handleDelete}
           >
             {deleteState.status === "working"
-              ? "Deleting..."
+              ? "Deleting…"
               : "Delete my account"}
           </button>
           <StatusNote state={deleteState} />

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Capacitor } from "@capacitor/core";
 import { TxtAnime } from "txtanime.js";
 
 interface LandingProps {
@@ -37,6 +38,25 @@ interface Column {
  * "creative writing" and "good writing" are the adjectives (rel_jjb).
  */
 const WORDS_PER_SAMPLE = 8;
+
+/** The last word of each phrase: what the panel is answering. */
+const HEADWORDS = ["writing", "going", "undefeated"] as const;
+
+/** Each one is something the app does today; see README.md. */
+const FEATURES = [
+  {
+    title: "Drafts that stay put",
+    body: "Writing is kept on your device as you type, and in your notebook once you save. If two versions ever disagree, you choose which to keep.",
+  },
+  {
+    title: "Timed to the track",
+    body: "Attach a backing track, time each line or each word on the waveform, then play it back with the lyric following along. Export LRC or JSON.",
+  },
+  {
+    title: "Written together",
+    body: "Tag, pin and share songs with other RhymePage writers by email. Notes shared with you sit in their own tab of your notebook.",
+  },
+] as const;
 
 /** Beat between the phrase landing and the words answering it. */
 const REVEAL_DELAY_MS = 450;
@@ -105,7 +125,7 @@ const Landing = ({ loggedIn }: LandingProps) => {
   const [phraseIndex, setPhraseIndex] = useState(0);
   /* A constantly-animating page is hostile to anyone who asked for less of it. */
   const [animate] = useState(
-    () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    () => !Capacitor.isNativePlatform() && !window.matchMedia("(prefers-reduced-motion: reduce)").matches
   );
 
   useEffect(() => {
@@ -225,84 +245,105 @@ const Landing = ({ loggedIn }: LandingProps) => {
     };
   }, [animate]);
 
+  if (Capacitor.isNativePlatform()) {
+    // The app opens on the work, not the pitch.
+    return <Navigate to={loggedIn ? "/notes" : "/login"} replace />;
+  }
+
+  const headword = HEADWORDS[phraseIndex];
+
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-6 md:py-14">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold tracking-tight md:text-5xl">
-          Welcome to <span className="text-primary">Rhyme</span>
-          <span className="text-secondary">Page</span>
+    <div className="flex min-h-full flex-col">
+      {/* ---- Masthead ---- */}
+      <header className="mx-auto flex w-full max-w-6xl items-center gap-2 px-4 py-3 md:px-10 md:py-5">
+        <Link to="/" className="mr-auto text-[22px] font-extrabold tracking-[-0.02em]">RhymePage</Link>
+        {loggedIn ? (
+          <Link to="/notes" className="rp-btn rp-btn--ink rp-btn--sm">Open notebook</Link>
+        ) : (
+          <>
+            <Link to="/login" className="rp-btn rp-btn--quiet rp-btn--sm">Sign in</Link>
+            <Link to="/register" className="rp-btn rp-btn--ink rp-btn--sm hidden sm:inline-flex">Create account</Link>
+          </>
+        )}
+      </header>
+
+      {/* ---- The pitch, set like a track heading ---- */}
+      <section className="mx-auto w-full max-w-6xl px-4 pt-8 pb-10 md:px-10 md:pt-16 md:pb-14">
+        <h1 className="rp-title max-w-[15ch] text-[42px] md:text-[76px]">
+          Finish a word. The next one is waiting.
         </h1>
-        <p className="mx-auto mt-3 max-w-xl opacity-70 md:text-lg">
-          An API-powered lyric notebook that writes your rhymes with you.
+        <p className="rp-muted mt-5 max-w-[42ch] text-lg leading-relaxed md:text-xl">
+          RhymePage is a lyric notebook. Every word you finish brings back rhymes, sound-alikes and related words, ready to tap into the line.
         </p>
-
-        <div className="mx-auto mt-4 min-w-64 w-fit max-w-full rounded-lg bg-secondary px-4 py-3 text-secondary-content md:mt-6 md:px-6 md:py-4">
-          <p className="alt-font typing min-h-[1.6em] text-xl md:text-2xl" />
-        </div>
-
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-2 md:mt-7">
+        <div className="mt-7 flex flex-wrap items-center gap-2">
           {loggedIn ? (
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => navigate("/notes/new")}
-            >
-              Go to your dashboard
+            <button type="button" className="rp-btn rp-btn--ink" onClick={() => navigate("/notes/new")}>
+              Start writing
             </button>
           ) : (
             <>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => navigate("/register")}
-              >
+              <button type="button" className="rp-btn rp-btn--ink" onClick={() => navigate("/notes/new")}>
+                Try the editor
+              </button>
+              <button type="button" className="rp-btn rp-btn--line" onClick={() => navigate("/register")}>
                 Create an account
-              </button>
-              <button
-                type="button"
-                className="btn btn-ghost"
-                onClick={() => navigate("/login")}
-              >
-                Sign in
-              </button>
-              <button
-                type="button"
-                className="btn btn-link"
-                onClick={() => navigate("/notes/new")}
-              >
-                Or try the demo
               </button>
             </>
           )}
         </div>
-      </div>
+      </section>
 
-      <section className="mt-7 rounded-xl border border-base-300 px-3 py-4 md:mt-12 md:px-6 md:py-6">
-        <h2 className="text-center text-[0.68rem] font-medium uppercase tracking-[0.14em] opacity-55">
-          Finish a word and you get all of this back
-        </h2>
+      {/* ---- Live demo: the typed line and the panel that answers it ---- */}
+      <section aria-label="How suggestions work" className="mx-auto w-full max-w-6xl px-4 md:px-10">
+        <div className="border-t-[1.5px] border-ink pt-5 pb-6 md:pt-7 md:pb-8">
+          <p className="rp-label">Your line</p>
+          <p className="typing mt-2 min-h-[1.15em] text-[34px] font-extrabold leading-[1.15] tracking-[-0.015em] md:text-[64px]" />
+        </div>
 
-        <div className="mt-4 grid grid-cols-3 gap-x-3 gap-y-6 md:mt-6 lg:grid-cols-6">
-          {COLUMNS.map(({ label, secondary, samples }) => (
-            <div
-              key={label}
-              className={`container-landing ${secondary ? "container-landing-alt" : ""}`}
-            >
-              <h3 className="text-landing-title">{label}</h3>
-              <p className="text-landing">
-                <span className="landing-sample">
+        <div className="panel">
+          <div className="flex items-baseline gap-3 px-4 pt-4 md:px-6 md:pt-5">
+            <p className="text-landing text-[22px] font-extrabold md:text-[28px]">{headword}</p>
+            <p className="rp-muted ml-auto text-xs">Real results for the last word</p>
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-x-4 border-t border-panel-rule px-4 pt-3 pb-5 md:gap-x-6 md:px-6 md:pb-7 lg:grid-cols-6">
+            {COLUMNS.map(({ label, secondary, samples }) => (
+              <div key={label} className={secondary ? "hidden lg:block" : ""}>
+                <h3 className="rp-label truncate">{label}</h3>
+                <p className="text-landing landing-sample mt-2 text-[15px] md:text-base">
                   {samples[phraseIndex]
                     .split(" ")
                     .slice(0, WORDS_PER_SAMPLE)
-                    .map((word) => (
-                      <span key={word}>{word}</span>
+                    .map((word, i) => (
+                      <span key={word} className={i < 3 ? "font-semibold" : i < 6 ? "" : "text-on-panel-2"}>{word}</span>
                     ))}
-                </span>
-              </p>
-            </div>
-          ))}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* ---- What else lives in the notebook ---- */}
+      <section aria-label="What RhymePage keeps together" className="mx-auto w-full max-w-6xl px-4 pt-14 pb-16 md:px-10 md:pt-20 md:pb-24">
+        <h2 className="rp-title text-[28px] md:text-[36px]">One place for the whole song</h2>
+        <dl className="mt-6 border-t-[1.5px] border-ink">
+          {FEATURES.map(({ title, body }) => (
+            <div key={title} className="grid gap-1 border-b border-rule py-5 md:grid-cols-[18rem_1fr] md:gap-8">
+              <dt className="text-lg font-bold">{title}</dt>
+              <dd className="rp-muted max-w-[60ch] text-[16px] leading-relaxed">{body}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <footer className="panel mt-auto">
+        <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-6 text-sm md:px-10">
+          <p className="mr-auto font-extrabold">RhymePage</p>
+          <Link className="rp-link" to="/privacy">Privacy</Link>
+          <Link className="rp-link" to="/delete-account">Delete account</Link>
+          <p className="rp-muted w-full text-xs md:w-auto">© {new Date().getFullYear()} RhymePage.com</p>
+        </div>
+      </footer>
     </div>
   );
 };

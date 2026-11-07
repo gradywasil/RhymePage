@@ -21,9 +21,6 @@ const useAppLogic = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [authReady, setAuthReady] = useState(false);
   const [currentUser, setCurrentUserState] = useState<AppUser | null>(cachedUser);
-  const [theme, setTheme] = useState<string>(
-    localStorage.getItem("theme") || "pastel"
-  );
   const navigate = useNavigate();
 
   /** Derived rather than stored, so it can never drift from currentUser. */
@@ -99,8 +96,6 @@ const useAppLogic = () => {
     authReady,
     loggedIn,
     currentUser,
-    theme,
-    setTheme,
     handleLogout,
     setCurrentUser: commitUser,
   };

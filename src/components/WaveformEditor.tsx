@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
+import { LuPause, LuPlay } from "react-icons/lu";
 import type WaveSurfer from "wavesurfer.js";
 import type RegionsPluginType from "wavesurfer.js/dist/plugins/regions.js";
 import type { Region } from "wavesurfer.js/dist/plugins/regions.js";
@@ -26,6 +27,21 @@ function formatSeconds(seconds: number): string {
 }
 
 /**
+ * The waveform's colours, read straight off the active theme's roles in
+ * tokens.css: the wave in second ink (the rule colour is too faint to read as
+ * data), the played portion in the printed accent, the cursor in ink.
+ */
+function readThemeColors(): { waveColor?: string; progressColor?: string; cursorColor?: string } {
+  const styles = getComputedStyle(document.documentElement);
+  const read = (name: string) => styles.getPropertyValue(name).trim() || undefined;
+  return {
+    waveColor: read("--ink-2"),
+    progressColor: read("--accent"),
+    cursorColor: read("--ink"),
+  };
+}
+
+/**
  * Fine-tunes line timing by dragging/resizing regions on a waveform. Reuses
  * the same `<audio>` element `useSyncLogic` already owns (via wavesurfer's
  * `media` option) rather than creating a second one, so this can sit
@@ -33,8 +49,6 @@ function formatSeconds(seconds: number): string {
  */
 const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEditorProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const primaryColorRef = useRef<HTMLSpanElement>(null);
-  const mutedColorRef = useRef<HTMLSpanElement>(null);
   const wavesurferRef = useRef<WaveSurfer | null>(null);
   const regionsRef = useRef<RegionsPluginType | null>(null);
   const lastSnapshotRef = useRef<string | null>(null);
@@ -52,12 +66,14 @@ const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEdito
   }, [onLineTimingChange]);
 
   // Create the wavesurfer instance once an audio element exists. Colors are
-  // read off the app's own theme (via computed style on hidden refs) rather
-  // than hardcoding a palette, so this tracks whatever daisyUI theme is active.
+  // read off the theme's CSS custom properties rather than hardcoding a
+  // palette, and re-read whenever `data-theme` on <html> changes, so the
+  // waveform follows a theme switch without being rebuilt.
   useEffect(() => {
     const audioEl = audioRef.current;
     if (!containerRef.current || !audioEl) return;
     let cancelled = false;
+    let themeObserver: MutationObserver | null = null;
 
     (async () => {
       try {
@@ -68,21 +84,18 @@ const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEdito
           ]);
         if (cancelled || !containerRef.current) return;
 
-        const progressColor = primaryColorRef.current
-          ? getComputedStyle(primaryColorRef.current).color
-          : undefined;
-        const waveColor = mutedColorRef.current
-          ? getComputedStyle(mutedColorRef.current).color
-          : undefined;
-
         const ws = WaveSurferCtor.create({
           container: containerRef.current,
           media: audioEl,
           height: 96,
           minPxPerSec: DEFAULT_PX_PER_SEC,
-          waveColor,
-          progressColor,
-          cursorColor: progressColor,
+          ...readThemeColors(),
+        });
+
+        themeObserver = new MutationObserver(() => ws.setOptions(readThemeColors()));
+        themeObserver.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["data-theme"],
         });
         const regions = ws.registerPlugin(RegionsPluginCtor.create());
 
@@ -110,6 +123,8 @@ const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEdito
 
     return () => {
       cancelled = true;
+      themeObserver?.disconnect();
+      themeObserver = null;
       regionsRef.current = null;
       // Safe against the shared `audioEl`: destroy() doesn't touch an
       // externally-provided media element, only wavesurfer's own DOM/state.
@@ -154,48 +169,47 @@ const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEdito
   const selectedLine = selectedLineId ? syncDoc.lines[selectedLineId] : null;
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-2">
-      {/* Hidden probes: read the app's actual theme colors via computed style. */}
-      <span ref={primaryColorRef} className="hidden text-primary" aria-hidden="true" />
-      <span ref={mutedColorRef} className="hidden text-base-content/30" aria-hidden="true" />
-
+    <div className="flex min-h-0 flex-1 flex-col gap-3">
       {loadError && (
-        <p className="text-sm text-error">Couldn't load the waveform for this audio.</p>
+        <p role="alert" className="rp-message rp-message--danger">Couldn't load the waveform for this audio.</p>
       )}
 
       {!hasTimedLines && (
-        <p className="text-xs opacity-60">
+        <p className="rp-hint">
           No marked lines yet -- use Fast Sync first, then fine-tune the timing here.
         </p>
       )}
 
       <div
         ref={containerRef}
-        className="w-full flex-none rounded-md border border-base-300 bg-base-200/40"
+        className="w-full flex-none border-y-[1.5px] border-ink bg-sleeve-2"
       />
 
       {selectedLine && (
-        <p className="text-xs opacity-70">
-          <span className="font-medium">{selectedLine.text}</span>
-          {" -- "}
-          {formatSeconds(selectedLine.start ?? 0)} to {formatSeconds(selectedLine.end ?? 0)}
+        <p className="flex items-baseline gap-3 text-[15px]">
+          <span className="flex-none text-[13px] font-semibold tabular-nums text-accent">
+            {formatSeconds(selectedLine.start ?? 0)}
+            <span className="font-normal text-ink-2"> to {formatSeconds(selectedLine.end ?? 0)}</span>
+          </span>
+          <span className="min-w-0 truncate font-semibold">{selectedLine.text}</span>
         </p>
       )}
 
       <div className="flex flex-none items-center gap-3">
         <button
           type="button"
-          className="btn btn-outline btn-sm"
+          aria-label={isPlaying ? "Pause" : "Play"}
+          className="inline-flex h-12 w-12 flex-none items-center justify-center bg-ink text-sleeve transition-colors duration-150 ease-out hover:bg-ink-2 disabled:cursor-not-allowed disabled:opacity-45 motion-reduce:transition-none"
           disabled={!ready}
           onClick={() => void wavesurferRef.current?.playPause().catch(() => setLoadError(true))}
         >
-          {isPlaying ? "Pause" : "Play"}
+          {isPlaying ? <LuPause aria-hidden className="h-5 w-5" /> : <LuPlay aria-hidden className="h-5 w-5" />}
         </button>
-        <span className="w-14 flex-none text-xs tabular-nums opacity-60">
+        <span className="w-16 flex-none text-[13px] font-semibold tabular-nums text-accent">
           {formatSeconds(currentTime)}
         </span>
-        <label className="flex flex-1 items-center gap-2 text-xs opacity-60">
-          Zoom
+        <label className="flex min-w-0 flex-1 items-center gap-3">
+          <span className="rp-label">Zoom</span>
           <input
             type="range"
             min={MIN_PX_PER_SEC}
@@ -203,7 +217,7 @@ const WaveformEditor = ({ syncDoc, audioRef, onLineTimingChange }: WaveformEdito
             value={zoomLevel}
             disabled={!ready}
             onChange={(e) => handleZoom(Number(e.target.value))}
-            className="range range-primary range-xs flex-1"
+            className="rp-range min-w-0 flex-1"
           />
         </label>
       </div>

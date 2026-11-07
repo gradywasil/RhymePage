@@ -4,6 +4,8 @@ interface ConfirmDialogProps {
   title: string;
   body: string;
   confirmLabel: string;
+  /** Destructive actions (delete) get the danger treatment; the default is ink. */
+  tone?: "danger" | "default";
   onConfirm: () => void | Promise<void>;
   onCancel: () => void;
 }
@@ -12,6 +14,7 @@ const ConfirmDialog = ({
   title,
   body,
   confirmLabel,
+  tone = "default",
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) => {
@@ -29,18 +32,20 @@ const ConfirmDialog = ({
       ref={dialogRef}
       onClose={onCancel}
       onCancel={(event) => { if (working) event.preventDefault(); }}
-      className="m-auto w-[min(26rem,calc(100vw-2rem))] rounded-lg border border-base-300
-                 bg-base-100 p-0 text-base-content backdrop:bg-black/40"
+      aria-labelledby="confirm-title"
+      className="rp-dialog"
     >
-      <div className="px-5 py-4">
-        <h2 className="text-base font-semibold">{title}</h2>
-        <p className="mt-1.5 text-sm opacity-70">{body}</p>
-        {error && <p role="alert" className="mt-2 text-sm text-error">{error}</p>}
+      <div className="rp-dialog-head">
+        <h2 id="confirm-title" className="rp-title text-xl">{title}</h2>
       </div>
-      <div className="flex justify-end gap-2 border-t border-base-300 px-5 py-3">
+      <div className="rp-dialog-body">
+        <p className="rp-muted text-[15px] leading-relaxed">{body}</p>
+        {error && <p role="alert" className="rp-message rp-message--danger mt-3">{error}</p>}
+      </div>
+      <div className="rp-dialog-foot">
         <button
           type="button"
-          className="btn btn-ghost btn-sm"
+          className="rp-btn rp-btn--quiet"
           disabled={working}
           onClick={() => dialogRef.current?.close()}
         >
@@ -48,17 +53,17 @@ const ConfirmDialog = ({
         </button>
         <button
           type="button"
-          className="btn btn-error btn-sm"
+          className={`rp-btn ${tone === "danger" ? "rp-btn--danger" : "rp-btn--ink"}`}
           disabled={working}
           onClick={async () => {
             setWorking(true);
             setError("");
             try { await onConfirm(); }
-            catch { setError("Could not finish. Your request has not completed; try again."); }
+            catch { setError("That didn't finish. Nothing was changed, so you can try again."); }
             finally { setWorking(false); }
           }}
         >
-          {working ? "Working..." : confirmLabel}
+          {working ? "Working…" : confirmLabel}
         </button>
       </div>
     </dialog>

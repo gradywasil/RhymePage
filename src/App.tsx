@@ -1,8 +1,7 @@
 import useAppLogic from "./hooks/useAppLogic";
 import { Routes, Route, useLocation } from "react-router-dom";
-import Header from "./components/Header";
 import Loading from "./components/Loading";
-import Footer from "./components/Footer";
+import AppShell from "./components/shell/AppShell";
 import { Suspense, lazy, useEffect } from "react";
 import { useAndroidNavigation } from "./hooks/useAndroidNavigation";
 import { updateSystemBarContrast } from "./utils/nativeApp";
@@ -22,81 +21,53 @@ function App() {
     authReady,
     loggedIn,
     currentUser,
-    theme,
-    setTheme,
     handleLogout,
     setCurrentUser,
   } = useAppLogic();
 
-  // The dashboard is a fixed frame: every pixel goes to writing or suggestions.
   const { pathname } = useLocation();
-  const isWriting = pathname.startsWith("/notes/");
+  const isLanding = pathname === "/";
   useAndroidNavigation(currentUser?.uid ?? null, authReady);
 
-  /*
-   * data-theme has to live on <html>, not this div: daisyUI's :root fallback
-   * (pure white base-100) otherwise paints through any gap that opens below
-   * this div -- e.g. the trailing strip Chrome-for-Android's dvh recalculation
-   * can leave beneath the footer -- regardless of which theme is selected.
-   */
+  // The status/navigation bar icons sample whatever surface now sits under them.
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    updateSystemBarContrast();
-  }, [theme, isWriting]);
+    requestAnimationFrame(() => updateSystemBarContrast());
+  }, [pathname, loggedIn]);
+
+  const routes = (
+    <Suspense fallback={<Loading />}>
+      {!authReady ? <Loading /> : <Routes>
+        <Route path="/" element={<Landing loggedIn={loggedIn} />} />
+        <Route path="/privacy" element={<LegalPages page="privacy" signedIn={loggedIn} />} />
+        <Route path="/delete-account" element={<LegalPages page="deletion" signedIn={loggedIn} />} />
+        <Route path="/login" element={<Login setCurrentUser={setCurrentUser} loggedIn={loggedIn} />} />
+        <Route path="/register" element={<Register setCurrentUser={setCurrentUser} loggedIn={loggedIn} />} />
+        <Route path="/settings" element={<Settings currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={handleLogout} />} />
+        <Route path="/notes" element={<Notes currentUser={currentUser} />} />
+        <Route
+          path="/notes/new"
+          element={<Dashboard key={`${currentUser?.uid ?? "guest"}:${pathname}`} currentUser={currentUser} />}
+        />
+        <Route
+          path="/notes/:existingNoteId"
+          element={<Dashboard key={`${currentUser?.uid ?? "guest"}:${pathname}`} currentUser={currentUser} />}
+        />
+        <Route path="/profile" element={<Profile currentUser={currentUser} />} />
+        <Route path="/profile/:uid" element={<Profile currentUser={currentUser} />} />
+        <Route path="*" element={<Missing loggedIn={loggedIn} />} />
+      </Routes>}
+    </Suspense>
+  );
 
   return (
-    <div data-writing={isWriting} className="app-frame flex h-dvh flex-col overflow-hidden main-font bg-base-100 text-base-content">
-      <Header
-        currentUser={currentUser}
-        theme={theme}
-        setTheme={setTheme}
-        handleLogout={handleLogout}
-      />
-      {isLoading && <Loading />}
-      <main className="flex min-h-0 w-full flex-1 flex-col overflow-y-auto">
-      <Suspense fallback={<Loading />}>
-        {!authReady ? <Loading /> : <Routes>
-          <Route path="/" element={<Landing loggedIn={loggedIn} />} />
-          <Route path="/privacy" element={<LegalPages page="privacy" signedIn={loggedIn} />} />
-          <Route path="/delete-account" element={<LegalPages page="deletion" signedIn={loggedIn} />} />
-          <Route
-            path="/login"
-            element={
-              <Login setCurrentUser={setCurrentUser} loggedIn={loggedIn} />
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <Register setCurrentUser={setCurrentUser} loggedIn={loggedIn} />
-            }
-          />
-          <Route
-            path="/settings"
-            element={<Settings currentUser={currentUser} setCurrentUser={setCurrentUser} />}
-          />
-          <Route path="/notes" element={<Notes currentUser={currentUser} />} />
-          <Route
-            path="/notes/new"
-            element={<Dashboard key={`${currentUser?.uid ?? "guest"}:${pathname}`} currentUser={currentUser} />}
-          />
-          <Route
-            path="/notes/:existingNoteId"
-            element={<Dashboard key={`${currentUser?.uid ?? "guest"}:${pathname}`} currentUser={currentUser} />}
-          />
-          <Route
-            path="/profile"
-            element={<Profile currentUser={currentUser} />}
-          />
-          <Route
-            path="/profile/:uid"
-            element={<Profile currentUser={currentUser} />}
-          />
-          <Route path="*" element={<Missing loggedIn={loggedIn} />} />
-        </Routes>}
-      </Suspense>
-      </main>
-      {!isWriting && <Footer />}
+    <div className="app-frame flex h-dvh flex-col overflow-hidden bg-sleeve text-ink">
+      {isLoading && <div className="absolute inset-x-0 top-0 z-50"><span className="rp-loading !w-full" aria-label="Working" /></div>}
+      {/* The public landing page brings its own masthead; everything else lives in the app shell. */}
+      {isLanding ? (
+        <main id="main" className="flex min-h-0 flex-1 flex-col overflow-y-auto">{routes}</main>
+      ) : (
+        <AppShell currentUser={currentUser} onLogout={handleLogout}>{routes}</AppShell>
+      )}
     </div>
   );
 }

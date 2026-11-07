@@ -1,52 +1,55 @@
-import {
-  BookmarkSquareIcon,
-  BookOpenIcon,
-  UserPlusIcon,
-  UserCircleIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/solid";
-import MissingLinks from "./MissingLinks";
+import { LuCircleUser, LuHouse, LuLogIn, LuNotebook, LuPenLine, LuUserPlus } from "react-icons/lu";
+import MissingLinks, { type MissingLink } from "./MissingLinks";
 
-const unloggedLinks = [
+const home: MissingLink = {
+  name: "Home",
+  href: "/",
+  description: "Back to the RhymePage front page.",
+  icon: LuHouse,
+};
+
+const unloggedLinks: MissingLink[] = [
   {
-    name: "Demo",
+    name: "Write",
     href: "/notes/new",
-    description: "Test out our application without creating an account.",
-    icon: BookOpenIcon,
+    description: "Try the editor without creating an account.",
+    icon: LuPenLine,
   },
   {
-    name: "Signup",
+    name: "Create an account",
     href: "/register",
-    description: "Get started with a free user account here!",
-    icon: UserPlusIcon,
+    description: "Get started with a free account.",
+    icon: LuUserPlus,
   },
   {
-    name: "Login",
+    name: "Sign in",
     href: "/login",
-    description: "Login with Email/Password or Google Authentication",
-    icon: ArrowRightOnRectangleIcon,
+    description: "Sign in with email and password, or with Google.",
+    icon: LuLogIn,
   },
+  home,
 ];
 
-const loggedLinks = [
-  {
-    name: "Your Profile",
-    href: "/profile",
-    description: "View your profile information and change your settings.",
-    icon: UserCircleIcon,
-  },
+const loggedLinks: MissingLink[] = [
   {
     name: "Notebook",
     href: "/notes",
-    description: "View your collection of notes.",
-    icon: BookmarkSquareIcon,
+    description: "Your collection of notes.",
+    icon: LuNotebook,
   },
   {
-    name: "Dashboard",
+    name: "Write",
     href: "/notes/new",
-    description: "Create a new note using the API powered interface.",
-    icon: UserCircleIcon,
+    description: "Start a new note.",
+    icon: LuPenLine,
   },
+  {
+    name: "Your profile",
+    href: "/profile",
+    description: "Your profile, with a way through to your settings.",
+    icon: LuCircleUser,
+  },
+  home,
 ];
 
 interface MissingProps {
@@ -55,14 +58,11 @@ interface MissingProps {
 
 const Missing = ({ loggedIn }: MissingProps) => {
   return (
-    <div className="mx-auto w-full max-w-lg px-4 py-10 md:py-16">
-      <p className="text-sm font-semibold uppercase tracking-wider text-secondary">
-        404
-      </p>
-      <h1 className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">
-        This page does not exist
+    <div className="mx-auto w-full max-w-3xl px-4 pt-5 pb-10 md:px-10 md:pt-10">
+      <h1 className="rp-title text-[34px] md:text-[44px]">
+        This page isn't in the notebook
       </h1>
-      <p className="mt-2 text-sm opacity-65">
+      <p className="rp-muted mt-3 text-[17px]">
         The link may be out of date. Here is where else you can go.
       </p>
 

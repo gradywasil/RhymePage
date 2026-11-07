@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from "react";
+import { LuPause, LuPlay, LuRotateCcw, LuUndo2 } from "react-icons/lu";
 import { splitWords } from "../utils/lyrics";
 import type { LineTiming, WordTiming } from "../types/sync";
 
@@ -149,71 +150,75 @@ const WordSyncEditor = ({ line, audioRef, onWordsChange, onClose }: WordSyncEdit
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="m-auto w-[min(28rem,calc(100vw-2rem))] rounded-lg border border-base-300
-                 bg-base-100 p-0 text-base-content backdrop:bg-black/40"
+      aria-labelledby="word-sync-title"
+      className="rp-dialog"
     >
-      <div className="flex flex-col gap-3 px-5 py-4">
-        <h2 className="text-base font-semibold">Word timing</h2>
-        <p className="text-sm opacity-70">{line.text}</p>
+      <div className="rp-dialog-head">
+        <h2 id="word-sync-title" className="rp-title text-xl">Word timing</h2>
+        <p className="rp-muted mt-1 text-[15px]">{line.text}</p>
+      </div>
 
-        <div className="no-bar flex max-h-64 flex-col gap-1 overflow-y-auto rounded-md border border-base-300 px-2 py-2">
+      <div className="rp-dialog-body flex flex-col gap-3">
+        <div className="no-bar mt-2 flex max-h-64 flex-col overflow-y-auto border-t-[1.5px] border-ink">
           {words.map((word, index) => {
             const isArmed = index === armedIndex;
-            const isTimed = word.start !== null && word.end !== null;
             return (
               <button
                 key={index}
                 type="button"
                 onClick={() => resumeFrom(index)}
                 className={[
-                  "flex items-center justify-between gap-2 rounded px-2 py-1 text-left text-sm transition",
-                  isArmed
-                    ? "bg-primary text-primary-content"
-                    : isTimed
-                      ? "opacity-70 hover:opacity-100"
-                      : "opacity-90",
+                  "flex min-h-11 flex-none items-center gap-3 border-b border-rule py-1.5 pr-2 pl-1 text-left text-[15px] transition-colors duration-150 ease-out motion-reduce:transition-none",
+                  isArmed ? "bg-ink text-sleeve" : "hover:bg-sleeve-2",
                 ].join(" ")}
               >
-                <span>{word.text}</span>
-                <span className="tabular-nums text-xs opacity-70">
-                  {formatSeconds(word.start)} - {formatSeconds(word.end)}
+                <span
+                  className={[
+                    "w-[7.5rem] flex-none text-[13px] font-semibold tabular-nums",
+                    isArmed ? "text-sleeve" : word.start !== null ? "text-accent" : "text-ink-2",
+                  ].join(" ")}
+                >
+                  {formatSeconds(word.start)}
+                  <span className={`font-normal ${isArmed ? "text-sleeve" : "text-ink-2"}`}> - {formatSeconds(word.end)}</span>
                 </span>
+                <span className="min-w-0 flex-1 truncate">{word.text}</span>
               </button>
             );
           })}
         </div>
 
-        <p className="text-center text-xs opacity-50">
+        <p className="text-center text-[13px] text-ink-2 tabular-nums">
           {armedIndex !== null
             ? `Marking word ${armedIndex + 1} of ${words.length}`
             : "All words marked."}
         </p>
 
-        <div className="flex items-center justify-center gap-2">
-          <button type="button" className="btn btn-ghost btn-sm" disabled={!canUndo} onClick={undo}>
-            Undo
+        <div className="flex items-center justify-center gap-1 sm:gap-2">
+          <button type="button" className="rp-icon-btn" aria-label="Undo" title="Undo" disabled={!canUndo} onClick={undo}>
+            <LuUndo2 aria-hidden />
           </button>
-          <button type="button" className="btn btn-outline btn-sm" onClick={replay}>
-            Replay
+          <button type="button" className="rp-icon-btn" aria-label="Replay" title="Replay" onClick={replay}>
+            <LuRotateCcw aria-hidden />
           </button>
           <button
             type="button"
-            className="btn btn-primary btn-lg"
+            className="rp-btn rp-btn--ink h-14 min-w-28"
             disabled={armedIndex === null}
             onClick={mark}
           >
             Mark
           </button>
-          <button type="button" className="btn btn-outline btn-sm" onClick={togglePlay}>
+          <button type="button" className="rp-btn rp-btn--line" onClick={togglePlay}>
+            {isPlaying ? <LuPause aria-hidden /> : <LuPlay aria-hidden />}
             {isPlaying ? "Pause" : "Play"}
           </button>
         </div>
       </div>
 
-      <div className="flex justify-end border-t border-base-300 px-5 py-3">
+      <div className="rp-dialog-foot">
         <button
           type="button"
-          className="btn btn-ghost btn-sm"
+          className="rp-btn rp-btn--line"
           onClick={() => dialogRef.current?.close()}
         >
           Done

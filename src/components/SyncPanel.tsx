@@ -1,9 +1,23 @@
 import { useEffect, useRef, useState } from "react";
+import {
+  LuAudioWaveform,
+  LuDownload,
+  LuListMusic,
+  LuMic,
+  LuPause,
+  LuPlay,
+  LuRotateCcw,
+  LuTriangleAlert,
+  LuUndo2,
+  LuUpload,
+  LuX,
+} from "react-icons/lu";
 import useSyncLogic from "../hooks/useSyncLogic";
 import WaveformEditor from "./WaveformEditor";
 import WordSyncEditor from "./WordSyncEditor";
 import { FormMessage } from "./FormControls";
 import ConfirmDialog from "./ConfirmDialog";
+import Loading from "./Loading";
 import { downloadTextFile, slugForFilename, toExportJson, toLrc } from "../utils/syncExport";
 import type { AppUser } from "../types/user";
 import { isAndroid, nativeApp } from "../utils/nativeApp";
@@ -126,27 +140,27 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
 
   if (!currentUser) {
     return (
-      <div className="mx-auto max-w-md px-4 py-10 text-center text-sm opacity-70">
+      <p className="max-w-md px-4 py-10 text-[15px] text-ink-2 md:px-6">
         Log in to sync this song to a recording.
-      </div>
+      </p>
     );
   }
 
   if (!noteId) {
     return (
-      <div className="mx-auto max-w-md px-4 py-10 text-center text-sm opacity-70">
+      <p className="max-w-md px-4 py-10 text-[15px] text-ink-2 md:px-6">
         Save this note first -- sync needs somewhere to keep its timing.
-      </div>
+      </p>
     );
   }
 
   if (loading) {
-    return <div className="px-4 py-10 text-center text-sm opacity-60">Loading sync...</div>;
+    return <Loading label="Loading sync" />;
   }
 
   if (error || !syncDoc) {
     return (
-      <div className="mx-auto max-w-md px-4 py-10">
+      <div className="max-w-md px-4 py-10 md:px-6">
         <FormMessage tone="error">{error ?? "Couldn't load sync data."}</FormMessage>
       </div>
     );
@@ -154,67 +168,55 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
 
   const armedIndex = armedLineId ? syncDoc.lineOrder.indexOf(armedLineId) : -1;
   const hasTimedLines = syncDoc.lineOrder.some((id) => syncDoc.lines[id].start !== null);
+  const complete = status === "complete";
 
   return (
-    <div className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col gap-3 px-3 py-3 md:px-5">
-      <div className="flex flex-none items-center justify-between gap-2">
-        <span
-          className={[
-            "rounded-full px-2.5 py-1 text-xs font-medium",
-            status === "complete"
-              ? "bg-success/15 text-success"
-              : "bg-warning/15 text-warning",
-          ].join(" ")}
-        >
-          {status === "complete" ? "Complete" : "Draft"}
-        </span>
-
-        <div className="flex flex-wrap items-center gap-2">
+    <div className="flex h-full w-full max-w-[44rem] flex-col gap-4 px-4 py-4 md:px-6 md:py-5">
+      {/* ---- Status, view, audio and export controls ---- */}
+      <div className="flex flex-none flex-col gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <p className={`flex items-center gap-2 text-xs font-bold tracking-[0.08em] uppercase ${complete ? "text-ok" : "text-ink-2"}`}>
+            <span aria-hidden className={`h-[11px] w-[11px] flex-none border-[1.5px] border-current ${complete ? "bg-current" : ""}`} />
+            {complete ? "Complete" : "Draft"}
+          </p>
           <button
             type="button"
-            className="btn btn-ghost btn-xs"
-            disabled={!hasTimedLines || exporting}
-            title={hasTimedLines ? undefined : "Mark at least one line before exporting"}
-            onClick={() => void exportFile("lrc")}
-          >
-            Export LRC
-          </button>
-          <button
-            type="button"
-            className="btn btn-ghost btn-xs"
-            disabled={!hasTimedLines || exporting}
-            title={hasTimedLines ? undefined : "Mark at least one line before exporting"}
-            onClick={() => void exportFile("json")}
-          >
-            Export JSON
-          </button>
-          <button
-            type="button"
-            className="btn btn-outline btn-xs"
+            className="rp-btn rp-btn--line rp-btn--sm"
             disabled={!hasAudio}
             title={hasAudio ? undefined : "Attach audio to use the precision editor"}
             onClick={() => setRequestedView(view === "fast" ? "precision" : "fast")}
           >
+            {view === "fast" ? <LuAudioWaveform aria-hidden /> : <LuListMusic aria-hidden />}
             {view === "fast" ? "Precision editor" : "Fast sync"}
           </button>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            className="rp-btn rp-btn--line rp-btn--sm"
+            disabled={uploading}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <LuUpload aria-hidden />
+            <span className="tabular-nums">
+              {uploading ? `Uploading ${uploadProgress}%` : hasAudio ? "Replace audio" : "Attach audio"}
+            </span>
+          </button>
+          {uploading && (
+            <button type="button" className="rp-btn rp-btn--quiet rp-btn--sm" onClick={cancelUpload}>
+              <LuX aria-hidden /> Cancel upload
+            </button>
+          )}
           {hasAudio ? (
             <button
               type="button"
-              className="btn btn-ghost btn-xs"
+              className="rp-btn rp-btn--quiet rp-btn--sm"
               onClick={() => setConfirmingRemoveAudio(true)}
             >
               Remove audio
             </button>
           ) : null}
-          <button
-            type="button"
-            className="btn btn-outline btn-xs"
-            disabled={uploading}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            {uploading ? `Uploading ${uploadProgress}%` : hasAudio ? "Replace audio" : "Attach audio"}
-          </button>
-          {uploading && <button type="button" className="btn btn-ghost btn-xs" onClick={cancelUpload}>Cancel upload</button>}
           <input
             ref={fileInputRef}
             type="file"
@@ -226,6 +228,26 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
               if (file) void attachAudio(file);
             }}
           />
+          <div className="ml-auto flex flex-wrap items-center gap-1">
+            <button
+              type="button"
+              className="rp-btn rp-btn--quiet rp-btn--sm"
+              disabled={!hasTimedLines || exporting}
+              title={hasTimedLines ? undefined : "Mark at least one line before exporting"}
+              onClick={() => void exportFile("lrc")}
+            >
+              <LuDownload aria-hidden /> Export LRC
+            </button>
+            <button
+              type="button"
+              className="rp-btn rp-btn--quiet rp-btn--sm"
+              disabled={!hasTimedLines || exporting}
+              title={hasTimedLines ? undefined : "Mark at least one line before exporting"}
+              onClick={() => void exportFile("json")}
+            >
+              <LuDownload aria-hidden /> Export JSON
+            </button>
+          </div>
         </div>
       </div>
 
@@ -234,27 +256,42 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
       )}
 
       {uploadError && <FormMessage tone="error">{uploadError}</FormMessage>}
-      {timingState.message && <div role="status" className="text-xs"><p>{timingState.message}</p>{timingState.review && <div className="mt-1 flex flex-wrap gap-2"><button type="button" className="btn btn-outline btn-xs" onClick={() => void retryTiming()}>Save recovered timing</button><button type="button" className="btn btn-ghost btn-xs" onClick={() => void downloadTextFile(`${slugForFilename(title)}-device-timing.txt`, exportDeviceTiming(), "text/plain").catch(() => setExportMessage("Could not export the timing recovery copy."))}>Export device timing</button><button type="button" className="btn btn-ghost btn-xs" onClick={() => setDiscardingTiming(true)}>Discard device timing</button></div>}</div>}
-      {exportMessage && <p role="status" className="text-xs">{exportMessage}</p>}
-      {isAndroid() && localAlignmentAvailable() && <button type="button" className="btn btn-ghost btn-xs self-start" onClick={() => void nativeApp.openSettings().catch(() => setExportMessage("Could not open Android Settings."))}>Microphone permissions</button>}
+      {timingState.message && (
+        <div role="status" className="rp-notice flex-none flex-col">
+          <p>{timingState.message}</p>
+          {timingState.review && (
+            <div className="flex flex-wrap gap-2">
+              <button type="button" className="rp-btn rp-btn--line rp-btn--sm" onClick={() => void retryTiming()}>Save recovered timing</button>
+              <button type="button" className="rp-btn rp-btn--quiet rp-btn--sm" onClick={() => void downloadTextFile(`${slugForFilename(title)}-device-timing.txt`, exportDeviceTiming(), "text/plain").catch(() => setExportMessage("Could not export the timing recovery copy."))}>Export device timing</button>
+              <button type="button" className="rp-btn rp-btn--quiet rp-btn--sm" onClick={() => setDiscardingTiming(true)}>Discard device timing</button>
+            </div>
+          )}
+        </div>
+      )}
+      {exportMessage && <p role="status" className="rp-message flex-none text-ink-2">{exportMessage}</p>}
+      {isAndroid() && localAlignmentAvailable() && (
+        <button type="button" className="rp-btn rp-btn--quiet rp-btn--sm flex-none self-start" onClick={() => void nativeApp.openSettings().catch(() => setExportMessage("Could not open Android Settings."))}>
+          <LuMic aria-hidden /> Microphone permissions
+        </button>
+      )}
 
-      {view === "fast" && !localAlignmentAvailable() && <p className="text-xs opacity-65">{ANDROID_ALIGNMENT_MESSAGE}</p>}
+      {view === "fast" && !localAlignmentAvailable() && <p className="rp-hint flex-none">{ANDROID_ALIGNMENT_MESSAGE}</p>}
       {view === "fast" && localAlignmentAvailable() && (
-        <section className="flex flex-none flex-col gap-3 rounded-md border border-base-300 bg-base-200/40 px-3 py-3" aria-label="Local vocal-guide timing">
+        <section className="flex flex-none flex-col gap-3 border-y border-rule py-4" aria-label="Local vocal-guide timing">
           {alignment.phase === "idle" && (
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-sm font-medium">Align with a vocal guide</p>
-                <p className="mt-0.5 text-xs opacity-65">Record over your backing track and review suggested timing. Your voice stays on this device.</p>
+              <div className="min-w-0 flex-1 basis-60">
+                <p className="text-[15px] font-bold">Align with a vocal guide</p>
+                <p className="rp-hint mt-1">Record over your backing track and review suggested timing. Your voice stays on this device.</p>
               </div>
               <button
                 type="button"
-                className="btn btn-outline btn-sm"
+                className="rp-btn rp-btn--line"
                 disabled={!hasAudio}
                 title={hasAudio ? undefined : "Attach a backing track before recording a vocal guide"}
                 onClick={openAlignment}
               >
-                Align lyrics
+                <LuMic aria-hidden /> Align lyrics
               </button>
             </div>
           )}
@@ -262,23 +299,23 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
           {alignment.phase === "setup" && (
             <>
               <div>
-                <p className="text-sm font-medium">Use headphones for this take</p>
-                <p className="mt-0.5 text-xs opacity-65">They keep the backing track out of your microphone. The optional speech model downloads only after you continue, then runs locally in this browser.</p>
+                <p className="text-[15px] font-bold">Use headphones for this take</p>
+                <p className="rp-hint mt-1">They keep the backing track out of your microphone. The optional speech model downloads only after you continue, then runs locally in this browser.</p>
               </div>
-              <label className="flex cursor-pointer items-start gap-2 text-sm">
+              <label className="flex min-h-11 cursor-pointer items-center gap-3 text-[15px]">
                 <input
                   type="checkbox"
-                  className="checkbox checkbox-sm mt-0.5"
+                  className="rp-check"
                   checked={alignment.headphonesConfirmed}
                   onChange={event => setHeadphonesConfirmed(event.target.checked)}
                 />
                 <span>I'm wearing headphones.</span>
               </label>
               <div className="flex flex-wrap gap-2">
-                <button type="button" className="btn btn-primary btn-sm" disabled={!alignment.headphonesConfirmed} onClick={() => void prepareAlignment()}>
+                <button type="button" className="rp-btn rp-btn--ink" disabled={!alignment.headphonesConfirmed} onClick={() => void prepareAlignment()}>
                   Download local voice timing
                 </button>
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => void cancelAlignment()}>
+                <button type="button" className="rp-btn rp-btn--quiet" onClick={() => void cancelAlignment()}>
                   Back to manual sync
                 </button>
               </div>
@@ -286,24 +323,24 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
           )}
 
           {alignment.phase === "preparing" && (
-            <div role="status" aria-live="polite" className="flex items-center gap-3 text-sm">
-              <span className="loading loading-spinner loading-sm" aria-hidden="true" />
-              <span>{alignment.message}</span>
-              <button type="button" className="btn btn-ghost btn-xs ml-auto" onClick={() => void cancelAlignment()}>Cancel</button>
+            <div role="status" aria-live="polite" className="flex flex-wrap items-center gap-3 text-[15px]">
+              <span className="rp-loading flex-none" aria-hidden="true" />
+              <span className="min-w-0 flex-1">{alignment.message}</span>
+              <button type="button" className="rp-btn rp-btn--quiet rp-btn--sm" onClick={() => void cancelAlignment()}>Cancel</button>
             </div>
           )}
 
           {alignment.phase === "ready" && (
             <>
               <div>
-                <p className="text-sm font-medium">Record your vocal guide</p>
-                <p role="status" aria-live="polite" className="mt-0.5 text-xs opacity-65">{alignment.message || "The backing track starts with your recording."}</p>
+                <p className="text-[15px] font-bold">Record your vocal guide</p>
+                <p role="status" aria-live="polite" className="rp-hint mt-1">{alignment.message || "The backing track starts with your recording."}</p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <button type="button" className="btn btn-primary btn-sm" onClick={() => void startVocalGuide()}>
-                  Start recording
+                <button type="button" className="rp-btn rp-btn--ink" onClick={() => void startVocalGuide()}>
+                  <LuMic aria-hidden /> Start recording
                 </button>
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => void cancelAlignment()}>
+                <button type="button" className="rp-btn rp-btn--quiet" onClick={() => void cancelAlignment()}>
                   Back to manual sync
                 </button>
               </div>
@@ -312,22 +349,22 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
 
           {alignment.phase === "recording" && (
             <div className="flex flex-wrap items-center gap-3">
-              <span className="flex h-2.5 w-2.5 rounded-full bg-error" aria-hidden="true" />
-              <p role="status" aria-live="polite" className="text-sm">Recording locally. Sing or speak along with the track, then finish the take.</p>
+              <span className="h-2.5 w-2.5 flex-none bg-danger" aria-hidden="true" />
+              <p role="status" aria-live="polite" className="min-w-0 flex-1 basis-56 text-[15px]">Recording locally. Sing or speak along with the track, then finish the take.</p>
               <div className="ml-auto flex gap-2">
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => void cancelAlignment()}>Cancel</button>
-                <button type="button" className="btn btn-primary btn-sm" onClick={() => void finishVocalGuide()}>Finish take</button>
+                <button type="button" className="rp-btn rp-btn--quiet" onClick={() => void cancelAlignment()}>Cancel</button>
+                <button type="button" className="rp-btn rp-btn--ink" onClick={() => void finishVocalGuide()}>Finish take</button>
               </div>
             </div>
           )}
 
           {alignment.phase === "processing" && (
-            <div role="status" aria-live="polite" className="flex items-center gap-3 rounded-md bg-primary/10 px-3 py-3 text-sm">
-              <span className="loading loading-spinner loading-md text-primary" aria-hidden="true" />
+            <div role="status" aria-live="polite" className="rp-notice flex-col">
+              <span className="rp-loading" aria-hidden="true" />
               <div className="min-w-0">
-                <p className="font-medium">Finding timing from your take</p>
-                <p className="mt-0.5 text-xs opacity-70">{alignment.message}</p>
-                <p className="mt-1 text-xs opacity-55">This stays on your device and may take a moment.</p>
+                <p className="font-bold">Finding timing from your take</p>
+                <p className="mt-1 text-[13px] text-ink-2">{alignment.message}</p>
+                <p className="mt-1 text-[13px] text-ink-2">This stays on your device and may take a moment.</p>
               </div>
             </div>
           )}
@@ -335,57 +372,64 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
           {alignment.phase === "review" && alignment.proposal && (
             <>
               <div>
-                <p className="text-sm font-medium">Suggested timing is ready</p>
-                <p role="status" aria-live="polite" className="mt-0.5 text-xs opacity-65">
+                <p className="text-[15px] font-bold">Suggested timing is ready</p>
+                <p role="status" aria-live="polite" className="rp-hint mt-1">
                   {alignment.proposal.lines.length} line{alignment.proposal.lines.length === 1 ? "" : "s"} can be timed from this take.
                   {alignment.proposal.lines.some(line => line.uncertain) ? " Some words need a quick manual check afterward." : ""}
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
-                <button type="button" className="btn btn-primary btn-sm" onClick={() => void applyAlignment()}>Apply suggested timing</button>
-                <button type="button" className="btn btn-outline btn-sm" onClick={retryAlignment}>Record another take</button>
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => void cancelAlignment()}>Keep manual sync</button>
+                <button type="button" className="rp-btn rp-btn--ink" onClick={() => void applyAlignment()}>Apply suggested timing</button>
+                <button type="button" className="rp-btn rp-btn--line" onClick={retryAlignment}>Record another take</button>
+                <button type="button" className="rp-btn rp-btn--quiet" onClick={() => void cancelAlignment()}>Keep manual sync</button>
               </div>
             </>
           )}
 
           {alignment.phase === "fallback" && (
             <>
-              <p role="alert" className="text-sm text-warning">{alignment.message}</p>
-              <button type="button" className="btn btn-ghost btn-sm self-start" onClick={() => void cancelAlignment()}>Use manual sync</button>
+              <div className="rp-notice">
+                <LuTriangleAlert aria-hidden />
+                <p role="alert">{alignment.message}</p>
+              </div>
+              <button type="button" className="rp-btn rp-btn--quiet self-start" onClick={() => void cancelAlignment()}>Use manual sync</button>
             </>
           )}
         </section>
       )}
 
       {syncDoc.warnings.length > 0 && (
-        <div className="flex flex-none flex-col gap-1 rounded-md border border-warning/40 bg-warning/10 px-3 py-2">
-          {syncDoc.warnings.map((w, i) => (
-            <p key={i} className="text-xs text-warning">
-              {w.message}
-            </p>
-          ))}
+        <div className="rp-notice flex-none">
+          <LuTriangleAlert aria-hidden />
+          <div className="flex min-w-0 flex-col gap-1">
+            {syncDoc.warnings.map((w, i) => (
+              <p key={i}>{w.message}</p>
+            ))}
+          </div>
         </div>
       )}
 
       {reviewLines.length > 0 && (
-        <div className="flex flex-none flex-col gap-1.5 rounded-md border border-warning/40 bg-warning/10 px-3 py-2">
-          <p className="text-xs font-medium text-warning">
+        <div className="rp-notice flex-none flex-col">
+          <p className="flex gap-2 font-semibold">
+            <LuTriangleAlert aria-hidden className="mt-0.5 h-[18px] w-[18px] flex-none" />
             {reviewLines.length} old line{reviewLines.length === 1 ? "" : "s"} no longer
             match the lyrics and need review:
           </p>
-          {reviewLines.map((line) => (
-            <div key={line.lineId} className="flex items-center justify-between gap-2">
-              <span className="truncate text-xs opacity-70 line-through">{line.text}</span>
-              <button
-                type="button"
-                className="btn btn-ghost btn-xs flex-none"
-                onClick={() => void discardOrphan(line.lineId)}
-              >
-                Discard
-              </button>
-            </div>
-          ))}
+          <div className="flex w-full flex-col">
+            {reviewLines.map((line) => (
+              <div key={line.lineId} className="flex items-center justify-between gap-2 border-t border-rule">
+                <span className="min-w-0 truncate text-ink-2 line-through">{line.text}</span>
+                <button
+                  type="button"
+                  className="rp-btn rp-btn--quiet rp-btn--sm flex-none"
+                  onClick={() => void discardOrphan(line.lineId)}
+                >
+                  Discard
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
@@ -397,7 +441,8 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
         />
       ) : (
         <>
-          {/* Tap-anywhere marking surface, plus the scrollable line list. */}
+          {/* Tap-anywhere marking surface, plus the scrollable line list:
+              running times in a fixed column, lyric beside it, like a tracklist. */}
           <div
             role="button"
             tabIndex={-1}
@@ -405,8 +450,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
               if (armedLineId) void mark();
               else if (needsFinish) void finish();
             }}
-            className="no-bar flex min-h-0 flex-1 cursor-pointer flex-col gap-1 overflow-y-auto rounded-md
-                       border border-base-300 px-3 py-2"
+            className="no-bar flex min-h-60 flex-1 cursor-pointer flex-col overflow-y-auto border-t-[1.5px] border-ink"
           >
             {syncDoc.lineOrder.map((lineId) => {
               const line = syncDoc.lines[lineId];
@@ -417,8 +461,8 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
                 <div
                   key={lineId}
                   className={[
-                    "flex items-center gap-1 rounded transition",
-                    isArmed ? "bg-primary text-primary-content" : "",
+                    "flex flex-none items-center border-b border-rule transition-colors duration-150 ease-out motion-reduce:transition-none",
+                    isArmed ? "bg-ink text-sleeve" : "",
                   ].join(" ")}
                 >
                   <button
@@ -428,16 +472,28 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
                       resumeFrom(lineId);
                     }}
                     className={[
-                      "flex min-w-0 flex-1 items-center justify-between gap-2 px-2 py-1.5 text-left text-sm",
-                      !isArmed && (isTimed ? "opacity-70 hover:opacity-100" : "opacity-90"),
+                      "flex min-h-12 min-w-0 flex-1 items-center gap-3 py-1.5 pr-2 pl-1 text-left text-[15px]",
+                      isArmed ? "" : "hover:bg-sleeve-2",
                     ].join(" ")}
                   >
+                    <span
+                      className={[
+                        "w-[4.75rem] flex-none text-[13px] leading-tight font-semibold tabular-nums",
+                        isArmed ? "text-sleeve" : line.start !== null ? "text-accent" : "text-ink-2",
+                      ].join(" ")}
+                    >
+                      <span className="block">{formatTimestamp(line.start)}</span>
+                      <span className="sr-only"> to </span>
+                      <span className={`block font-normal ${isArmed ? "text-sleeve" : "text-ink-2"}`}>{formatTimestamp(line.end)}</span>
+                    </span>
                     <span className="min-w-0 flex-1 truncate">
                       {line.text}
-                      {hasWords && <span className="ml-1.5 opacity-60">&bull;</span>}
-                    </span>
-                    <span className="flex-none tabular-nums text-xs opacity-70">
-                      {formatTimestamp(line.start)} - {formatTimestamp(line.end)}
+                      {hasWords && (
+                        <>
+                          <span aria-hidden className={`ml-2 inline-block h-1.5 w-1.5 align-middle ${isArmed ? "bg-sleeve" : "bg-accent"}`} />
+                          <span className="sr-only"> (word timing set)</span>
+                        </>
+                      )}
                     </span>
                   </button>
                   {isTimed && (
@@ -449,8 +505,8 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
                         setWordSyncLineId(lineId);
                       }}
                       className={[
-                        "btn btn-ghost btn-xs flex-none",
-                        isArmed ? "text-primary-content" : "",
+                        "rp-btn rp-btn--sm mr-1 flex-none",
+                        isArmed ? "text-sleeve hover:bg-ink-2" : "text-ink-2 hover:bg-sleeve-2 hover:text-ink",
                       ].join(" ")}
                     >
                       Words
@@ -461,16 +517,17 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
             })}
           </div>
 
-          <div className="flex flex-none items-center justify-center gap-2">
-            <button type="button" className="btn btn-ghost btn-sm" disabled={!canUndo} onClick={() => void undo()}>
-              Undo
+          {/* ---- Transport ---- */}
+          <div className="flex flex-none items-center justify-center gap-1 md:gap-2">
+            <button type="button" className="rp-icon-btn" aria-label="Undo" title="Undo" disabled={!canUndo} onClick={() => void undo()}>
+              <LuUndo2 aria-hidden />
             </button>
-            <button type="button" className="btn btn-outline btn-sm" onClick={replay}>
-              Replay
+            <button type="button" className="rp-icon-btn" aria-label="Replay" title="Replay (R)" onClick={replay}>
+              <LuRotateCcw aria-hidden />
             </button>
             <button
               type="button"
-              className="btn btn-primary btn-lg"
+              className="rp-btn rp-btn--ink h-14 min-w-28"
               disabled={!armedLineId && !needsFinish}
               onClick={() => (armedLineId ? void mark() : void finish())}
             >
@@ -478,14 +535,15 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
             </button>
             <button
               type="button"
-              className="btn btn-outline btn-sm"
+              className="rp-btn rp-btn--line"
               onClick={() => (isRunning ? pause() : start())}
             >
+              {isRunning ? <LuPause aria-hidden /> : <LuPlay aria-hidden />}
               {isRunning ? "Pause" : "Start"}
             </button>
           </div>
 
-          <p className="flex-none text-center text-xs opacity-50">
+          <p className="flex-none text-center text-[13px] text-ink-2 tabular-nums">
             {armedIndex >= 0
               ? `Marking line ${armedIndex + 1} of ${syncDoc.lineOrder.length}`
               : needsFinish
@@ -509,6 +567,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
           title="Remove audio?"
           body="The synced timing stays -- only the audio attachment is removed."
           confirmLabel="Remove"
+          tone="danger"
           onCancel={() => setConfirmingRemoveAudio(false)}
           onConfirm={async () => {
             await removeAudio();
@@ -516,7 +575,7 @@ const SyncPanel = ({ currentUser, noteId, lyrics, title }: SyncPanelProps) => {
           }}
         />
       )}
-      {discardingTiming && <ConfirmDialog title="Discard device timing?" body="This removes the unsaved timing recovery copy from this device and reloads your notebook timing." confirmLabel="Discard device timing" onCancel={() => setDiscardingTiming(false)} onConfirm={async () => { await discardDeviceTiming(); setDiscardingTiming(false); }} />}
+      {discardingTiming && <ConfirmDialog title="Discard device timing?" body="This removes the unsaved timing recovery copy from this device and reloads your notebook timing." confirmLabel="Discard device timing" tone="danger" onCancel={() => setDiscardingTiming(false)} onConfirm={async () => { await discardDeviceTiming(); setDiscardingTiming(false); }} />}
     </div>
   );
 };

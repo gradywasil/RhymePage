@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { LuChevronLeft, LuCircleAlert, LuRotateCcw } from "react-icons/lu";
 import useDashboardLogic from "../hooks/useDashboardLogic";
 import SuggestionPanel, { type SheetState } from "./SuggestionPanel";
 import SyncPanel from "./SyncPanel";
@@ -24,6 +25,8 @@ const MODES: { id: Mode; label: string }[] = [
   { id: "sync", label: "Sync" },
   { id: "play", label: "Play" },
 ];
+
+type SaveMark = { label: string; filled: boolean; tone: "plain" | "danger" | "accent" };
 
 const Dashboard = ({ currentUser }: DashboardProps) => {
   const { existingNoteId } = useParams<{ existingNoteId?: string }>();
@@ -64,146 +67,188 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
     importDeviceDraft,
   } = useDashboardLogic({ currentUser, existingNoteId });
 
+  /*
+   * The full draft message is long and mostly reassurance, so the masthead
+   * shows a mark in a fixed cell instead: hollow while the writing is only on
+   * this device, filled once the notebook holds it. The sentence stays as the
+   * accessible label and surfaces in full only when the writer must act.
+   */
+  const mark: SaveMark = draftState.storageError
+    ? { label: "Device copy failed", filled: false, tone: "danger" }
+    : !draftState.ready ? { label: "Opening…", filled: false, tone: "plain" }
+    : draftState.saving ? { label: "Saving…", filled: false, tone: "plain" }
+    : draftState.recovery ? { label: "Two versions", filled: false, tone: "accent" }
+    : draftState.saveFailed ? { label: "Not saved", filled: false, tone: "danger" }
+    : draftState.cloudExists && !draftState.dirty ? { label: "In notebook", filled: true, tone: "plain" }
+    : { label: "On this device", filled: false, tone: "plain" };
+  const fullMessage = draftState.storageError || draftState.message || "Writing is kept on this device as you type.";
+  const mustAct = !!draftState.storageError || draftState.saveFailed || !draftState.ready && /could not/i.test(draftState.message);
+  const markTone = mark.tone === "danger" ? "text-danger" : mark.tone === "accent" ? "text-accent" : "text-ink-2";
+
   return (
-    <div className="flex h-full min-h-0 w-full flex-col">
-      <div className="flex-none border-b border-base-300 px-3 py-2 text-xs" aria-live="polite">
-        <p role={draftState.storageError ? "alert" : "status"}>{draftState.storageError || draftState.message || "Writing is kept on this device as you type."}</p>
-        {!draftState.ready && <button type="button" className="btn btn-ghost btn-xs" onClick={() => void retryDraft()}>Retry notebook load</button>}
-        {unsignedDraft && !draftState.dirty && !draftState.cloudExists && <button type="button" className="btn btn-ghost btn-xs" onClick={() => setImporting(true)}>Import unsigned draft from this device</button>}
-        {draftState.recovery && draftState.cloud && (
-          <div className="mt-1 flex flex-wrap gap-2">
-            <button type="button" className="btn btn-outline btn-xs" onClick={() => resolveRecovery(true)}>Keep device draft</button>
-            <button type="button" className="btn btn-ghost btn-xs" onClick={() => resolveRecovery(false)}>Use notebook version</button>
-            <details className="w-full"><summary>Compare notebook version</summary><p className="mt-2 font-semibold">{draftState.cloud.title || "Untitled"}</p><pre className="max-h-40 overflow-auto whitespace-pre-wrap font-sans">{draftState.cloud.lyrics}</pre><p>{draftState.cloud.themes}</p></details>
+    <div className="flex h-full min-h-0 w-full flex-col md:flex-row">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col">
+        {/* ---- Masthead: way back, save mark, save ---- */}
+        <div className="flex h-12 flex-none items-center gap-2 px-2 md:h-14 md:px-6">
+          {currentUser ? (
+            <Link to="/notes" className="rp-btn rp-btn--quiet rp-btn--sm -ml-1 gap-1 md:hidden">
+              <LuChevronLeft aria-hidden /> Notebook
+            </Link>
+          ) : (
+            <span className="rp-label px-2">Demo</span>
+          )}
+          <p className={`ml-auto flex items-center gap-2 whitespace-nowrap text-xs font-bold uppercase tracking-[0.08em] ${markTone}`} title={fullMessage}>
+            <span aria-hidden className={`h-[11px] w-[11px] flex-none border-[1.5px] border-current ${mark.filled ? "bg-current" : ""}`} />
+            <span className="sr-only" role={draftState.storageError ? "alert" : "status"}>{fullMessage}</span>
+            <span aria-hidden>{mark.label}</span>
+          </p>
+          {!currentUser ? (
+            <Link to="/login" className="rp-btn rp-btn--line rp-btn--sm">Sign in to save</Link>
+          ) : !draftState.cloudExists && (
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={!draftState.ready || draftState.recovery || draftState.saving}
+              title="Save to your notebook. It autosaves from then on."
+              className="rp-btn rp-btn--ink rp-btn--sm"
+            >
+              {draftState.saving ? "Saving…" : "Save"}
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() => setResetting(true)}
+            disabled={draftState.saving}
+            aria-label="Start a new draft"
+            title="Start a new draft"
+            className="rp-icon-btn"
+          >
+            <LuRotateCcw aria-hidden />
+          </button>
+        </div>
+
+        {/* ---- Things the writer has to decide, only when they exist ---- */}
+        {(mustAct || !draftState.ready || (unsignedDraft && !draftState.dirty && !draftState.cloudExists) || (draftState.recovery && draftState.cloud)) && (
+          <div className="flex-none px-4 pb-3 md:px-6">
+            <div className={`rp-notice flex-col ${mustAct ? "rp-notice--danger" : ""}`}>
+              <p className="flex gap-2">{mustAct && <LuCircleAlert className="mt-0.5 h-[18px] w-[18px] flex-none" aria-hidden />}{fullMessage}</p>
+              <div className="flex flex-wrap gap-2">
+                {!draftState.ready && <button type="button" className="rp-btn rp-btn--line rp-btn--sm" onClick={() => void retryDraft()}>Retry</button>}
+                {unsignedDraft && !draftState.dirty && !draftState.cloudExists && (
+                  <button type="button" className="rp-btn rp-btn--line rp-btn--sm" onClick={() => setImporting(true)}>Import this device's demo draft</button>
+                )}
+                {draftState.recovery && draftState.cloud && (
+                  <>
+                    <button type="button" className="rp-btn rp-btn--ink rp-btn--sm" onClick={() => resolveRecovery(true)}>Keep device draft</button>
+                    <button type="button" className="rp-btn rp-btn--line rp-btn--sm" onClick={() => resolveRecovery(false)}>Use notebook version</button>
+                  </>
+                )}
+              </div>
+              {draftState.recovery && draftState.cloud && (
+                <details className="w-full text-ink">
+                  <summary className="cursor-pointer text-sm font-semibold">Compare the notebook version</summary>
+                  <p className="mt-2 font-bold">{draftState.cloud.title || "Untitled"}</p>
+                  <pre className="mt-1 max-h-40 overflow-auto whitespace-pre-wrap font-sans text-[15px]">{draftState.cloud.lyrics}</pre>
+                  {draftState.cloud.themes && <p className="rp-muted mt-1 text-sm">Themes: {draftState.cloud.themes}</p>}
+                </details>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ---- Track heading: title and credit line ---- */}
+        <header className="flex-none px-4 md:px-6">
+          <input
+            type="text"
+            aria-label="Title"
+            placeholder="Untitled"
+            className="rp-bare rp-title text-[28px] md:text-[34px]"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <div className="mt-1 flex items-baseline gap-2 text-[13px] text-ink-2">
+            {currentUser?.displayName && <span className="flex-none">Words: {currentUser.displayName} ·</span>}
+            <label htmlFor="note-themes" className="flex-none">Themes:</label>
+            <input
+              id="note-themes"
+              type="text"
+              placeholder="add a few to steer suggestions"
+              className="rp-bare min-w-0 flex-1 text-[13px]"
+              value={themes}
+              onChange={(e) => setThemes(e.target.value)}
+            />
+          </div>
+        </header>
+
+        {/* ---- Write / Sync / Play ---- */}
+        <div role="tablist" aria-label="Song view" className="rp-tabs mx-4 mt-3 flex-none md:mx-6">
+          {MODES.map(({ id, label }) => (
+            <button
+              key={id}
+              role="tab"
+              type="button"
+              aria-selected={mode === id}
+              onClick={() => setMode(id)}
+              className="rp-tab"
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {mode === "write" && (
+          <textarea
+            ref={lyricsRef}
+            aria-label="Lyrics"
+            placeholder="Start writing. Finish a word and the suggestions follow."
+            className="rp-bare min-h-0 w-full max-w-[44rem] flex-1 resize-none px-4 py-3 text-lg leading-[1.8] md:px-6 md:py-5 md:text-[19px]"
+            value={lyrics}
+            onChange={(e) => handleLyricsChange(
+              e.currentTarget.value,
+              e.currentTarget.selectionStart,
+              e.nativeEvent instanceof InputEvent && e.nativeEvent.isComposing
+            )}
+            onCompositionEnd={(e) => handleLyricsChange(
+              e.currentTarget.value, e.currentTarget.selectionStart
+            )}
+          />
+        )}
+
+        {mode === "sync" && (
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <SyncPanel currentUser={currentUser} noteId={noteId} lyrics={lyrics} title={title} />
+          </div>
+        )}
+
+        {mode === "play" && (
+          <div className="min-h-0 flex-1 overflow-y-auto">
+            <PlayPanel currentUser={currentUser} noteId={noteId} />
           </div>
         )}
       </div>
-      <div
-        role="tablist"
-        aria-label="Song view"
-        className="flex flex-none items-center gap-1 border-b border-base-300 px-3 md:px-5"
-      >
-        {MODES.map(({ id, label }) => (
-          <button
-            key={id}
-            role="tab"
-            type="button"
-            aria-selected={mode === id}
-            onClick={() => setMode(id)}
-            className={[
-              "-mb-px border-b-2 px-3 py-2 text-sm font-medium transition",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
-              mode === id
-                ? "border-primary text-primary"
-                : "border-transparent opacity-60 hover:opacity-100",
-            ].join(" ")}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
 
+      {/* ---- Suggestions: bottom sheet on a phone, ink column on desktop ---- */}
       {mode === "write" && (
-        <div className="flex min-h-0 flex-1 flex-col md:flex-row">
-          {/* ---- editor column ---- */}
-          <div className="flex min-h-0 flex-1 flex-col">
-            {/* Keep the writing measure readable rather than letting it span a wide monitor. */}
-            <div className="mx-auto flex min-h-0 w-full max-w-3xl flex-1 flex-col">
-            <header className="flex flex-none items-center gap-2 border-b border-base-300 px-3 py-2 md:px-5">
-              <input
-                type="text"
-                aria-label="Title"
-                placeholder="Untitled"
-                className="min-w-0 flex-1 bg-transparent text-lg font-semibold outline-none placeholder:opacity-40"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-              <button
-                type="button"
-                onClick={handleSave}
-                disabled={!currentUser || !draftState.ready || draftState.recovery || draftState.saving}
-                title={
-                  currentUser
-                    ? "Save to your notebook - it autosaves from then on"
-                    : "Log in to save notes"
-                }
-                className="btn btn-primary btn-sm"
-              >
-                {draftState.saving ? "Saving..." : "Save"}
-              </button>
-              <button
-                type="button"
-                onClick={() => setResetting(true)}
-                disabled={draftState.saving}
-                className="btn btn-ghost btn-sm"
-              >
-                Reset
-              </button>
-            </header>
-
-            <div className="flex flex-none items-center gap-2 border-b border-base-300 px-3 py-1.5 md:px-5">
-              <label
-                htmlFor="note-themes"
-                className="flex-none text-[0.68rem] font-medium uppercase tracking-wider opacity-55"
-              >
-                Themes
-              </label>
-              <input
-                id="note-themes"
-                type="text"
-                placeholder="ocean, midnight - steers the suggestions"
-                className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:opacity-40"
-                value={themes}
-                onChange={(e) => setThemes(e.target.value)}
-              />
-            </div>
-
-            <textarea
-              ref={lyricsRef}
-              aria-label="Lyrics"
-              placeholder="Start writing. Finish a word and the suggestions follow."
-              className="min-h-0 w-full flex-1 resize-none bg-transparent px-3 py-3 text-lg
-                         leading-loose outline-none placeholder:opacity-40 md:px-5"
-              value={lyrics}
-              onChange={(e) => handleLyricsChange(
-                e.currentTarget.value,
-                e.currentTarget.selectionStart,
-                e.nativeEvent instanceof InputEvent && e.nativeEvent.isComposing
-              )}
-              onCompositionEnd={(e) => handleLyricsChange(
-                e.currentTarget.value, e.currentTarget.selectionStart
-              )}
-            />
-            </div>
-          </div>
-
-          {/* ---- suggestions: bottom sheet on a phone, right dock on desktop ---- */}
-          <SuggestionPanel
-            error={suggestionError}
-            suggestions={suggestions}
-            settings={settings}
-            lastWord={lastWord}
-            activeCategory={activeCategory}
-            onCategoryChange={setActiveCategory}
-            onSelect={handleLeftClick}
-            onInspect={lookUpWord}
-            definition={definition}
-            definitionWord={definitionWord}
-            definitionState={definitionState}
-            onCloseDefinition={clearDefinition}
-            sheetState={sheetState}
-            onCycleSheet={() => setSheetState((s) => NEXT_SHEET[s])}
-          />
-        </div>
+        <SuggestionPanel
+          error={suggestionError}
+          suggestions={suggestions}
+          settings={settings}
+          lastWord={lastWord}
+          activeCategory={activeCategory}
+          onCategoryChange={setActiveCategory}
+          onSelect={handleLeftClick}
+          onInspect={lookUpWord}
+          definition={definition}
+          definitionWord={definitionWord}
+          definitionState={definitionState}
+          onCloseDefinition={clearDefinition}
+          sheetState={sheetState}
+          onCycleSheet={() => setSheetState((s) => NEXT_SHEET[s])}
+        />
       )}
 
-      {mode === "sync" && (
-        <SyncPanel currentUser={currentUser} noteId={noteId} lyrics={lyrics} title={title} />
-      )}
-
-      {mode === "play" && <PlayPanel currentUser={currentUser} noteId={noteId} />}
       {resetting && <ConfirmDialog title="Start a new draft?" body={existingNoteId ? "Your current writing stays in its device recovery copy. A new draft opens." : "This clears this device draft. Any note already saved to your notebook stays there."} confirmLabel="New draft" onCancel={() => setResetting(false)} onConfirm={() => { handleReset(); setResetting(false); }} />}
-      {importing && unsignedDraft && <ConfirmDialog title="Import this device's unsigned writing?" body="This copies the unsigned demo draft into your editor. Review it before saving it to your account. The unsigned recovery copy is kept." confirmLabel="Import draft" onCancel={() => setImporting(false)} onConfirm={() => { importDeviceDraft(unsignedDraft); setUnsignedDraft(null); setImporting(false); }} />}
+      {importing && unsignedDraft && <ConfirmDialog title="Import this device's demo writing?" body="This copies the demo draft into your editor. Review it before saving it to your account. The demo recovery copy is kept." confirmLabel="Import draft" onCancel={() => setImporting(false)} onConfirm={() => { importDeviceDraft(unsignedDraft); setUnsignedDraft(null); setImporting(false); }} />}
     </div>
   );
 };

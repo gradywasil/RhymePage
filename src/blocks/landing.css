@@ -1,0 +1,13 @@
+/*
+ * Landing demo. The typed line drives these: JS sets opacity directly to how
+ * much of the phrase is still visible while it erases, then eases the words
+ * back in once the next phrase lands. Opacity rather than display, so the
+ * panel never changes height.
+ */
+.text-landing { opacity: 0; }
+
+/* One word per line: these are word lists, not sentences. */
+.landing-sample > span {
+  display: block;
+  line-height: 1.75;
+}

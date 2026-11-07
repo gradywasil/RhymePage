@@ -27,13 +27,13 @@ const Login = ({ setCurrentUser, loggedIn }: LoginProps) => {
   } = useLoginLogic({ setCurrentUser, loggedIn });
 
   return (
-    <div className="mx-auto w-full max-w-sm px-4 py-8 md:py-12">
-      <h1 className="text-2xl font-bold">Welcome back</h1>
-      <p className="mt-1 text-sm opacity-65">
+    <div className="mx-auto w-full max-w-md px-4 pt-8 pb-12 md:px-6 md:pt-16">
+      <h1 className="rp-title text-[34px] md:text-[44px]">Welcome back</h1>
+      <p className="rp-muted mt-3 text-[17px]">
         Sign in to reach your notebook.
       </p>
 
-      <form className="mt-6 flex flex-col gap-3" onSubmit={handleLogin}>
+      <form className="mt-8 flex flex-col gap-5" onSubmit={handleLogin}>
         <Field label="Email" htmlFor="login-email">
           <input
             id="login-email"
@@ -57,11 +57,11 @@ const Login = ({ setCurrentUser, loggedIn }: LoginProps) => {
           />
         </Field>
 
-        <div className="flex items-center justify-between gap-3">
-          <label className="flex cursor-pointer items-center gap-2 text-sm">
+        <div className="flex flex-wrap items-center justify-between gap-x-4">
+          <label className="flex min-h-11 cursor-pointer items-center gap-3 text-[15px]">
             <input
               type="checkbox"
-              className="checkbox checkbox-primary checkbox-sm"
+              className="rp-check"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
             />
@@ -69,7 +69,7 @@ const Login = ({ setCurrentUser, loggedIn }: LoginProps) => {
           </label>
           <button
             type="button"
-            className="text-sm underline underline-offset-2 opacity-70 hover:opacity-100"
+            className="rp-link min-h-11 text-[15px]"
             onClick={handlePasswordReset}
           >
             Forgot password?
@@ -79,31 +79,30 @@ const Login = ({ setCurrentUser, loggedIn }: LoginProps) => {
         {error && <FormMessage tone="error">{error}</FormMessage>}
         {resetNotice && <FormMessage tone="success">{resetNotice}</FormMessage>}
 
-        <button type="submit" className="btn btn-primary mt-1" disabled={loading}>
-          {loading && <span className="loading loading-spinner loading-sm" />}
-          {loading ? "Signing in..." : "Sign in"}
+        <button type="submit" className="rp-btn rp-btn--ink rp-btn--block mt-1" disabled={loading}>
+          {loading ? "Signing in…" : "Sign in"}
         </button>
       </form>
 
-      <div className="divider text-xs opacity-60">or</div>
+      <div className="rp-label my-6 flex items-center gap-3">
+        <span aria-hidden className="h-px flex-1 bg-rule" />
+        or
+        <span aria-hidden className="h-px flex-1 bg-rule" />
+      </div>
 
       <button
         type="button"
-        className="btn btn-outline w-full gap-2"
+        className="rp-btn rp-btn--line rp-btn--block"
         onClick={handleGoogleLogin}
         disabled={googleLoading}
       >
-        {googleLoading ? (
-          <span className="loading loading-spinner loading-sm" />
-        ) : (
-          <FcGoogle size="1.25rem" />
-        )}
-        {googleLoading ? "Signing in..." : "Continue with Google"}
+        {!googleLoading && <FcGoogle aria-hidden />}
+        {googleLoading ? "Signing in…" : "Continue with Google"}
       </button>
 
-      <p className="mt-6 text-center text-sm opacity-70">
+      <p className="rp-muted mt-8 text-center text-[15px]">
         No account yet?{" "}
-        <Link to="/register" className="underline underline-offset-2">
+        <Link to="/register" className="rp-link text-ink">
           Create one
         </Link>
       </p>

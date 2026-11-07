@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { LuX } from "react-icons/lu";
 import { getProfile } from "../utils/profiles";
 import { normalizeTag } from "../utils/notesApi";
 import { Field, FormMessage, fieldInput } from "./FormControls";
@@ -94,45 +95,44 @@ const NoteManageDialog = ({
     <dialog
       ref={dialogRef}
       onClose={onClose}
-      className="m-auto w-[min(30rem,calc(100vw-2rem))] rounded-lg border border-base-300
-                 bg-base-100 p-0 text-base-content backdrop:bg-black/40"
+      aria-labelledby="manage-title"
+      className="rp-dialog sm:!w-[min(32rem,calc(100vw-2rem))]"
     >
-      <div className="flex items-center justify-between gap-3 border-b border-base-300 px-4 py-3">
-        <h2 className="truncate text-base font-semibold">
+      <div className="flex items-center justify-between gap-3 border-b-[1.5px] border-ink py-2 pr-2 pl-5">
+        <h2 id="manage-title" className="rp-title truncate text-xl">
           {note.title || "Untitled"}
         </h2>
         <button
           type="button"
-          className="btn btn-ghost btn-xs"
+          className="rp-icon-btn"
+          aria-label="Close"
           onClick={() => dialogRef.current?.close()}
         >
-          Close
+          <LuX aria-hidden />
         </button>
       </div>
 
-      <div className="flex flex-col gap-5 px-4 py-4">
+      <div className="flex flex-col gap-7 px-5 pt-5 pb-6">
         {/* ---- tags ---- */}
         <section>
-          <h3 className="text-[0.68rem] font-medium uppercase tracking-wider opacity-55">
-            Tags
-          </h3>
+          <h3 className="rp-label">Tags</h3>
           <div className="mt-2 flex flex-wrap gap-1.5">
             {tags.length === 0 && (
-              <p className="text-sm opacity-55">No tags yet.</p>
+              <p className="rp-muted text-sm">No tags yet.</p>
             )}
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="inline-flex items-center gap-1 rounded-full border border-base-300 px-2 py-0.5 text-xs"
+                className="rp-tag gap-1 !pr-0 !text-ink"
               >
                 {tag}
                 <button
                   type="button"
                   aria-label={`Remove tag ${tag}`}
-                  className="opacity-50 hover:opacity-100"
+                  className="flex h-full w-7 items-center justify-center text-ink-2 hover:text-ink"
                   onClick={() => commitTags(tags.filter((t) => t !== tag))}
                 >
-                  &#10005;
+                  <LuX aria-hidden className="h-3.5 w-3.5" />
                 </button>
               </span>
             ))}
@@ -149,12 +149,12 @@ const NoteManageDialog = ({
           />
           {unusedSuggestions.length > 0 && (
             <div className="mt-2 flex flex-wrap items-center gap-1.5">
-              <span className="text-xs opacity-55">Used elsewhere:</span>
+              <span className="rp-muted text-xs">Used elsewhere:</span>
               {unusedSuggestions.slice(0, 8).map((tag) => (
                 <button
                   key={tag}
                   type="button"
-                  className="rounded-full border border-dashed border-base-300 px-2 py-0.5 text-xs opacity-70 hover:opacity-100"
+                  className="rp-tag border-dashed hover:text-ink"
                   onClick={() => addTag(tag)}
                 >
                   {tag}
@@ -166,24 +166,22 @@ const NoteManageDialog = ({
 
         {/* ---- sharing ---- */}
         <section>
-          <h3 className="text-[0.68rem] font-medium uppercase tracking-wider opacity-55">
-            Shared with
-          </h3>
+          <h3 className="rp-label">Shared with</h3>
           <ul className="mt-2 flex flex-col gap-1.5">
             {collaborators.length === 0 && (
-              <li className="text-sm opacity-55">Nobody else yet.</li>
+              <li className="rp-muted text-sm">Nobody else yet.</li>
             )}
             {collaborators.map((person) => (
               <li
                 key={person.uid}
-                className="flex items-center justify-between gap-2 text-sm"
+                className="flex min-h-11 items-center justify-between gap-2 border-b border-rule text-[15px]"
               >
                 <span className="truncate">
                   {person.displayName || "A RhymePage user"}
                 </span>
                 <button
                   type="button"
-                  className="btn btn-ghost btn-xs"
+                  className="rp-btn rp-btn--quiet rp-btn--sm"
                   onClick={() => onRemoveCollaborator(note.id, person.uid)}
                 >
                   Remove
@@ -192,7 +190,7 @@ const NoteManageDialog = ({
             ))}
           </ul>
 
-          <div className="mt-3">
+          <div className="mt-4">
             <Field
               label="Invite by email"
               htmlFor="share-email"
@@ -210,14 +208,14 @@ const NoteManageDialog = ({
                 }}
               />
             </Field>
-            <div className="mt-2 flex items-center gap-3">
+            <div className="mt-3 flex flex-wrap items-center gap-3">
               <button
                 type="button"
-                className="btn btn-primary btn-sm"
+                className="rp-btn rp-btn--ink"
                 disabled={sharing || !email.trim()}
                 onClick={handleShare}
               >
-                {sharing ? "Sharing..." : "Share"}
+                {sharing ? "Sharing…" : "Share"}
               </button>
               {shareResult && (
                 <FormMessage tone={shareResult.ok ? "success" : "error"}>

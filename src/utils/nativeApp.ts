@@ -8,9 +8,12 @@ export function updateSystemBarContrast() {
   canvas.width = canvas.height = 1;
   const context = canvas.getContext("2d");
   if (!context) return;
-  for (const [bar, selector] of [[SystemBarType.StatusBar, ".app-frame"], [SystemBarType.NavigationBar, ".app-footer, .app-frame[data-writing='true']"]] as const) {
-    const surface = document.querySelector(selector);
+  const styled = new Set<SystemBarType>();
+  for (const [bar, selector] of [[SystemBarType.StatusBar, "[data-statusbar-surface]"], [SystemBarType.NavigationBar, ".app-tabbar:not([hidden])"], [SystemBarType.NavigationBar, ".app-frame"]] as const) {
+    if (styled.has(bar)) continue;
+    const surface = document.querySelector(selector) ?? (bar === SystemBarType.StatusBar ? document.querySelector(".app-frame") : null);
     if (!surface) continue;
+    styled.add(bar);
     context.fillStyle = getComputedStyle(surface).backgroundColor;
     context.fillRect(0, 0, 1, 1);
     const [r, g, b] = Array.from(context.getImageData(0, 0, 1, 1).data).slice(0, 3).map(value => {

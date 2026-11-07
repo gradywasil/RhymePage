@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { LuPlus } from "react-icons/lu";
 import useNotesLogic from "../hooks/useNotesLogic";
 import NoteCard from "./NoteCard";
 import NoteManageDialog from "./NoteManageDialog";
@@ -34,7 +36,18 @@ const Notes = ({ currentUser }: NotesProps) => {
   const [managing, setManaging] = useState<Note | null>(null);
   const [pendingDelete, setPendingDelete] = useState<Note | null>(null);
 
-  if (!currentUser) return null;
+  if (!currentUser) {
+    return (
+      <div className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center gap-4 px-6 py-12">
+        <h1 className="rp-title text-[34px]">Your notebook</h1>
+        <p className="rp-muted text-[17px]">Sign in to keep your songs, tag them, and share them with co-writers.</p>
+        <div className="flex flex-wrap gap-2">
+          <Link to="/login" className="rp-btn rp-btn--ink">Sign in</Link>
+          <Link to="/notes/new" className="rp-btn rp-btn--line">Try the editor</Link>
+        </div>
+      </div>
+    );
+  }
 
   const tabs = [
     { id: "mine" as const, label: "My notes", count: ownNotes.length },
@@ -42,15 +55,15 @@ const Notes = ({ currentUser }: NotesProps) => {
   ];
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-4 md:py-8">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold md:text-3xl">Notebook</h1>
-        <button type="button" className="btn btn-primary min-h-12" onClick={createNote}>
-          New note
+    <div className="mx-auto w-full max-w-6xl px-4 pt-5 pb-10 md:px-10 md:pt-10">
+      <div className="flex items-end justify-between gap-3">
+        <h1 className="rp-title text-[34px] md:text-[44px]">Notebook</h1>
+        <button type="button" className="rp-btn rp-btn--ink" onClick={createNote}>
+          <LuPlus aria-hidden /> New note
         </button>
       </div>
 
-      <div role="tablist" className="mt-3 flex gap-1 border-b border-base-300 md:mt-5">
+      <div role="tablist" aria-label="Notebook" className="rp-tabs mt-5">
         {tabs.map(({ id, label, count }) => (
           <button
             key={id}
@@ -61,71 +74,56 @@ const Notes = ({ currentUser }: NotesProps) => {
               setTab(id);
               setTagFilter(null);
             }}
-            className={[
-              "-mb-px flex min-h-12 items-center gap-1.5 border-b-2 px-3 py-2 text-sm font-medium transition",
-              "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
-              tab === id
-                ? "border-primary text-primary"
-                : "border-transparent opacity-60 hover:opacity-100",
-            ].join(" ")}
+            className="rp-tab"
           >
             {label}
-            <span className="text-[0.7rem] tabular-nums opacity-70">{count}</span>
+            <span className="rp-count">{count}</span>
           </button>
         ))}
       </div>
 
-      {allTags.length > 0 && (
-        <div className="mt-4 flex flex-wrap items-center gap-1.5">
-          <span className="text-[0.68rem] font-medium uppercase tracking-wider opacity-55">
-            Tags
-          </span>
-          <button
-            type="button"
-            onClick={() => setTagFilter(null)}
-            className={[
-              "rounded-full border px-2.5 py-0.5 text-xs transition",
-              tagFilter === null
-                ? "border-primary bg-primary text-primary-content"
-                : "border-base-300 opacity-70 hover:opacity-100",
-            ].join(" ")}
-          >
+      {allTags.length > 0 && tab === "mine" && (
+        <div className="no-bar -mx-4 mt-4 flex items-center gap-2 overflow-x-auto px-4" role="group" aria-label="Filter by tag">
+          <button type="button" className="rp-tag" aria-pressed={tagFilter === null} onClick={() => setTagFilter(null)}>
             All
           </button>
           {allTags.map((tag) => (
             <button
               key={tag}
               type="button"
+              className="rp-tag"
+              aria-pressed={tagFilter === tag}
               onClick={() => setTagFilter(tagFilter === tag ? null : tag)}
-              className={[
-                "rounded-full border px-2.5 py-0.5 text-xs transition",
-                tagFilter === tag
-                  ? "border-primary bg-primary text-primary-content"
-                  : "border-base-300 opacity-70 hover:opacity-100",
-              ].join(" ")}
             >
-              {tag}
+              #{tag}
             </button>
           ))}
         </div>
       )}
 
       {loading ? (
-        <Loading />
+        <Loading label="Loading your notebook" />
       ) : visibleNotes.length === 0 ? (
-        <p className="mt-10 text-center text-sm opacity-60">
-          {tab === "shared"
-            ? "Nothing has been shared with you yet."
-            : tagFilter
-              ? `No notes tagged "${tagFilter}".`
-              : "No notes yet. Start one and it'll show up here."}
-        </p>
+        <div className="mt-12 flex max-w-md flex-col gap-4">
+          <p className="text-[17px]">
+            {tab === "shared"
+              ? "Nothing has been shared with you yet. When a co-writer shares a song, it lands here."
+              : tagFilter
+                ? `No notes tagged #${tagFilter}.`
+                : "No songs yet. Your first one starts with a single line."}
+          </p>
+          {tab === "mine" && !tagFilter && (
+            <button type="button" className="rp-btn rp-btn--line self-start" onClick={createNote}>Start a song</button>
+          )}
+        </div>
       ) : (
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {visibleNotes.map((note) => (
+        // A sleeve's tracklist: one column on a phone, two sides on a wide screen.
+        <ol className="mt-4 gap-x-12 border-t-[1.5px] border-ink lg:columns-2">
+          {visibleNotes.map((note, index) => (
             <NoteCard
               key={note.id}
               note={note}
+              number={index + 1}
               owned={tab === "mine"}
               onTogglePin={togglePin}
               onManage={setManaging}
@@ -133,7 +131,7 @@ const Notes = ({ currentUser }: NotesProps) => {
               owner={tab === "shared" ? owners[note.userId] : undefined}
             />
           ))}
-        </div>
+        </ol>
       )}
 
       {managing && (
@@ -150,8 +148,9 @@ const Notes = ({ currentUser }: NotesProps) => {
       {pendingDelete && (
         <ConfirmDialog
           title={`Delete "${pendingDelete.title || "Untitled"}"?`}
-          body="This permanently removes the note, attached audio, and lyric timing. This cannot be undone."
+          body="This permanently removes the note, its attached audio, and its lyric timing. It can't be undone."
           confirmLabel="Delete note"
+          tone="danger"
           onCancel={() => setPendingDelete(null)}
           onConfirm={async () => {
             await deleteNote(pendingDelete.id);

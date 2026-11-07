@@ -1,0 +1,80 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-07T16:09:26.521Z",
+        "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/assigned.html"
+        ],
+        "createdAt": "2026-11-07T16:09:26.738Z",
+        "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-07T16:09:26.982Z",
+        "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/model-pick.html"
+        ],
+        "createdAt": "2026-11-07T16:09:27.206Z",
+        "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-jcard.html"
+        ],
+        "createdAt": "2026-11-07T16:09:27.466Z",
+        "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/challenger-jcard.html"
+        ],
+        "createdAt": "2026-11-07T16:09:27.707Z",
+        "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-07T16:09:27.975Z",
+        "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          ".impeccable/mocks/decision/canon.html"
+        ],
+        "createdAt": "2026-11-07T16:09:28.297Z",
+        "reason": "agent decision: throwaway decision-round sketch drawn as a skeleton by the choice page; not shipping UI"
+      }
+    ]
+  }
+}

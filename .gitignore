@@ -41,3 +41,7 @@ public/transformers-wasm/
 public/sherpa-alignment-prototype/bundle.tar.bz2
 public/sherpa-alignment-prototype/*/sherpa-onnx-wasm-main-asr.data
 public/sherpa-alignment-prototype/*/sherpa-onnx-wasm-main-asr.wasm
+
+# Impeccable design-round scratch (decision sketches, review captures)
+.impeccable/mocks/
+.impeccable/review/

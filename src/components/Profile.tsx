@@ -16,12 +16,11 @@ interface ProfileProps {
   currentUser: AppUser | null;
 }
 
+/** One credit line: the label on the left, the figure on the right, a hairline under it. */
 const Stat = ({ label, value }: { label: string; value: number | string }) => (
-  <div className="flex flex-col items-center rounded-lg border border-base-300 px-4 py-3">
-    <span className="text-xl font-semibold tabular-nums">{value}</span>
-    <span className="text-[0.68rem] uppercase tracking-wider opacity-55">
-      {label}
-    </span>
+  <div className="flex min-h-12 items-baseline justify-between gap-4 border-b border-rule py-3">
+    <dt className="rp-label">{label}</dt>
+    <dd className="text-[20px] font-bold tabular-nums">{value}</dd>
   </div>
 );
 
@@ -135,9 +134,9 @@ const Profile = ({ currentUser }: ProfileProps) => {
 
   if (missing || !profile) {
     return (
-      <div className="mx-auto w-full max-w-lg px-4 py-12 text-center">
-        <h1 className="text-xl font-semibold">No such profile</h1>
-        <p className="mt-2 text-sm opacity-65">
+      <div className="mx-auto w-full max-w-3xl px-4 pt-5 pb-10 md:px-10 md:pt-10">
+        <h1 className="rp-title text-[34px] md:text-[44px]">No such profile</h1>
+        <p className="rp-muted mt-3 text-[17px]">
           That account does not exist, or has been deleted.
         </p>
       </div>
@@ -145,9 +144,9 @@ const Profile = ({ currentUser }: ProfileProps) => {
   }
 
   return (
-    <div className="mx-auto w-full max-w-lg px-4 py-8 md:py-12">
-      <div className="flex flex-col items-center text-center">
-        <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-base-300">
+    <div className="mx-auto w-full max-w-3xl px-4 pt-5 pb-10 md:px-10 md:pt-10">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
+        <div className="flex h-24 w-24 flex-none items-center justify-center overflow-hidden bg-sleeve-2 md:h-28 md:w-28">
           {profile.photoURL ? (
             <img
               src={profile.photoURL}
@@ -155,23 +154,25 @@ const Profile = ({ currentUser }: ProfileProps) => {
               className="h-full w-full object-cover"
             />
           ) : (
-            <span className="text-2xl font-bold opacity-70">
+            <span className="rp-title text-[30px] text-ink-2">
               {initials(profile.displayName)}
             </span>
           )}
         </div>
 
-        <h1 className="mt-3 text-xl font-bold">
-          {profile.displayName || "A RhymePage user"}
-        </h1>
-        {isSelf && currentUser.email && (
-          <p className="mt-0.5 text-sm opacity-60">{currentUser.email}</p>
-        )}
+        <div className="min-w-0 flex-1">
+          <h1 className="rp-title text-[34px] break-words md:text-[44px]">
+            {profile.displayName || "A RhymePage user"}
+          </h1>
+          {isSelf && currentUser.email && (
+            <p className="rp-muted mt-2 truncate text-[15px]">{currentUser.email}</p>
+          )}
+        </div>
 
         {isSelf ? (
           <button
             type="button"
-            className="btn btn-outline btn-sm mt-4"
+            className="rp-btn rp-btn--line self-start sm:self-end"
             onClick={() => navigate("/settings")}
           >
             Edit profile
@@ -179,7 +180,7 @@ const Profile = ({ currentUser }: ProfileProps) => {
         ) : (
           <button
             type="button"
-            className={`btn btn-sm mt-4 ${following ? "btn-outline" : "btn-primary"}`}
+            className={`rp-btn self-start sm:self-end ${following ? "rp-btn--line" : "rp-btn--ink"}`}
             disabled={busy}
             onClick={toggleFollow}
           >
@@ -188,14 +189,14 @@ const Profile = ({ currentUser }: ProfileProps) => {
         )}
       </div>
 
-      <div className="mt-8 grid grid-cols-3 gap-2">
+      <dl className="mt-8 border-t-[1.5px] border-ink">
         <Stat label="Followers" value={counts.followers} />
         <Stat label="Following" value={counts.following} />
         <Stat label="Notes" value={noteCount ?? "-"} />
-      </div>
+      </dl>
 
       {!isSelf && (
-        <p className="mt-4 text-center text-xs opacity-55">
+        <p className="rp-muted mt-4 text-[13px]">
           Note counts stay private unless a note is shared with you.
         </p>
       )}
