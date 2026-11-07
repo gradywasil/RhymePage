@@ -73,7 +73,8 @@
     overflow: visible;
     mask-image: none;
   }
-  .suggest .rp-tab { min-height: 34px; font-size: 12px; }
+  /* Sized to the label, not the cell, so the accent underline matches the phone's. */
+  .suggest .rp-tab { min-height: 34px; font-size: 12px; justify-self: start; }
 }
 
 /* The headword lifts into place as each new word is finished. */

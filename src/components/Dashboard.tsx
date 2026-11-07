@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { LuChevronLeft, LuCircleAlert, LuRotateCcw } from "react-icons/lu";
 import useDashboardLogic from "../hooks/useDashboardLogic";
 import SuggestionPanel, { type SheetState } from "./SuggestionPanel";
@@ -8,6 +8,7 @@ import PlayPanel from "./PlayPanel";
 import type { AppUser } from "../types/user";
 import ConfirmDialog from "./ConfirmDialog";
 import { unsignedDeviceDraft } from "../utils/noteDraft";
+import { trackNumberFor } from "../utils/trackNumbers";
 
 interface DashboardProps {
   currentUser: AppUser | null;
@@ -30,10 +31,6 @@ type SaveMark = { label: string; filled: boolean; tone: "plain" | "danger" | "ac
 
 const Dashboard = ({ currentUser }: DashboardProps) => {
   const { existingNoteId } = useParams<{ existingNoteId?: string }>();
-  // The notebook passes the track's position when a note is opened from it;
-  // a new or guest draft has no place on the tracklist yet.
-  const track = (useLocation().state as { track?: number } | null)?.track;
-  const trackLabel = track ? String(track).padStart(2, "0") : "—";
   const [sheetState, setSheetState] = useState<SheetState>("half");
   // Local UI state, not a route param: switching modes shouldn't remount the
   // page or interrupt audio playback / scroll position.
@@ -70,6 +67,10 @@ const Dashboard = ({ currentUser }: DashboardProps) => {
     resolveRecovery,
     importDeviceDraft,
   } = useDashboardLogic({ currentUser, existingNoteId });
+
+  // The song's place in the writer's notebook, which stays with the song.
+  const track = trackNumberFor(currentUser?.uid ?? null, noteId || existingNoteId);
+  const trackLabel = track ? String(track).padStart(2, "0") : "—";
 
   /*
    * The full draft message is long and mostly reassurance, so the masthead

@@ -6,7 +6,7 @@ import type { PublicProfile } from "../types/profile";
 
 interface NoteCardProps {
   note: Note;
-  /** Position in the visible tracklist, 1-based. */
+  /** The song's track number: its place in creation order, 1-based. */
   number: number;
   /** Shared notes are read-mostly: no pin, share or delete for a collaborator. */
   owned: boolean;
@@ -51,7 +51,6 @@ const NoteCard = ({ note, number, owned, onTogglePin, onManage, onDelete, owner 
     <li className="group relative flex min-h-[76px] items-start gap-4 border-b border-rule py-3 pr-1 break-inside-avoid">
       <Link
         to={`/notes/${note.id}`}
-        state={{ track: number }}
         aria-label={`Open ${title}`}
         className="absolute inset-0 transition-colors hover:bg-sleeve-2/60"
       />
