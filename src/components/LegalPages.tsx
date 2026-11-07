@@ -15,7 +15,7 @@ export default function LegalPages({ page, signedIn }: { page: "privacy" | "dele
           <li>Open Settings, then Account, then Delete account.</li>
           <li>Enter the confirmation phrase and confirm your password or the same Google account.</li>
         </ol>
-        <Link className="rp-btn rp-btn--danger" to={signedIn ? "/settings?section=account" : "/login"}>{signedIn ? "Open account deletion" : "Sign in to request deletion"}</Link>
+        <Link className="rp-btn rp-btn--danger" to={signedIn ? "/settings/account" : "/login"}>{signedIn ? "Open account deletion" : "Sign in to request deletion"}</Link>
         <p>Deletion removes your owned notes, attached audio, lyric timing, private account data, profile, email lookup entries, and follow relationships. Your access to notes owned by other people is removed. Those other people's notes and their collaborative content remain with their owners; references to your account in their timing metadata are anonymized.</p>
         <p>Confirmation starts irreversible deletion. If an in-app request reports an error, keep signed in and retry, or contact us for help completing it. Limited security and deletion-processing records may remain after content deletion.</p>
         <p>Account-scoped recovery drafts and playback positions on the device where you delete the account are cleared. Recovery copies on another browser or device remain local to that device until its app storage or site data is cleared. Exports and files you saved outside RhymePage are under your control.</p>

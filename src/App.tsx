@@ -43,6 +43,7 @@ function App() {
         <Route path="/login" element={<Login setCurrentUser={setCurrentUser} loggedIn={loggedIn} />} />
         <Route path="/register" element={<Register setCurrentUser={setCurrentUser} loggedIn={loggedIn} />} />
         <Route path="/settings" element={<Settings currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={handleLogout} />} />
+        <Route path="/settings/:section" element={<Settings currentUser={currentUser} setCurrentUser={setCurrentUser} onLogout={handleLogout} />} />
         <Route path="/notes" element={<Notes currentUser={currentUser} />} />
         <Route
           path="/notes/new"

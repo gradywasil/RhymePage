@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import type { IconType } from "react-icons";
+import { Link, Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { LuCheck, LuChevronDown, LuChevronRight, LuLogOut } from "react-icons/lu";
+import { LuCheck, LuChevronDown, LuChevronLeft, LuChevronRight, LuInfo, LuLogOut, LuPalette, LuSparkles, LuUserRound } from "react-icons/lu";
 import {
   DEFAULT_RHYME_SETTINGS,
   coerceSettings,
@@ -20,8 +21,6 @@ interface SettingsProps {
   onLogout: () => void;
 }
 
-/** Sections a link can jump to with ?section=… (the deletion page links to "account"). */
-const SECTION_IDS = ["profile", "appearance", "suggestions", "account", "about"] as const;
 
 function initials(name: string | null | undefined): string {
   const parts = (name ?? "").match(/\b\w/g) ?? [];
@@ -199,36 +198,50 @@ const ThemePicker = () => {
 
 /* ---------- Page ---------- */
 
-/** A top-level group of settings: its own heading, then one or more cards. */
-const Group = ({ id, title, blurb, children }: { id: string; title: string; blurb: string; children: ReactNode }) => (
-  <section id={`settings-group-${id}`} aria-labelledby={`settings-group-${id}-title`} className="mt-10 scroll-mt-4 first-of-type:mt-6">
-    <h2 id={`settings-group-${id}-title`} className="rp-title text-[26px] md:text-[30px]">{title}</h2>
-    <p className="rp-muted mt-1 text-[15px]">{blurb}</p>
-    <div className="mt-4 flex flex-col gap-4">{children}</div>
-  </section>
-);
+type CategoryId = "engine" | "account" | "appearance" | "about";
 
-const Section = ({ id, title, children }: { id: (typeof SECTION_IDS)[number]; title: string; children: ReactNode }) => (
-  <section id={`settings-${id}`} aria-labelledby={`settings-${id}-title`} className="rp-card scroll-mt-4 p-5 md:p-6">
-    <h3 id={`settings-${id}-title`} className="text-lg font-bold">{title}</h3>
-    <div className="mt-3">{children}</div>
-  </section>
-);
+interface Category {
+  id: CategoryId;
+  label: string;
+  blurb: string;
+  icon: IconType;
+  /** Suggestion-category colour for the row's icon tile. */
+  colour: string;
+}
 
-const GROUPS = [
-  { id: "engine", label: "Rhyme engine" },
-  { id: "profile", label: "Profile & account" },
-  { id: "app", label: "App" },
-] as const;
+const CATEGORIES: Category[] = [
+  { id: "engine", label: "Rhyme engine", blurb: "Categories, theme matching, results", icon: LuSparkles, colour: "rhyme" },
+  { id: "account", label: "Account", blurb: "Name, email, password, deletion", icon: LuUserRound, colour: "noun" },
+  { id: "appearance", label: "Appearance", blurb: "Theme for this device", icon: LuPalette, colour: "antonym" },
+  { id: "about", label: "About", blurb: "Privacy and your data", icon: LuInfo, colour: "synonym" },
+];
 
+/** ?section= links from the single-page settings, mapped to their category. */
+const LEGACY_SECTIONS: Record<string, CategoryId> = {
+  suggestions: "engine",
+  profile: "account",
+  account: "account",
+  appearance: "appearance",
+  about: "about",
+};
+
+/**
+ * Settings opens on a short index of categories; each one opens on its own.
+ * On a phone the index and a category are separate screens (with a back
+ * link); from md up the index stays on the left and the category on the right.
+ */
 const Settings = ({ currentUser, setCurrentUser, onLogout }: SettingsProps) => {
+  const { section } = useParams<{ section?: string }>();
+  const { search } = useLocation();
+  const active = CATEGORIES.find((category) => category.id === section);
+  // Desktop always shows a category; a phone shows the index until one is picked.
+  const shown = active ?? CATEGORIES[0];
   const [settings, setSettings] = useState<RhymeSettings>(DEFAULT_RHYME_SETTINGS);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">(
     "idle"
   );
   const navigate = useNavigate();
   const db = getFirestore();
-  const signedIn = Boolean(currentUser);
 
   useEffect(() => {
     if (!currentUser) {
@@ -249,14 +262,6 @@ const Settings = ({ currentUser, setCurrentUser, onLogout }: SettingsProps) => {
       cancelled = true;
     };
   }, [currentUser, db, navigate]);
-
-  // Everything is on one page now; ?section=account scrolls to that section.
-  useEffect(() => {
-    if (!signedIn) return;
-    const section = new URLSearchParams(window.location.search).get("section");
-    if (!section || !(SECTION_IDS as readonly string[]).includes(section)) return;
-    document.getElementById(`settings-${section}`)?.scrollIntoView({ block: "start" });
-  }, [signedIn]);
 
   const toggle = (key: RelationKey) => {
     setStatus("idle");
@@ -293,78 +298,118 @@ const Settings = ({ currentUser, setCurrentUser, onLogout }: SettingsProps) => {
 
   if (!currentUser) return null;
 
+  const legacy = new URLSearchParams(search).get("section");
+  if (!section && legacy && LEGACY_SECTIONS[legacy]) {
+    return <Navigate to={`/settings/${LEGACY_SECTIONS[legacy]}`} replace />;
+  }
+  if (section && !active) return <Navigate to="/settings" replace />;
+
+  const content: Record<CategoryId, ReactNode> = {
+    engine: (
+      <SettingsDashboard
+        settings={settings}
+        onToggle={toggle}
+        onEngineChange={setEngine}
+        onMaxChange={setMax}
+        onSave={handleSave}
+        status={status}
+      />
+    ),
+    account: <SettingsProfile currentUser={currentUser} setCurrentUser={setCurrentUser} />,
+    appearance: (
+      <>
+        <p className="rp-muted mb-4 text-[15px] leading-relaxed">
+          Choose how RhymePage looks on this device. Changes apply right away.
+        </p>
+        <ThemePicker />
+      </>
+    ),
+    about: (
+      <ul className="flex flex-col text-[15px]">
+        <li className="flex min-h-11 items-center">
+          <Link to="/privacy" className="rp-link">Privacy policy</Link>
+        </li>
+        <li className="flex min-h-11 items-center">
+          <Link to="/delete-account" className="rp-link">How account deletion works</Link>
+        </li>
+      </ul>
+    ),
+  };
+
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 pt-5 pb-10 md:px-10 md:pt-10">
-      <h1 className="rp-title text-[34px] md:text-[44px]">Settings</h1>
-      <nav aria-label="Settings sections" className="no-bar -mx-4 mt-4 flex gap-2 overflow-x-auto px-4">
-        {GROUPS.map(({ id, label }) => (
-          <a key={id} href={`#settings-group-${id}`} className="rp-tag !h-9 flex-none !px-4 !text-[14px] hover:text-ink">{label}</a>
-        ))}
-      </nav>
+    <div className="mx-auto flex w-full max-w-5xl gap-8 px-4 pt-5 pb-10 md:px-10 md:pt-10">
+      {/* ---- Index ---- */}
+      <div className={`w-full md:w-80 md:flex-none ${active ? "hidden md:block" : ""}`}>
+        <h1 className="rp-title text-[34px] md:text-[40px]">Settings</h1>
 
-      <Group id="engine" title="Rhyme engine" blurb="What the suggestion sheet looks up when you finish a word.">
-        <Section id="suggestions" title="Suggestions">
-            <SettingsDashboard
-              settings={settings}
-              onToggle={toggle}
-              onEngineChange={setEngine}
-              onMaxChange={setMax}
-              onSave={handleSave}
-              status={status}
-            />
-        </Section>
-      </Group>
+        <Link
+          to="/profile"
+          className="rp-card group mt-5 flex min-h-[76px] items-center gap-4 px-4 py-3 transition-shadow hover:shadow-[0_10px_28px_rgb(var(--shadow)/0.14)]"
+        >
+          <span className="flex h-12 w-12 flex-none items-center justify-center overflow-hidden rounded-full bg-accent text-[15px] font-bold text-on-accent">
+            {currentUser.photoURL ? (
+              <img src={currentUser.photoURL} alt="" className="h-full w-full object-cover" />
+            ) : (
+              initials(currentUser.displayName)
+            )}
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-[17px] font-bold">{currentUser.displayName || "Your profile"}</span>
+            <span className="rp-muted block truncate text-[14px]">View your profile</span>
+          </span>
+          <LuChevronRight aria-hidden className="h-5 w-5 flex-none text-ink-2 group-hover:text-ink" />
+        </Link>
 
-      <Group id="profile" title="Profile & account" blurb="Who you are on RhymePage and how you sign in.">
-        <Section id="profile" title="Your profile">
-          <Link
-            to="/profile"
-            className="group -mx-2 flex min-h-16 items-center gap-4 rounded-2xl px-2 py-2 transition-colors hover:bg-sleeve-2"
-          >
-            <span className="flex h-12 w-12 flex-none items-center justify-center overflow-hidden rounded-full bg-accent text-[15px] font-bold text-on-accent">
-              {currentUser.photoURL ? (
-                <img src={currentUser.photoURL} alt="" className="h-full w-full object-cover" />
-              ) : (
-                initials(currentUser.displayName)
-              )}
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block truncate text-[17px] font-semibold">
-                {currentUser.displayName || "Your profile"}
-              </span>
-              {currentUser.email && (
-                <span className="rp-muted block truncate text-[15px]">{currentUser.email}</span>
-              )}
-            </span>
-            <span className="rp-label hidden sm:inline">View profile</span>
-            <LuChevronRight aria-hidden className="h-5 w-5 flex-none text-ink-2 group-hover:text-ink" />
-          </Link>
-        </Section>
-
-        <Section id="account" title="Account">
-          <SettingsProfile currentUser={currentUser} setCurrentUser={setCurrentUser} />
-        </Section>
-      </Group>
-
-      <Group id="app" title="App" blurb="How RhymePage looks on this device, and the fine print.">
-        <Section id="appearance" title="Theme">
-          <ThemePicker />
-        </Section>
-
-        <Section id="about" title="About">
-          <ul className="flex flex-col text-[15px]">
-            <li className="flex min-h-11 items-center">
-              <Link to="/privacy" className="rp-link">Privacy policy</Link>
-            </li>
-            <li className="flex min-h-11 items-center">
-              <Link to="/delete-account" className="rp-link">Delete account</Link>
-            </li>
+        <nav aria-label="Settings categories" className="rp-card mt-4 overflow-hidden p-1.5">
+          <ul className="flex flex-col">
+            {CATEGORIES.map((category) => {
+              const Icon = category.icon;
+              const current = category.id === shown.id;
+              return (
+                <li key={category.id}>
+                  <Link
+                    to={`/settings/${category.id}`}
+                    aria-current={active?.id === category.id ? "page" : undefined}
+                    className={[
+                      "group flex min-h-16 items-center gap-3 rounded-2xl px-2.5 py-2 transition-colors hover:bg-sleeve-2",
+                      current ? "md:bg-sleeve-2" : "",
+                    ].join(" ")}
+                  >
+                    <span
+                      aria-hidden
+                      className="flex h-10 w-10 flex-none items-center justify-center rounded-xl text-white"
+                      style={{ background: `var(--cat-${category.colour})` }}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-[16px] font-bold">{category.label}</span>
+                      <span className="rp-muted block truncate text-[13px]">{category.blurb}</span>
+                    </span>
+                    <LuChevronRight aria-hidden className="h-5 w-5 flex-none text-ink-2 group-hover:text-ink md:hidden" />
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-          <button type="button" className="rp-btn rp-btn--line mt-6" onClick={onLogout}>
-            <LuLogOut aria-hidden /> Sign out
-          </button>
-        </Section>
-      </Group>
+        </nav>
+
+        <button type="button" className="rp-btn rp-btn--line mt-4 w-full" onClick={onLogout}>
+          <LuLogOut aria-hidden /> Sign out
+        </button>
+      </div>
+
+      {/* ---- The open category ---- */}
+      <section
+        aria-labelledby="settings-category-title"
+        className={`min-w-0 flex-1 ${active ? "" : "hidden md:block"}`}
+      >
+        <Link to="/settings" className="-ml-2 inline-flex min-h-11 items-center gap-1 rounded-full px-2 text-[15px] font-semibold text-ink-2 hover:text-ink md:hidden">
+          <LuChevronLeft aria-hidden className="h-5 w-5" /> Settings
+        </Link>
+        <h2 id="settings-category-title" className="rp-title mt-1 text-[30px] md:mt-[5px] md:text-[40px]">{shown.label}</h2>
+        <div className="rp-card mt-5 p-5 md:p-6">{content[shown.id]}</div>
+      </section>
     </div>
   );
 };
