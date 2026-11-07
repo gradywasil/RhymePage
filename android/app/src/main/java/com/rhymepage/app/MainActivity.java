@@ -25,7 +25,8 @@ public class MainActivity extends BridgeActivity {
             view.setPadding(0, 0, 0, keyboard ? insets.getInsets(WindowInsetsCompat.Type.ime()).bottom : 0);
             float density = getResources().getDisplayMetrics().density;
             bridge.getWebView().evaluateJavascript(String.format(Locale.US,
-                "document.documentElement.style.cssText += '--safe-area-inset-top:%.2fpx;--safe-area-inset-right:%.2fpx;--safe-area-inset-bottom:%.2fpx;--safe-area-inset-left:%.2fpx;'",
+                // Insets can arrive before the page exists; onPageCommitVisible re-applies them.
+                "document.documentElement && (document.documentElement.style.cssText += '--safe-area-inset-top:%.2fpx;--safe-area-inset-right:%.2fpx;--safe-area-inset-bottom:%.2fpx;--safe-area-inset-left:%.2fpx;')",
                 bars.top / density, bars.right / density, keyboard ? 0f : bars.bottom / density, bars.left / density), null);
             return new WindowInsetsCompat.Builder(insets).setInsets(barsType, Insets.NONE).build();
         });
