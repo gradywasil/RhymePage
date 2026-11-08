@@ -13,7 +13,8 @@ import {
 } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { auth } from "../firebase";
-import { androidAuthError, signInWithGoogle } from "../utils/googleAuth";
+import { nativeAuthError, signInWithGoogle } from "../utils/googleAuth";
+import { signInWithApple } from "../utils/appleAuth";
 import { publishProfile } from "../utils/profiles";
 import { toAppUser, type AppUser } from "../types/user";
 
@@ -23,8 +24,8 @@ interface RegisterProps {
 }
 
 function readableError(error: unknown): string {
-  const androidError = androidAuthError(error);
-  if (androidError) return androidError;
+  const nativeError = nativeAuthError(error);
+  if (nativeError) return nativeError;
   const code =
     typeof error === "object" && error !== null && "code" in error
       ? String((error as { code: unknown }).code)
@@ -48,6 +49,7 @@ const useRegisterLogic = ({ setCurrentUser, loggedIn }: RegisterProps) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [googleLoading, setGoogleLoading] = useState<boolean>(false);
+  const [appleLoading, setAppleLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
@@ -115,6 +117,19 @@ const useRegisterLogic = ({ setCurrentUser, loggedIn }: RegisterProps) => {
     }
   };
 
+  const handleAppleRegister = async () => {
+    setError("");
+    setAppleLoading(true);
+    try {
+      await signInWithApple();
+      await finishSignUp();
+    } catch (err) {
+      setError(readableError(err));
+    } finally {
+      setAppleLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (loggedIn) navigate("/");
   }, [loggedIn, navigate]);
@@ -128,9 +143,11 @@ const useRegisterLogic = ({ setCurrentUser, loggedIn }: RegisterProps) => {
     setPassword,
     loading,
     googleLoading,
+    appleLoading,
     error,
     handleRegister,
     handleGoogleRegister,
+    handleAppleRegister,
   };
 };
 

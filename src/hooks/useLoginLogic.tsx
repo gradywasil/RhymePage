@@ -10,7 +10,8 @@ import {
 } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { auth } from "../firebase";
-import { androidAuthError, signInWithGoogle } from "../utils/googleAuth";
+import { nativeAuthError, signInWithGoogle } from "../utils/googleAuth";
+import { signInWithApple } from "../utils/appleAuth";
 import { isNativeApp } from "../utils/nativeApp";
 import { publishProfile } from "../utils/profiles";
 import { toAppUser, type AppUser } from "../types/user";
@@ -22,8 +23,8 @@ interface LoginProps {
 }
 
 function readableError(error: unknown): string {
-  const androidError = androidAuthError(error);
-  if (androidError) return androidError;
+  const nativeError = nativeAuthError(error);
+  if (nativeError) return nativeError;
   const code =
     typeof error === "object" && error !== null && "code" in error
       ? String((error as { code: unknown }).code)
@@ -49,6 +50,7 @@ const useLoginLogic = ({ setCurrentUser, loggedIn }: LoginProps) => {
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(true);
   const [googleLoading, setGoogleLoading] = useState<boolean>(false);
+  const [appleLoading, setAppleLoading] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [resetNotice, setResetNotice] = useState<string>("");
@@ -118,6 +120,21 @@ const useLoginLogic = ({ setCurrentUser, loggedIn }: LoginProps) => {
     }
   };
 
+  const handleAppleLogin = async () => {
+    setError("");
+    setResetNotice("");
+    setAppleLoading(true);
+    try {
+      await applyPersistence();
+      const { user } = await signInWithApple();
+      await finishSignIn(user);
+    } catch (err) {
+      setError(readableError(err));
+    } finally {
+      setAppleLoading(false);
+    }
+  };
+
   /**
    * Always reports success, even for an address with no account: telling a
    * stranger which emails are registered is a free user-enumeration oracle.
@@ -150,11 +167,13 @@ const useLoginLogic = ({ setCurrentUser, loggedIn }: LoginProps) => {
     rememberMe,
     setRememberMe,
     googleLoading,
+    appleLoading,
     loading,
     error,
     resetNotice,
     handleLogin,
     handleGoogleLogin,
+    handleAppleLogin,
     handlePasswordReset,
   };
 };

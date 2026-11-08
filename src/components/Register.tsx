@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { FaApple } from "react-icons/fa";
+import { appleSignInAvailable } from "../utils/appleAuth";
 import useRegisterLogic from "../hooks/useRegisterLogic";
 import { Field, FormMessage, fieldInput } from "./FormControls";
 import type { AppUser } from "../types/user";
@@ -19,9 +21,11 @@ const Register = ({ setCurrentUser, loggedIn }: RegisterProps) => {
     setPassword,
     loading,
     googleLoading,
+    appleLoading,
     error,
     handleRegister,
     handleGoogleRegister,
+    handleAppleRegister,
   } = useRegisterLogic({ setCurrentUser, loggedIn });
 
   return (
@@ -88,11 +92,23 @@ const Register = ({ setCurrentUser, loggedIn }: RegisterProps) => {
         <span aria-hidden className="h-px flex-1 bg-rule" />
       </div>
 
+      {appleSignInAvailable() && (
+        <button
+          type="button"
+          className="rp-btn rp-btn--ink rp-btn--block mb-3"
+          onClick={handleAppleRegister}
+          disabled={appleLoading || googleLoading}
+        >
+          {!appleLoading && <FaApple aria-hidden />}
+          {appleLoading ? "Creating…" : "Continue with Apple"}
+        </button>
+      )}
+
       <button
         type="button"
         className="rp-btn rp-btn--line rp-btn--block"
         onClick={handleGoogleRegister}
-        disabled={googleLoading}
+        disabled={googleLoading || appleLoading}
       >
         {!googleLoading && <FcGoogle aria-hidden />}
         {googleLoading ? "Creating…" : "Continue with Google"}

@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import {
   EmailAuthProvider,
+  revokeAccessToken,
   signOut,
   reauthenticateWithCredential,
   updatePassword,
@@ -10,7 +11,8 @@ import {
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { auth, functions } from "../firebase";
 import { httpsCallable } from "firebase/functions";
-import { androidAuthError, reauthenticateWithGoogle } from "../utils/googleAuth";
+import { nativeAuthError, reauthenticateWithGoogle } from "../utils/googleAuth";
+import { reauthenticateWithApple } from "../utils/appleAuth";
 import { publishProfile } from "../utils/profiles";
 import { clearAccountDrafts } from "../utils/noteDraft";
 import { getRecoveryStorage } from "../utils/recoveryStorage";
@@ -27,8 +29,8 @@ const IDLE: ActionState = { status: "idle" };
 
 /** Firebase error codes surfaced as something a person can act on. */
 function readableError(error: unknown): string {
-  const androidError = androidAuthError(error);
-  if (androidError) return androidError;
+  const nativeError = nativeAuthError(error);
+  if (nativeError) return nativeError;
   const code =
     typeof error === "object" && error !== null && "code" in error
       ? String((error as { code: unknown }).code)
@@ -62,7 +64,13 @@ function readableError(error: unknown): string {
   }
 }
 
-/** True when the account signs in with a password rather than only Google. */
+/** The provider that confirms identity for accounts with no password: Google unless only Apple is linked. */
+export function socialProvider(): "Google" | "Apple" {
+  const ids = auth.currentUser?.providerData.map((p) => p.providerId) ?? [];
+  return ids.includes("apple.com") && !ids.includes("google.com") ? "Apple" : "Google";
+}
+
+/** True when the account signs in with a password rather than only Google or Apple. */
 export function usesPassword(): boolean {
   return (
     auth.currentUser?.providerData.some(
@@ -90,9 +98,10 @@ const useAccountLogic = ({ setCurrentUser }: UseAccountLogicArgs) => {
 
   /**
    * Firebase refuses sensitive changes on a stale session. Prove who you are
-   * with a password, or a Google popup for accounts that have no password.
+   * with a password, or the Google or Apple sign-in for accounts that have none.
+   * Returns Apple's authorization code when that is how the account signed in.
    */
-  const reauthenticate = useCallback(async (currentPassword: string) => {
+  const reauthenticate = useCallback(async (currentPassword: string): Promise<string | undefined> => {
     const user = auth.currentUser;
     if (!user) throw new Error("Not signed in");
 
@@ -102,6 +111,8 @@ const useAccountLogic = ({ setCurrentUser }: UseAccountLogicArgs) => {
         user,
         EmailAuthProvider.credential(user.email, currentPassword)
       );
+    } else if (socialProvider() === "Apple") {
+      return reauthenticateWithApple(user);
     } else {
       await reauthenticateWithGoogle(user);
     }
@@ -190,7 +201,9 @@ const useAccountLogic = ({ setCurrentUser }: UseAccountLogicArgs) => {
 
       setDeleteState({ status: "working" });
       try {
-        await reauthenticate(currentPassword);
+        const appleCode = await reauthenticate(currentPassword);
+        // Apple requires the Sign in with Apple grant to be revoked when the account is deleted.
+        if (appleCode) await revokeAccessToken(auth, appleCode);
         await httpsCallable(functions, "deleteAccount")();
         const recovery = getRecoveryStorage();
         clearAccountDrafts(recovery, user.uid);

@@ -32,6 +32,8 @@ export function updateSystemBarContrast() {
 
 export const nativeApp = registerPlugin<{
   getGoogleCredential(): Promise<{ idToken: string }>;
+  /** iOS only. `nonce` is the raw value whose SHA-256 Apple embedded in the token. */
+  getAppleCredential(): Promise<{ idToken: string; nonce: string; authorizationCode?: string; givenName?: string; familyName?: string }>;
   clearGoogleSession(): Promise<void>;
   openSettings(): Promise<void>;
   background(): Promise<void>;

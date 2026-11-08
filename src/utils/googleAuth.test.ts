@@ -8,7 +8,7 @@ vi.mock("firebase/auth", () => ({
   signInWithPopup: mocks.popup, signInWithCredential: mocks.credential,
   reauthenticateWithPopup: mocks.reauthPopup, reauthenticateWithCredential: mocks.reauthCredential,
 }));
-import { androidAuthError, reauthenticateWithGoogle, signInWithGoogle } from "./googleAuth";
+import { nativeAuthError, reauthenticateWithGoogle, signInWithGoogle } from "./googleAuth";
 
 describe("Google identity handoff", () => {
   beforeEach(() => { vi.clearAllMocks(); mocks.android = false; mocks.ios = false; mocks.token.mockResolvedValue({ idToken: "test-id-token" }); });
@@ -36,13 +36,20 @@ describe("Google identity handoff", () => {
     await expect(signInWithGoogle()).rejects.toThrow("cancelled");
     expect(mocks.credential).not.toHaveBeenCalled();
   });
-  it("refuses on iOS instead of opening a popup Google blocks in webviews", async () => {
+  it("uses the native credential on iOS too, never a popup Google blocks in webviews", async () => {
     mocks.ios = true;
-    const failure = signInWithGoogle();
-    await expect(failure).rejects.toMatchObject({ code: "auth/ios-google-unavailable" });
-    await expect(reauthenticateWithGoogle({ uid: "u" } as User)).rejects.toMatchObject({ code: "auth/ios-google-unavailable" });
+    await signInWithGoogle();
+    expect(mocks.credential).toHaveBeenCalledWith("existing-auth", { token: "test-id-token" });
+    const user = { uid: "existing-uid" } as User;
+    await reauthenticateWithGoogle(user);
+    expect(mocks.reauthCredential).toHaveBeenCalledWith(user, { token: "test-id-token" });
     expect(mocks.popup).not.toHaveBeenCalled();
     expect(mocks.reauthPopup).not.toHaveBeenCalled();
-    expect(androidAuthError(await failure.catch((e) => e))).toMatch(/email and password/);
+  });
+  it("explains the iOS and account-linking failures", () => {
+    expect(nativeAuthError({ code: "auth/native-cancelled" })).toMatch(/cancelled/);
+    expect(nativeAuthError({ code: "auth/ios-sign-in-failed" })).toMatch(/could not finish/);
+    expect(nativeAuthError({ code: "auth/account-exists-with-different-credential" })).toMatch(/already exists/);
+    expect(nativeAuthError({ code: "auth/unknown" })).toBeNull();
   });
 });

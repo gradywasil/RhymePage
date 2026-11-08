@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
+import { FaApple } from "react-icons/fa";
+import { appleSignInAvailable } from "../utils/appleAuth";
 import useLoginLogic from "../hooks/useLoginLogic";
 import { Field, FormMessage, fieldInput } from "./FormControls";
 import type { AppUser } from "../types/user";
@@ -18,11 +20,13 @@ const Login = ({ setCurrentUser, loggedIn }: LoginProps) => {
     rememberMe,
     setRememberMe,
     googleLoading,
+    appleLoading,
     loading,
     error,
     resetNotice,
     handleLogin,
     handleGoogleLogin,
+    handleAppleLogin,
     handlePasswordReset,
   } = useLoginLogic({ setCurrentUser, loggedIn });
 
@@ -90,11 +94,23 @@ const Login = ({ setCurrentUser, loggedIn }: LoginProps) => {
         <span aria-hidden className="h-px flex-1 bg-rule" />
       </div>
 
+      {appleSignInAvailable() && (
+        <button
+          type="button"
+          className="rp-btn rp-btn--ink rp-btn--block mb-3"
+          onClick={handleAppleLogin}
+          disabled={appleLoading || googleLoading}
+        >
+          {!appleLoading && <FaApple aria-hidden />}
+          {appleLoading ? "Signing in…" : "Continue with Apple"}
+        </button>
+      )}
+
       <button
         type="button"
         className="rp-btn rp-btn--line rp-btn--block"
         onClick={handleGoogleLogin}
-        disabled={googleLoading}
+        disabled={googleLoading || appleLoading}
       >
         {!googleLoading && <FcGoogle aria-hidden />}
         {googleLoading ? "Signing in…" : "Continue with Google"}

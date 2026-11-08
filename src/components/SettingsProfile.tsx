@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAccountLogic, { usesPassword } from "../hooks/useAccountLogic";
+import useAccountLogic, { socialProvider, usesPassword } from "../hooks/useAccountLogic";
 import { SettingsSection } from "./SettingsSection";
 import { Field, StatusNote, fieldInput } from "./FormControls";
 import type { AppUser } from "../types/user";
@@ -35,13 +35,14 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
   const [deletePhrase, setDeletePhrase] = useState("");
 
   const hasPassword = usesPassword();
+  const provider = socialProvider();
   const passwordsMatch = newPassword === confirmPassword;
   const canDelete = deletePhrase.trim().toLowerCase() === CONFIRM_PHRASE;
 
-  /** Google-only accounts confirm their identity through the platform's Google flow. */
+  /** Accounts without a password confirm their identity through Google or Apple. */
   const reauthHint = hasPassword
     ? undefined
-    : "Confirm with the same Google account you use for RhymePage.";
+    : `Confirm with the same ${provider} account you use for RhymePage.`;
 
   const handleDelete = async () => {
     const gone = await deleteAccount(deletePassword);
@@ -128,7 +129,7 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
         description={
           hasPassword
             ? "Choose something at least six characters long."
-            : "Your account signs in with Google and has no password to change."
+            : `Your account signs in with ${provider} and has no password to change.`
         }
       >
         {hasPassword ? (
@@ -192,7 +193,7 @@ const SettingsProfile = ({ currentUser, setCurrentUser }: SettingsProfileProps) 
           </>
         ) : (
           <p className="rp-muted text-[15px]">
-            Manage it from your Google account instead.
+            Manage it from your {provider} account instead.
           </p>
         )}
       </SettingsSection>
